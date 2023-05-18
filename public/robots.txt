@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /acervo/pdf/
+Disallow: /acervo/download/
+Disallow: /acervo/visualizar/
+Disallow: /acervo/

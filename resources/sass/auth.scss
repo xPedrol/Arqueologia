@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap-utilities";
+.authDiv {
+    min-height: 82vh;
+}
+.authCard {
+    width: 100%;
+    border-radius: 5px;
+    min-width: 300px;
+    max-width: 500px;
+}
+@include media-breakpoint-up(md) {
+    .authDiv {
+        min-height: 55vh;
+    }
+}

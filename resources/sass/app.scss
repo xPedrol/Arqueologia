@@ -1,0 +1,65 @@
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+* {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+
+}
+
+a {
+    text-decoration: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0 !important;
+}
+
+//.usePoppins {
+//    font-family: "Poppins", sans-serif !important;
+//}
+//
+//.useRobotoCondensed {
+//    font-family: "Roboto Condensed", sans-serif !important;
+//}
+
+label {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+}
+
+.breadcrumb {
+    font-size: 0.9rem !important;
+}
+
+.main-container {
+    margin-bottom: 20px;
+}
+
+.notFoundIcon {
+    font-size: 22px !important;
+    color: #25528c !important;
+}
+
+.about-section {
+    text-align: justify;
+    line-height: 2;
+
+    p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 18px;
+    }
+}
+
+.removeArrow::after {
+    display: none !important;
+}

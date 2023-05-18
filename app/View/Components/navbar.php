@@ -21,7 +21,28 @@ class navbar extends Component
         ],
         [
             'title' => 'Serviços',
-            'url' => 'home'
+            'navItems' => [
+                [
+                    'title' => 'Documentos',
+                    'url' => 'home'
+                ],
+                [
+                    'title' => 'Convênios',
+                    'url' => 'home'
+                ],
+                [
+                    'title' => 'Eventos',
+                    'url' => 'home'
+                ],
+                [
+                    'title' => 'Cursos',
+                    'url' => 'home'
+                ],
+                [
+                    'title' => 'Notícias',
+                    'url' => 'home'
+                ],
+            ]
         ],
         [
             'title' => 'Contato',

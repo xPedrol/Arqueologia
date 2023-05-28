@@ -51,7 +51,7 @@ class MyAuthProvider implements UserProvider
     {
         $user = User::where('email', $credentials['email'])->first();
         if ($user) {
-            if ($user->senha == sha1($credentials['password'])) {
+            if ($user->password == sha1($credentials['password'])) {
                 return $user;
             }
         }
@@ -62,7 +62,7 @@ class MyAuthProvider implements UserProvider
     {
         $user = User::where('email', $credentials['email'])->first();
         if ($user) {
-            if ($user->senha == sha1($credentials['password'])) {
+            if ($user->password == sha1($credentials['password'])) {
                 return true;
             }
         }

@@ -17,6 +17,9 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::get('/', 'home')->name('home');
    Route::get('fontes', 'fontes')->name('fontes');
     Route::get('tabela', 'tabela')->name('tabela');
+    Route::get('members', 'members')->name('members');
+    Route::get('contact', 'contact')->name('contact');
+    Route::get('about', 'about')->name('about');
 });
 
 
@@ -27,4 +30,5 @@ Route::controller(\App\Http\Controllers\AuthPages::class)->group(function () {
 
     Route::post('logging', 'logging')->name('logging');
     Route::post('registering', 'registering')->name('registering');
+    Route::delete('', 'deleteUser')->name('deleteUser');
 });

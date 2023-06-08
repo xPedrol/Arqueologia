@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\PaginationHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Home extends Controller
 {
@@ -15,10 +16,42 @@ class Home extends Controller
 
     public function fontes()
     {
-        return view('fontes');
+        $cidadesQF = DB::table('cidades')->get();
+        return view('fontes', ['cidadesQF' => $cidadesQF]);
     }
 
-    public function tabela(){
+    public function ibgeHistorico(Request $request)
+    {
+        //get route name
+        $name = $request->route()->getName();
+        $isIbgeHistorico = $name == 'ibgeHistorico';
+        $id = $request->query('id');
+        $cidade = DB::table('cidades')->where('id', $id)->first();
+        $biblioteca = DB::table('historicoibge')->where('cityId', $id)->first();
+        return view('tabela', ['cidade' => $cidade, 'biblioteca' => $biblioteca, 'isIbgeHistorico' => $isIbgeHistorico]);
+    }
+
+    public function arquivoPublico(Request $request)
+    {
+        $name = $request->route()->getName();
+        $isArquivoPublico = $name == 'arquivoPublico';
+        $id = $request->query('id');
+        $cidade = DB::table('cidades')->where('id', $id)->first();
+        $biblioteca = DB::table('dadoscidades')->where('cityId', $id)->where('type','archive')->first();
+        return view('tabela', ['cidade' => $cidade, 'biblioteca' => $biblioteca,'isArquivoPublico' => $isArquivoPublico]);
+    }
+    public function bibliotecaNacional(Request $request)
+    {
+        $name = $request->route()->getName();
+        $isBibliotecaNacional = $name == 'bibliotecaNacional';
+        $id = $request->query('id');
+        $cidade = DB::table('cidades')->where('id', $id)->first();
+        $biblioteca = DB::table('dadoscidades')->where('cityId', $id)->where('type','library')->first();
+        return view('tabela', ['cidade' => $cidade, 'biblioteca' => $biblioteca,'isBibliotecaNacional' => $isBibliotecaNacional]);
+    }
+
+    public function tabela()
+    {
         return view('tabela');
     }
 

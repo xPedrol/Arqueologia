@@ -19,21 +19,3 @@
         </li>
     </ul>
 </div>
-<style>
-    .pagination-wrap {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .pagination {
-        display: flex !important;
-        list-style: none !important;
-        align-items: center !important;
-        border: 1px solid #dfdfdf;
-    }
-    .page-item{
-        font-size: 17px;
-        margin: 0 8px !important;
-        cursor: pointer;
-    }
-</style>

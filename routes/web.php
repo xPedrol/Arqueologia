@@ -25,6 +25,8 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
         Route::middleware(['checkRole:admin'])->group(function () {
             Route::get('inserir-ibge-historico', 'inserirIbgeHistorico')->name('inserirIbgeHistorico');
+            Route::get('inserir-arquivo-publico', 'inserirArquivoPublico')->name('inserirArquivoPublico');
+            Route::get('inserir-biblioteca-nacional', 'inserirBibliotecaNacional')->name('inserirBibliotecaNacional');
         });
     });
 });

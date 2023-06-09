@@ -84,7 +84,7 @@ a {
 }
 
 .loginTitle {
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 900;
 }
 
@@ -262,4 +262,7 @@ article {
 .copyrightSection {
     border-top: 1px solid #34383d;
     padding: 40px 0;
+}
+.btn-navbar-auth:hover{
+    color: #000 !important;
 }

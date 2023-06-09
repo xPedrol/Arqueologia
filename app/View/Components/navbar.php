@@ -9,49 +9,24 @@ class navbar extends Component
     public $navItems = [
         [
             'title' => 'Quem somos',
-            'url' => 'home'
+            'url' => 'about'
         ],
         [
             'title' => 'Associe-se!',
-            'url' => 'home'
+            'url' => 'register'
         ],
         [
             'title' => 'Associados',
-            'url' => 'home'
+            'url' => 'members'
         ],
         [
-            'title' => 'Serviços',
-            'navItems' => [
-                [
-                    'title' => 'Documentos',
-                    'url' => 'home'
-                ],
-                [
-                    'title' => 'Convênios',
-                    'url' => 'home'
-                ],
-                [
-                    'title' => 'Eventos',
-                    'url' => 'home'
-                ],
-                [
-                    'title' => 'Cursos',
-                    'url' => 'home'
-                ],
-                [
-                    'title' => 'Notícias',
-                    'url' => 'home'
-                ],
-            ]
+            'title' => 'Fontes',
+            'url' => 'fontes'
         ],
         [
             'title' => 'Contato',
-            'url' => 'home'
-        ],
-        [
-            'title' => 'Login',
-            'url' => 'home'
-        ],
+            'url' => 'contact'
+        ]
     ];
 
     /**
@@ -86,12 +61,12 @@ class navbar extends Component
                 unset($navItems[$key]);
                 continue;
             }
-            if (isset($navItem['role']) && auth()->user()->cargo != $navItem['role']) {
+            if (isset($navItem['role']) && auth()->user()->role != $navItem['role']) {
                 unset($navItems[$key]);
                 continue;
             }
             if (isset($navItems[$key]['navItems'])) {
-                $this->checkAuth($navItems[$key]['navItems']);
+                $this->checkAuth($navItem['navItems']);
             }
         }
     }

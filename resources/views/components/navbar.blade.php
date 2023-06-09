@@ -2,8 +2,8 @@
     <div class="container">
         <div class="d-flex flex-grow-1 flex-md-grow-1 flex-nowrap justify-content-between">
             <div class="">
-                <a class="navbar-brand text-wrap usePoppins navbarTitle m-0 p-0" href="{{ route('home') }}">Patrimonio
-                    Arqueologico</a>
+                <a class="navbar-brand text-wrap usePoppins navbarTitle m-0 p-0" href="{{ route('home') }}">Patrimônio
+                    Arqueológico</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-start">
                                 <li><a class="dropdown-item myAccountDropdownSmall"><small>Logado
-                                            como</small><br />{{ auth()->user()->Nome }}</a></li>
+                                            como</small><br />{{ auth()->user()->niceName }}</a></li>
                                 <li><a class="dropdown-item" href="{{ route('logout') }}">Deslogar</a></li>
                             </ul>
                         </li>
@@ -53,8 +53,8 @@
                 @endauth
                 @guest
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a type="button" href="{{ route('login') }}" class="btn btn-outline-light">Login</a>
-                        <a href="{{ route('register') }}" type="button" class="btn btn-outline-light">Register</a>
+                        <a type="button" href="{{ route('login') }}" class="btn btn-outline-light btn-navbar-auth">Login</a>
+                        <a href="{{ route('register') }}" type="button" class="btn btn-outline-light btn-navbar-auth">Register</a>
                     </div>
                 @endguest
             </div>

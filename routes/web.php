@@ -15,14 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::get('/', 'home')->name('home');
-    Route::get('fontes', 'fontes')->name('fontes');
-    Route::get('tabela', 'tabela')->name('tabela');
     Route::get('members', 'members')->name('members');
     Route::get('contact', 'contact')->name('contact');
     Route::get('about', 'about')->name('about');
-    Route::get('historico-ibge','ibgeHistorico')->name('ibgeHistorico');
-    Route::get('arquivo-publico','arquivoPublico')->name('arquivoPublico');
-    Route::get('biblioteca-nacional','bibliotecaNacional')->name('bibliotecaNacional');
+    Route::middleware(['auth'])->group(function () {
+        Route::get('fontes', 'fontes')->name('fontes');
+        Route::get('historico-ibge/{id}', 'ibgeHistorico')->name('ibgeHistorico');
+        Route::get('arquivo-publico/{id}', 'arquivoPublico')->name('arquivoPublico');
+        Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
+    });
 });
 
 

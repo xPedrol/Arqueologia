@@ -11,6 +11,7 @@ class Pagination extends Component
     public $route;
     public $params;
 
+
     /**
      * Create a new component instance.
      *

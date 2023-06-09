@@ -14,6 +14,55 @@ class Home extends Controller
         return view('home');
     }
 
+    function getFontesPagination(Request $request, $sql,$table)
+    {
+        $count = $sql->count();
+        $maxPage = ceil($count / 15);
+        PaginationHelper::instance()->handlePagination($request, $maxPage);
+        $query = $request->query();
+        if($table != 'historicoibge') {
+            if (isset($query['sort'])) {
+                $sql = $sql->orderBy($query['sort'], $query['order']);
+            } else {
+                $sql = $sql->orderBy('title');
+            }
+        }
+        $sql = $sql->paginate(15);
+        $columns = [
+            [
+                'name' => 'Material',
+                'key' => 'material'
+            ],
+            [
+                'name' => 'Título',
+                'key' => 'title'
+            ],
+            [
+                'name' => 'Ano',
+                'key' => 'year'
+            ],
+            [
+                'name' =>'Assunto',
+                'key' => 'subject'
+            ],
+            [
+                'name' => 'Observações',
+                'key' => 'comments'
+            ],
+            [
+                'name' => 'Link',
+                'key' => 'link'
+            ]
+        ];
+        return [
+            'sql' => $sql,
+            'columns' => $columns,
+            'query' => $query,
+            'maxPage' => $maxPage,
+            'count' => $count
+        ];
+    }
+
     public function fontes()
     {
         $cidadesQF = DB::table('cidades')->get();
@@ -23,31 +72,64 @@ class Home extends Controller
     public function ibgeHistorico(Request $request)
     {
         //get route name
-        $name = $request->route()->getName();
-        $isIbgeHistorico = $name == 'ibgeHistorico';
-        $id = $request->query('id');
+        $title = 'IBGE Histórico';
+        $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
-        $biblioteca = DB::table('historicoibge')->where('cityId', $id)->first();
-        return view('tabela', ['cidade' => $cidade, 'biblioteca' => $biblioteca, 'isIbgeHistorico' => $isIbgeHistorico]);
+        $array = DB::table('historicoibge')->where('cityId', $id);
+        $data = $this->getFontesPagination($request, $array,'historicoibge');
+        $array = $data['sql'];
+        $columns = $data['columns'];
+        $query = $data['query'];
+        $maxPage = $data['maxPage'];
+        $count = $data['count'];
+        $route = 'ibgeHistorico';
+        foreach ($array as $item) {
+            //split string by -
+            $item->url= explode(' - ', $item->url);
+            //remove indexs with white space
+            $item->url = array_filter($item->url, function ($value) {
+                return $value != ' ';
+            });
+        }
+        return view('tabela', ['cidade' => $cidade, 'array' => $array,
+            'isIbgeHistorico' => true, 'title' => $title, 'columns' => $columns,
+            'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
 
     public function arquivoPublico(Request $request)
     {
-        $name = $request->route()->getName();
-        $isArquivoPublico = $name == 'arquivoPublico';
-        $id = $request->query('id');
+        $title = 'Arquivo Público';
+        $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
-        $biblioteca = DB::table('dadoscidades')->where('cityId', $id)->where('type','archive')->first();
-        return view('tabela', ['cidade' => $cidade, 'biblioteca' => $biblioteca,'isArquivoPublico' => $isArquivoPublico]);
+        $array = DB::table('dadoscidades')->where('cityId', $id)->where('type', 'archive');
+        $data = $this->getFontesPagination($request, $array,'dadoscidades');
+        $array = $data['sql'];
+        $columns = $data['columns'];
+        $query = $data['query'];
+        $maxPage = $data['maxPage'];
+        $count = $data['count'];
+        $route = 'arquivoPublico';
+        return view('tabela', ['cidade' => $cidade, 'array' => $array,
+            'isArquivoPublico' => true, 'title' => $title, 'columns' => $columns,
+            'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
+
     public function bibliotecaNacional(Request $request)
     {
-        $name = $request->route()->getName();
-        $isBibliotecaNacional = $name == 'bibliotecaNacional';
-        $id = $request->query('id');
+        $title = 'Biblioteca Nacional';
+        $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
-        $biblioteca = DB::table('dadoscidades')->where('cityId', $id)->where('type','library')->first();
-        return view('tabela', ['cidade' => $cidade, 'biblioteca' => $biblioteca,'isBibliotecaNacional' => $isBibliotecaNacional]);
+        $array = DB::table('dadoscidades')->where('cityId', $id)->where('type', 'library');
+        $data = $this->getFontesPagination($request, $array,'dadoscidades');
+        $array = $data['sql'];
+        $columns = $data['columns'];
+        $query = $data['query'];
+        $maxPage = $data['maxPage'];
+        $count = $data['count'];
+        $route = 'bibliotecaNacional';
+        return view('tabela', ['cidade' => $cidade, 'array' => $array,
+            'isBibliotecaNacional' => true, 'title' => $title, 'columns' => $columns,
+            'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
 
     public function tabela()
@@ -55,7 +137,8 @@ class Home extends Controller
         return view('tabela');
     }
 
-    public function members(Request $request){
+    public function members(Request $request)
+    {
         $query = $request->query();
         if (isset($query['sort'])) {
             $users = User::orderBy($query['sort'], $query['order']);
@@ -94,11 +177,13 @@ class Home extends Controller
     }
 
 
-    public function contact(){
+    public function contact()
+    {
         return view('contact');
     }
 
-    public function about(){
+    public function about()
+    {
         return view('about');
     }
 }

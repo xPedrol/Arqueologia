@@ -1,4 +1,4 @@
-    <link href="{{ asset('css/table.css') }}" rel="stylesheet">
+<link href="{{ asset('css/table.css') }}" rel="stylesheet">
 <div class="table-responsive">
     <table id="mytable" class="table table-hover table-striped">
         <caption class="caption-top text-center">{{ $caption }}</caption>
@@ -17,21 +17,21 @@
                     @if(isset($query['sort']))
                         @if($query['sort'] == $column['key'])
                             @if($query['order'] == 'asc')
-                                <a href="{{ route($route, array_merge($query, ['sort' => $column['key'], 'order' => 'desc'])) }}">
+                                <a href="{{ route($route, array_merge($params,$query, ['sort' => $column['key'], 'order' => 'desc'])) }}">
                                     {{ $column['name'] }}<i class="{{$icon}}"></i>
                                 </a>
                             @else
-                                <a href="{{ route($route, array_merge($query, ['sort' => $column['key'], 'order' => 'asc'])) }}">
+                                <a href="{{ route($route, array_merge($params,$query, ['sort' => $column['key'], 'order' => 'asc'])) }}">
                                     {{ $column['name'] }}<i class="{{$icon}}"></i>
                                 </a>
                             @endif
                         @else
-                            <a href="{{ route($route, array_merge($query, ['sort' => $column['key'], 'order' => 'asc'])) }}">
+                            <a href="{{ route($route, array_merge($params,$query, ['sort' => $column['key'], 'order' => 'asc'])) }}">
                                 {{ $column['name'] }}<i class="{{$icon}}"></i>
                             </a>
                         @endif
                     @else
-                        <a href="{{ route($route, array_merge($query, ['sort' => $column['key'], 'order' => 'asc'])) }}">
+                        <a href="{{ route($route, array_merge($params,$query, ['sort' => $column['key'], 'order' => 'asc'])) }}">
                             {{ $column['name'] }}<i class="{{$icon}}"></i>
                         </a>
                     @endif

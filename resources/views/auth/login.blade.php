@@ -58,7 +58,7 @@
             })), (e = t.source || {}).concatemoji ? c(e.concatemoji) : e.wpemoji && e.twemoji && (c(e.twemoji), c(e.wpemoji)))
         }(window, document, window._wpemojiSettings);
     </script>
-    <script src="./fullcss/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+    <script src="/fullcss/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
     <style>
         img.wp-smiley,
         img.emoji {
@@ -73,7 +73,7 @@
             padding: 0 !important;
         }
     </style>
-    <link rel="stylesheet" id="wp-block-library-css" href="./fullcss/style.min.css" media="all">
+    <link rel="stylesheet" id="wp-block-library-css" href="/fullcss/style.min.css" media="all">
     <style id="wp-block-library-theme-inline-css">
         .wp-block-audio figcaption {
             color: #555;
@@ -241,7 +241,7 @@
             margin-bottom: 0
         }
     </style>
-    <link rel="stylesheet" id="gutenberg-pdfjs-css" href="./fullcss/style.css" media="all">
+    <link rel="stylesheet" id="gutenberg-pdfjs-css" href="/fullcss/style.css" media="all">
     <style id="global-styles-inline-css">
         body {
             --wp--preset--color--black: #000000;
@@ -490,32 +490,32 @@
             font-size: var(--wp--preset--font-size--x-large) !important;
         }
     </style>
-    <link rel="stylesheet" id="sinatra-styles-css" href="./fullcss/style.min(1).css" media="all">
+    <link rel="stylesheet" id="sinatra-styles-css" href="/fullcss/style.min(1).css" media="all">
     <!--[if IE]>
     <link rel='stylesheet' id='sinatra-ie-css'
           href='https://arqueologia.lampeh.ufv.br/wp-content/themes/sinatra/assets/css/compatibility/ie.min.css?ver=1.2.1'
           media='all'/>
     <![endif]-->
-    <link rel="stylesheet" id="sinatra-dynamic-styles-css" href="./fullcss/dynamic-styles.css" media="all">
-    <link rel="stylesheet" id="sinatra-elementor-css" href="./fullcss/elementor.min.css" media="all">
-    <link rel="stylesheet" id="um_fonticons_ii-css" href="./fullcss/um-fonticons-ii.css" media="all">
-    <link rel="stylesheet" id="um_fonticons_fa-css" href="./fullcss/um-fonticons-fa.css" media="all">
-    <link rel="stylesheet" id="select2-css" href="./fullcss/select2.min.css" media="all">
-    <link rel="stylesheet" id="um_crop-css" href="./fullcss/um-crop.css" media="all">
-    <link rel="stylesheet" id="um_modal-css" href="./fullcss/um-modal.css" media="all">
-    <link rel="stylesheet" id="um_styles-css" href="./fullcss/um-styles.css" media="all">
-    <link rel="stylesheet" id="um_profile-css" href="./fullcss/um-profile.css" media="all">
-    <link rel="stylesheet" id="um_account-css" href="./fullcss/um-account.css" media="all">
-    <link rel="stylesheet" id="um_misc-css" href="./fullcss/um-misc.css" media="all">
-    <link rel="stylesheet" id="um_fileupload-css" href="./fullcss/um-fileupload.css" media="all">
-    <link rel="stylesheet" id="um_datetime-css" href="./fullcss/default.css" media="all">
-    <link rel="stylesheet" id="um_datetime_date-css" href="./fullcss/default.date.css" media="all">
-    <link rel="stylesheet" id="um_datetime_time-css" href="./fullcss/default.time.css" media="all">
-    <link rel="stylesheet" id="um_raty-css" href="./fullcss/um-raty.css" media="all">
-    <link rel="stylesheet" id="um_scrollbar-css" href="./fullcss/simplebar.css" media="all">
-    <link rel="stylesheet" id="um_tipsy-css" href="./fullcss/um-tipsy.css" media="all">
-    <link rel="stylesheet" id="um_responsive-css" href="./fullcss/um-responsive.css" media="all">
-    <link rel="stylesheet" id="um_default_css-css" href="./fullcss/um-old-default.css" media="all">
+    <link rel="stylesheet" id="sinatra-dynamic-styles-css" href="/fullcss/dynamic-styles.css" media="all">
+    <link rel="stylesheet" id="sinatra-elementor-css" href="/fullcss/elementor.min.css" media="all">
+    <link rel="stylesheet" id="um_fonticons_ii-css" href="/fullcss/um-fonticons-ii.css" media="all">
+    <link rel="stylesheet" id="um_fonticons_fa-css" href="/fullcss/um-fonticons-fa.css" media="all">
+    <link rel="stylesheet" id="select2-css" href="/fullcss/select2.min.css" media="all">
+    <link rel="stylesheet" id="um_crop-css" href="/fullcss/um-crop.css" media="all">
+    <link rel="stylesheet" id="um_modal-css" href="/fullcss/um-modal.css" media="all">
+    <link rel="stylesheet" id="um_styles-css" href="/fullcss/um-styles.css" media="all">
+    <link rel="stylesheet" id="um_profile-css" href="/fullcss/um-profile.css" media="all">
+    <link rel="stylesheet" id="um_account-css" href="/fullcss/um-account.css" media="all">
+    <link rel="stylesheet" id="um_misc-css" href="/fullcss/um-misc.css" media="all">
+    <link rel="stylesheet" id="um_fileupload-css" href="/fullcss/um-fileupload.css" media="all">
+    <link rel="stylesheet" id="um_datetime-css" href="/fullcss/default.css" media="all">
+    <link rel="stylesheet" id="um_datetime_date-css" href="/fullcss/default.date.css" media="all">
+    <link rel="stylesheet" id="um_datetime_time-css" href="/fullcss/default.time.css" media="all">
+    <link rel="stylesheet" id="um_raty-css" href="/fullcss/um-raty.css" media="all">
+    <link rel="stylesheet" id="um_scrollbar-css" href="/fullcss/simplebar.css" media="all">
+    <link rel="stylesheet" id="um_tipsy-css" href="/fullcss/um-tipsy.css" media="all">
+    <link rel="stylesheet" id="um_responsive-css" href="/fullcss/um-responsive.css" media="all">
+    <link rel="stylesheet" id="um_default_css-css" href="/fullcss/um-old-default.css" media="all">
     <!--n2css--><!--[if IE]>
     <script
         src='https://arqueologia.lampeh.ufv.br/wp-content/themes/sinatra/assets/js/vendors/flexibility.min.js?ver=1.2.1'
@@ -524,9 +524,9 @@
         flexibility(document.documentElement);
     </script>
     <![endif]-->
-    <script src="./fullcss/jquery.min.js.download" id="jquery-core-js"></script>
-    <script src="./fullcss/jquery-migrate.min.js.download" id="jquery-migrate-js"></script>
-    <script src="./fullcss/um-gdpr.min.js.download" id="um-gdpr-js"></script>
+    <script src="/fullcss/jquery.min.js.download" id="jquery-core-js"></script>
+    <script src="/fullcss/jquery-migrate.min.js.download" id="jquery-migrate-js"></script>
+    <script src="/fullcss/um-gdpr.min.js.download" id="um-gdpr-js"></script>
     <link rel="https://api.w.org/" href="https://arqueologia.lampeh.ufv.br/wp-json/">
     <link rel="alternate" type="application/json" href="https://arqueologia.lampeh.ufv.br/wp-json/wp/v2/pages/47">
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://arqueologia.lampeh.ufv.br/xmlrpc.php?rsd">
@@ -935,7 +935,7 @@
                          class="si-sidebar-widget si-widget si-entry widget widget_block widget_media_image">
                         <figure class="wp-block-image size-large"><a
                                 href="http://www.vale.com/brasil/PT/Paginas/default.aspx" target="_blank"
-                                rel=" noreferrer noopener"><img src="./fullcss/indice-1.jpg" alt=""></a></figure>
+                                rel=" noreferrer noopener"><img src="/fullcss/indice-1.jpg" alt=""></a></figure>
                     </div>
                     <div id="block-16" class="si-sidebar-widget si-widget si-entry widget widget_block">
                         <hr class="wp-block-separator has-alpha-channel-opacity is-style-wide">
@@ -944,7 +944,7 @@
                          class="si-sidebar-widget si-widget si-entry widget widget_block widget_media_image">
                         <figure class="wp-block-image size-large"><a href="http://www.lampeh.ufv.br/" target="_blank"
                                                                      rel=" noreferrer noopener"><img
-                                    src="./fullcss/lampeh-1.jpg" alt=""></a></figure>
+                                    src="/fullcss/lampeh-1.jpg" alt=""></a></figure>
                     </div>
                     <div id="block-17" class="si-sidebar-widget si-widget si-entry widget widget_block">
                         <hr class="wp-block-separator has-alpha-channel-opacity is-style-wide">
@@ -953,7 +953,7 @@
                          class="si-sidebar-widget si-widget si-entry widget widget_block widget_media_image">
                         <figure class="wp-block-image size-large"><a href="http://ww.ufv.br/" target="_blank"
                                                                      rel=" noreferrer noopener"><img
-                                    src="./fullcss/800x600-sem_inscricao-1.png" alt=""></a></figure>
+                                    src="/fullcss/800x600-sem_inscricao-1.png" alt=""></a></figure>
                     </div>
                 </div>
 
@@ -1019,43 +1019,43 @@
         "strings": {"comments_toggle_show": "Leave a Comment", "comments_toggle_hide": "Hide Comments"}
     };
 </script>
-<script src="./fullcss/sinatra.min.js.download" id="sinatra-js-js"></script>
-<script src="./fullcss/select2.full.min.js.download" id="select2-js"></script>
-<script src="./fullcss/underscore.min.js.download" id="underscore-js"></script>
+<script src="/fullcss/sinatra.min.js.download" id="sinatra-js-js"></script>
+<script src="/fullcss/select2.full.min.js.download" id="select2-js"></script>
+<script src="/fullcss/underscore.min.js.download" id="underscore-js"></script>
 <script id="wp-util-js-extra">
     var _wpUtilSettings = {"ajax": {"url": "\/wp-admin\/admin-ajax.php"}};
 </script>
-<script src="./fullcss/wp-util.min.js.download" id="wp-util-js"></script>
-<script src="./fullcss/um-crop.min.js.download" id="um_crop-js"></script>
-<script src="./fullcss/um-modal.min.js.download" id="um_modal-js"></script>
-<script src="./fullcss/um-jquery-form.min.js.download" id="um_jquery_form-js"></script>
-<script src="./fullcss/um-fileupload.js.download" id="um_fileupload-js"></script>
-<script src="./fullcss/picker.js.download" id="um_datetime-js"></script>
-<script src="./fullcss/picker.date.js.download" id="um_datetime_date-js"></script>
-<script src="./fullcss/picker.time.js.download" id="um_datetime_time-js"></script>
-<script src="./fullcss/pt_BR.js.download" id="um_datetime_locale-js"></script>
-<script src="./fullcss/regenerator-runtime.min.js.download" id="regenerator-runtime-js"></script>
-<script src="./fullcss/wp-polyfill.min.js.download" id="wp-polyfill-js"></script>
-<script src="./fullcss/hooks.min.js.download" id="wp-hooks-js"></script>
-<script src="./fullcss/i18n.min.js.download" id="wp-i18n-js"></script>
+<script src="/fullcss/wp-util.min.js.download" id="wp-util-js"></script>
+<script src="/fullcss/um-crop.min.js.download" id="um_crop-js"></script>
+<script src="/fullcss/um-modal.min.js.download" id="um_modal-js"></script>
+<script src="/fullcss/um-jquery-form.min.js.download" id="um_jquery_form-js"></script>
+<script src="/fullcss/um-fileupload.js.download" id="um_fileupload-js"></script>
+<script src="/fullcss/picker.js.download" id="um_datetime-js"></script>
+<script src="/fullcss/picker.date.js.download" id="um_datetime_date-js"></script>
+<script src="/fullcss/picker.time.js.download" id="um_datetime_time-js"></script>
+<script src="/fullcss/pt_BR.js.download" id="um_datetime_locale-js"></script>
+<script src="/fullcss/regenerator-runtime.min.js.download" id="regenerator-runtime-js"></script>
+<script src="/fullcss/wp-polyfill.min.js.download" id="wp-polyfill-js"></script>
+<script src="/fullcss/hooks.min.js.download" id="wp-hooks-js"></script>
+<script src="/fullcss/i18n.min.js.download" id="wp-i18n-js"></script>
 <script id="wp-i18n-js-after">
     wp.i18n.setLocaleData({'text direction\u0004ltr': ['ltr']});
 </script>
-<script src="./fullcss/um-raty.min.js.download" id="um_raty-js"></script>
-<script src="./fullcss/um-tipsy.min.js.download" id="um_tipsy-js"></script>
-<script src="./fullcss/imagesloaded.min.js.download" id="imagesloaded-js"></script>
-<script src="./fullcss/masonry.min.js.download" id="masonry-js"></script>
-<script src="./fullcss/jquery.masonry.min.js.download" id="jquery-masonry-js"></script>
-<script src="./fullcss/simplebar.min.js.download" id="um_scrollbar-js"></script>
-<script src="./fullcss/um-functions.min.js.download" id="um_functions-js"></script>
-<script src="./fullcss/um-responsive.min.js.download" id="um_responsive-js"></script>
-<script src="./fullcss/um-conditional.min.js.download" id="um_conditional-js"></script>
+<script src="/fullcss/um-raty.min.js.download" id="um_raty-js"></script>
+<script src="/fullcss/um-tipsy.min.js.download" id="um_tipsy-js"></script>
+<script src="/fullcss/imagesloaded.min.js.download" id="imagesloaded-js"></script>
+<script src="/fullcss/masonry.min.js.download" id="masonry-js"></script>
+<script src="/fullcss/jquery.masonry.min.js.download" id="jquery-masonry-js"></script>
+<script src="/fullcss/simplebar.min.js.download" id="um_scrollbar-js"></script>
+<script src="/fullcss/um-functions.min.js.download" id="um_functions-js"></script>
+<script src="/fullcss/um-responsive.min.js.download" id="um_responsive-js"></script>
+<script src="/fullcss/um-conditional.min.js.download" id="um_conditional-js"></script>
 <script id="um_scripts-js-extra">
     var um_scripts = {"max_upload_size": "8589934592", "nonce": "0464b3147c"};
 </script>
-<script src="./fullcss/um-scripts.min.js.download" id="um_scripts-js"></script>
-<script src="./fullcss/um-profile.min.js.download" id="um_profile-js"></script>
-<script src="./fullcss/um-account.min.js.download" id="um_account-js"></script>
+<script src="/fullcss/um-scripts.min.js.download" id="um_scripts-js"></script>
+<script src="/fullcss/um-profile.min.js.download" id="um_profile-js"></script>
+<script src="/fullcss/um-account.min.js.download" id="um_account-js"></script>
 <script>
     !function () {
         var e = -1 < navigator.userAgent.toLowerCase().indexOf("webkit"),

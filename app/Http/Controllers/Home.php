@@ -132,10 +132,9 @@ class Home extends Controller
             'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
 
-    public function tabela()
-    {
-        return view('tabela');
-    }
+   public function inserirIbgeHistorico(Request $request){
+    
+   }
 
     public function members(Request $request)
     {

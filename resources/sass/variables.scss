@@ -1,22 +1,12 @@
-@import '~bootstrap/scss/bootstrap-utilities';
+@import "~bootstrap/scss/bootstrap-utilities";
 // Body
-$theme-colors: (
-    "success": #28a745,
-    "primary": #25528c,
-    "secondary": #6c757d,
-    "warning": #ffc107,
-    "danger": #b82126,
-    "info": #17a2b8,
-    "light": #f8f9fa,
-    "dark": #343a40,
-);
-$body-bg: #fff;
+$body-bg: #f8fafc;
 $border-radius: 0;
 $border-radius-sm: 0;
 $border-radius-lg: 0;
 // Typography
-$font-family-sans-serif: 'Roboto', sans-serif;
-$font-size-base: 1rem;
+$font-family-sans-serif: "Roboto", sans-serif;
+$font-size-base: 0.9rem;
 $line-height-base: 1.6;
 $input-padding-y: 10px;
 $input-padding-x: 10px;
@@ -26,7 +16,6 @@ $input-disabled-color: null;
 $input-disabled-bg: $gray-200;
 $input-disabled-border-color: null;
 
-
 $input-border-radius: $border-radius;
 $input-border-radius-sm: $border-radius;
 $input-border-radius-lg: $border-radius;
@@ -34,24 +23,18 @@ $input-border-radius-lg: $border-radius;
 $input-focus-border-color: gray;
 $input-focus-box-shadow: none;
 
-
-$form-select-border-radius: 0;
-$form-select-padding-y: 10px;
-$form-select-focus-border-color: gray;
-$form-select-focus-box-shadow: none;
-
-
 $btn-border-radius: $border-radius;
 $btn-border-radius-sm: $border-radius;
 $btn-border-radius-lg: $border-radius;
+
 $card-border-radius: $border-radius;
 $card-border-color: $gray-300;
 $pagination-border-radius-sm: $border-radius-sm;
 $pagination-border-radius-lg: $border-radius-lg;
 $agination-border-radius: $border-radius;
-$dropdown-dark-bg: #fff;
+$dropdown-dark-bg: #202024;
 $dropdown-border-radius: $border-radius;
-$dropdown-dark-border-color: #f2f2f2;
+$dropdown-dark-border-color: $gray-800;
 $alert-border-radius: $border-radius;
 $form-check-input-border-radius: $border-radius;
 $badge-font-weight: 400;
@@ -59,8 +42,9 @@ $badge-border-radius: $border-radius;
 $tooltip-bg: #37373b;
 $tooltip-border-radius: $border-radius;
 $spacer: 30px;
-$tooltip-padding-y: $spacer * .25;
-$tooltip-padding-x: $spacer * .5;
+$tooltip-padding-y: $spacer * 0.25;
+$tooltip-padding-x: $spacer * 0.5;
 $tooltip-opacity: 1;
 $mark-bg: #c5c5c5;
-$mark-padding: $spacer * .0625;
+$mark-padding: $spacer * 0.0625;
+$modal-content-border-radius: $border-radius;

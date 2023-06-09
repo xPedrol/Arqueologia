@@ -750,6 +750,9 @@
 
 
                         <div class="entry-content si-entry">
+                            <div style="display:flex; justify-content: end">
+                                <button class="btn btn-primary">Novo</button>
+                            </div>
                             @if(count($array) > 0)
                                 @if(!isset($isIbgeHistorico))
                                     <x-table :params="['id'=>$cidade->id]" :query="$query" :columns="$columns" :data="$array" :route="$route"

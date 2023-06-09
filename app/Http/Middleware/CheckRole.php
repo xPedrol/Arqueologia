@@ -19,7 +19,7 @@ class CheckRole
     public function handle($request, Closure $next, $role, $role2 = null)
     {
         $roles = array($role, $role2);
-        if (!Auth::check() || !in_array(Auth::user()->cargo, $roles)) {
+        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
             // Redirect...
             return Redirect::route('login');
         }

@@ -23,6 +23,9 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('historico-ibge/{id}', 'ibgeHistorico')->name('ibgeHistorico');
         Route::get('arquivo-publico/{id}', 'arquivoPublico')->name('arquivoPublico');
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
+        Route::middleware(['checkRole:admin'])->group(function () {
+            Route::get('inserir-ibge-historico', 'inserirIbgeHistorico')->name('inserirIbgeHistorico');
+        });
     });
 });
 

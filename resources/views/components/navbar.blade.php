@@ -1,43 +1,63 @@
-<header id="masthead" class="site-header" role="banner" itemtype="https://schema.org/WPHeader" itemscope="itemscope">
-    <div id="sinatra-header" class="si-container__wide">
-        <div id="sinatra-header-inner">
-
-            <div class="si-container si-header-container">
-
-
-                <div class="sinatra-logo si-header-element" itemtype="https://schema.org/Organization" itemscope="itemscope">
-                    <div class="logo-inner"><h1 class="site-title" itemprop="name">
-                            <a href="{{route('home')}}" rel="home" itemprop="url">
-                                Patrimônio Arqueológico
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+    <div class="container">
+        <div class="d-flex flex-grow-1 flex-md-grow-1 flex-nowrap justify-content-between">
+            <div class="">
+                <a class="navbar-brand text-wrap usePoppins navbarTitle m-0 p-0" href="{{ route('home') }}">Patrimonio
+                    Arqueologico</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="menuIcon fa-solid fa-bars"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse flex-grow-1 flex-md-grow-0" id="navbarText">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                @foreach ($navItems as $item)
+                    @if (!isset($item['navItems']))
+                        <li class="nav-item">
+                            <a class="nav-link usePoppins" href="{{ route($item['url']) }}">{{ $item['title'] }}</a>
+                        </li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle usePoppins" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ $item['title'] }}
                             </a>
-                        </h1></div></div><!-- END .sinatra-logo -->
-
-                <nav class="site-navigation main-navigation sinatra-primary-nav sinatra-nav si-header-element" role="navigation" itemtype="https://schema.org/SiteNavigationElement" itemscope="itemscope" aria-label="Site Navigation" aria-haspopup="true">
-                    <ul id="sinatra-primary-nav" class="menu"><li id="menu-item-16" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16"><a href="{{route('about')}}"><span>Quem somos</span></a></li>
-                        <li id="menu-item-173" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-173"><a href="{{route('register')}}"><span>Associe-se!</span></a></li>
-                        @if(Auth::check())
-                        <li id="menu-item-146" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-146"><a href="{{route('members')}}"><span>Associados</span></a></li>
-                        @endif
-                        <li id="menu-item-95" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-95" aria-haspopup="true"><a href="https://arqueologia.lampeh.ufv.br/servicos/"><span>Serviços</span><svg class="si-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M24.958 10.483c-0.534-0.534-1.335-0.534-1.868 0l-7.074 7.074-7.074-7.074c-0.534-0.534-1.335-0.534-1.868 0s-0.534 1.335 0 1.868l8.008 8.008c0.267 0.267 0.667 0.4 0.934 0.4s0.667-0.133 0.934-0.4l8.008-8.008c0.534-0.534 0.534-1.335 0-1.868z"></path></svg></a>
-                            <ul class="sub-menu">
-                                <li id="menu-item-136" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136"><a href="{{route('fontes')}}"><span>Fontes</span></a></li>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                @foreach ($item['navItems'] as $subItem)
+                                    <li>
+                                        <a class="nav-link usePoppins"
+                                            href="{{ route($subItem['url']) }}">{{ $subItem['title'] }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
-                        <li id="menu-item-174" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-174"><a href="{{route('contact')}}"><span>Contato</span></a></li>
-                        <li id="menu-item-172" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-172"><a href="{{route('login')}}"><span>Login</span></a></li>
-                    </ul></nav><!-- END .sinatra-nav -->
-                <span class="si-header-element si-mobile-nav">
-				<button class="si-hamburger hamburger--spin si-hamburger-sinatra-primary-nav" aria-label="Menu" aria-controls="sinatra-primary-nav" type="button">
-
-
-			<span class="hamburger-box">
-				<span class="hamburger-inner"></span>
-			</span>
-
-		</button>
-			</span>
-
-            </div><!-- END .si-container -->
-        </div><!-- END #sinatra-header-inner -->
-    </div><!-- END #sinatra-header -->
-</header><!-- #masthead .site-header -->
+                    @endif
+                @endforeach
+            </ul>
+            <div class="navbar-text ms-lg-5 d-flex align-items-center">
+                @auth
+                    <ul class="navProfileUl d-flex align-items-center dropstart">
+                        <li class="nav-item dropdown navProfile d-flex align-items-center">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fa-solid fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-start">
+                                <li><a class="dropdown-item myAccountDropdownSmall"><small>Logado
+                                            como</small><br />{{ auth()->user()->Nome }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}">Deslogar</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                @endauth
+                @guest
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a type="button" href="{{ route('login') }}" class="btn btn-outline-light">Login</a>
+                        <a href="{{ route('register') }}" type="button" class="btn btn-outline-light">Register</a>
+                    </div>
+                @endguest
+            </div>
+        </div>
+    </div>
+</nav>

@@ -64,16 +64,8 @@ class footer extends Component
             'link' => 'https://www.ufv.br/',
         ],
         [
-            'title' => 'IPHAN',
-            'link' => 'http://portal.iphan.gov.br/',
-        ],
-        [
-            'title' => 'FAPEMIG',
-            'link' => 'https://fapemig.br/pt/',
-        ],
-        [
-            'title' => 'CNPq',
-            'link' => 'https://cnpq.br/',
+            'title' => 'Vale',
+            'link' => 'https://www.vale.com/pt/home',
         ]
     ];
 

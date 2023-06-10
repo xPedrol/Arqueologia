@@ -16,13 +16,13 @@ class Home extends Controller
         return view('home');
     }
 
-    function getFontesPagination(Request $request, $sql,$table)
+    function getFontesPagination(Request $request, $sql, $table)
     {
         $count = $sql->count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
         $query = $request->query();
-        if($table != 'historicoibge') {
+        if ($table != 'historicoibge') {
             if (isset($query['sort'])) {
                 $sql = $sql->orderBy($query['sort'], $query['order']);
             } else {
@@ -44,7 +44,7 @@ class Home extends Controller
                 'key' => 'year'
             ],
             [
-                'name' =>'Assunto',
+                'name' => 'Assunto',
                 'key' => 'subject'
             ],
             [
@@ -78,7 +78,7 @@ class Home extends Controller
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('historicoibge')->where('cityId', $id);
-        $data = $this->getFontesPagination($request, $array,'historicoibge');
+        $data = $this->getFontesPagination($request, $array, 'historicoibge');
         $array = $data['sql'];
         $columns = $data['columns'];
         $query = $data['query'];
@@ -87,13 +87,13 @@ class Home extends Controller
         $route = 'ibgeHistorico';
         foreach ($array as $item) {
             //split string by -
-            $item->url= explode(' - ', $item->url);
+            $item->url = explode(' - ', $item->url);
             //remove indexs with white space
             $item->url = array_filter($item->url, function ($value) {
                 return $value != ' ';
             });
         }
-        return view('tabela', ['cidade' => $cidade, 'array' => $array,
+        return view('detalhesDoc', ['cidade' => $cidade, 'array' => $array,
             'isIbgeHistorico' => true, 'title' => $title, 'columns' => $columns,
             'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
@@ -104,14 +104,14 @@ class Home extends Controller
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('dadoscidades')->where('cityId', $id)->where('type', 'archive');
-        $data = $this->getFontesPagination($request, $array,'dadoscidades');
+        $data = $this->getFontesPagination($request, $array, 'dadoscidades');
         $array = $data['sql'];
         $columns = $data['columns'];
         $query = $data['query'];
         $maxPage = $data['maxPage'];
         $count = $data['count'];
         $route = 'arquivoPublico';
-        return view('tabela', ['cidade' => $cidade, 'array' => $array,
+        return view('detalhesDoc', ['cidade' => $cidade, 'array' => $array,
             'isArquivoPublico' => true, 'title' => $title, 'columns' => $columns,
             'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
@@ -122,37 +122,146 @@ class Home extends Controller
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('dadoscidades')->where('cityId', $id)->where('type', 'library');
-        $data = $this->getFontesPagination($request, $array,'dadoscidades');
+        $data = $this->getFontesPagination($request, $array, 'dadoscidades');
         $array = $data['sql'];
         $columns = $data['columns'];
         $query = $data['query'];
         $maxPage = $data['maxPage'];
         $count = $data['count'];
         $route = 'bibliotecaNacional';
-        return view('tabela', ['cidade' => $cidade, 'array' => $array,
+        return view('detalhesDoc', ['cidade' => $cidade, 'array' => $array,
             'isBibliotecaNacional' => true, 'title' => $title, 'columns' => $columns,
             'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
 
-   public function inserirCidadeDocumento(Request $request){
+    public function inserirCidadeDocumento(Request $request)
+    {
         $type = 'archive';
-        if($request->query()['from'] == 'bibliotecaNacional'){
-            $type = 'library';
+        $query = $request->query();
+        $documento = null;
+        $cidadeAtual = null;
+        if ($request->query()['from'] != 'ibgeHistorico') {
+            if($request->query()['from'] != 'arquivoPublico') {
+                $type = 'library';
+            }
+            if (isset($query['id'])) {
+                $id = $query['id'];
+                $documento = DB::table('dadoscidades')->where('id', $id)->first();
+                $cidadeAtual = DB::table('cidades')->where('id', $documento->cityId)->first();
+            } else {
+                $cidadeAtual = DB::table('cidades')->where('id', $query['cidadeId'])->first();
+            }
+        }
+        if ($request->query()['from'] == 'ibgeHistorico') {
+            $type = 'historico';
+            if (isset($query['id'])) {
+                $id = $query['id'];
+                $documento = DB::table('historicoibge')->where('id', $id)->first();
+                $cidadeAtual = DB::table('cidades')->where('id', $documento->cityId)->first();
+            } else {
+                $cidadeAtual = DB::table('cidades')->where('id', $query['cidadeId'])->first();
+            }
         }
         $cidades = DB::table('cidades')->get();
-        return view('inserirCidadeDoc', ['type' => $type, 'cidades' => $cidades]);
-   }
+        return view('inserirCidadeDoc', ['type' => $type, 'cidades' => $cidades, 'documento' => $documento, 'cidadeAtual' => $cidadeAtual]);
+    }
 
-   public function editarCidadeDocumento(Request $request){
-        $id = $request->route('id');
-        $cidades = DB::table('cidades')->get();
-        $documento = DB::table('dadoscidades')->where('id', $id)->first();
-        $type = $documento->type;
-        return view('inserirCidadeDoc', ['cidades' => $cidades, 'documento' => $documento, 'type' => $type]);
-   }
+    public function deletarCidadeDocumento(Request $request)
+    {
+        try {
+            $id = $request['id'];
+            if ($request['from'] != 'ibgeHistorico') {
+                $res = DB::table('dadoscidades')->where('id', $id)->delete();
+            } else {
+                $res = DB::table('historicoibge')->where('id', $id)->delete();
+            }
+            if ($res) {
+                return redirect()->back()->with('success', 'Documento deletado com sucesso!');
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Erro ao deletar documento!']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['msg' => $e->getMessage()]);
+        }
+    }
 
-    public function deletarCidadeDocumento(Request $request){
+    public function inserirCidadeDocumentoPost(Request $request)
+    {
+        $type = $request['type'];
+        if ($type == 'historico') {
+            request()->validate([
+                'cityId' => 'required',
+                'description' => 'required',
+                'type' => 'required',
+            ]);
+            try {
+                $data = $request->all();
+                if (!isset($data['id'])) {
+                    $res = DB::table('historicoibge')->insert([
+                        'cityId' => $data['cityId'],
+                        'description' => $data['description'],
+                        'url' => $data['url'],
+                        'legend' => $data['legend'],
+                    ]);
+                } else {
+                    $res = DB::table('historicoibge')->where('id', $data['id'])->update([
+                        'cityId' => $data['cityId'],
+                        'description' => $data['description'],
+                        'url' => $data['url'],
+                        'legend' => $data['legend'],
+                    ]);
+                }
+                if ($res) {
+                    return redirect()->route('ibgeHistorico', ['id' => $data['cityId']])->with('success', 'Histórico inserido/editado com sucesso');
+                } else {
+                    return back()->with('error', 'Erro ao inserir/editar o histórico');
+                }
+            } catch (\Exception $e) {
+                return back()->with('error', $e->getMessage());
+            }
 
+        } else {
+            request()->validate([
+                'title' => 'required',
+                'subject' => 'required',
+                'comments' => 'required',
+                'type' => 'required',
+                'cityId' => 'required',
+            ]);
+            $data = $request->all();
+            if (!isset($data['id'])) {
+                $res = DB::table('dadoscidades')->insert([
+                    'title' => $data['title'],
+                    'subject' => $data['subject'],
+                    'author' => $data['author'],
+                    'legend' => $data['legend'],
+                    'type' => $data['type'],
+                    'cityId' => $data['cityId'],
+                    'year' => $data['year'],
+                    'link' => $data['link'],
+                    'comments' => $data['comments'],
+                    'material' => 'Manunscrito'
+                ]);
+            } else {
+                $res = DB::table('dadoscidades')->where('id', $data['id'])->update([
+                    'title' => $data['title'],
+                    'subject' => $data['subject'],
+                    'author' => $data['author'],
+                    'legend' => $data['legend'],
+                    'type' => $data['type'],
+                    'cityId' => $data['cityId'],
+                    'year' => $data['year'],
+                    'link' => $data['link'],
+                    'comments' => $data['comments'],
+                ]);
+            }
+            if ($res) {
+                $route = $data['type'] == 'archive' ? 'arquivoPublico' : 'bibliotecaNacional';
+                return redirect()->route($route, ['id' => $data['cityId']])->with('success', 'Documento inserido/editado com sucesso');
+            } else {
+                return back()->with('error', 'Erro ao inserir/editar o documento');
+            }
+        }
     }
 
     public function members(Request $request)
@@ -202,7 +311,7 @@ class Home extends Controller
 
     public function contactUsPost()
     {
-        $validated = request()->validate([
+        request()->validate([
             'email' => 'required|email',
             'assunto' => 'required',
             'nome' => 'required',

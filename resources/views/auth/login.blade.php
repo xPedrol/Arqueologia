@@ -38,7 +38,7 @@
 {{--                            </p>--}}
 {{--                        </div>--}}
                         <div class="col-12">
-                            <button type="submit" class="btn btn-dark btn-lg w-100">Login</button>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Login</button>
                         </div>
                     </div>
                 </form>

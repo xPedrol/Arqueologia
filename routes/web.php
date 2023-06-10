@@ -25,9 +25,11 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('arquivo-publico/{id}', 'arquivoPublico')->name('arquivoPublico');
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
         Route::middleware(['checkRole:admin'])->group(function () {
+
             Route::get('inserir-documento', 'inserirCidadeDocumento')->name('inserirCidadeDocumento');
-            Route::get('editar-documento/{id}', 'editarCidadeDocumento')->name('editarCidadeDocumento');
             Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
+
+            Route::post('inserir-documento-post', 'inserirCidadeDocumentoPost')->name('inserirCidadeDocumentoPost');
         });
     });
 });

@@ -116,7 +116,7 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
                         <div class="col-12">
-                            <button type="submit" class="btn btn-dark btn-lg w-100">Registrar</button>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Registrar</button>
                         </div>
                     </div>
                 </form>

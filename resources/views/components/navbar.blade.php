@@ -45,7 +45,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-start">
                                 <li><a class="dropdown-item myAccountDropdownSmall"><small>Logado
-                                            como</small><br />{{ auth()->user()->niceName }}</a></li>
+                                            como</small><br />{{ auth()->user()->login }}</a></li>
                                 <li><a class="dropdown-item" href="{{ route('logout') }}">Deslogar</a></li>
                             </ul>
                         </li>

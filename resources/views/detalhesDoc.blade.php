@@ -9,10 +9,25 @@
 
                 </ol>
             </nav>
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-sm btn-outline-primary" href="{{route('inserirCidadeDocumento',['from'=>$route])}}">Adicionar
+            <div class="d-flex justify-content-between align-items-center my-2">
+                <div>
+                    <h4 class="usePoppins m-0">{{$cidade->name}}</h4>
+                    <small>Documentos referente a cidade {{$cidade->name}}</small>
+                </div>
+                <a class="btn btn-sm btn-outline-primary" href="{{route('inserirCidadeDocumento',['from'=>$route,'cidadeId'=>$cidade->id])}}">Adicionar
                     documento</a>
             </div>
+            <hr/>
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{Session::get('success')}}
+                </div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{Session::get('error')}}
+                </div>
+            @endif
             @if(count($array) > 0)
                 @if(!isset($isIbgeHistorico))
                     <x-table :params="['id'=>$cidade->id]" :query="$query" :columns="$columns" :data="$array"
@@ -30,13 +45,13 @@
                                         <a href="{{$row->link}}" target="_blank"
                                            class="btn btn-sm btn-outline-primary">Visualizar</a>
                                         @if(auth()->user()->role == 'admin')
-                                            <a href="{{route('editarCidadeDocumento', ['id'=>$row->id])}}"
-                                                class="btn btn-sm btn-outline-primary">
+                                            <a href="{{route('inserirCidadeDocumento', ['id'=>$row->id,'from'=>$route])}}"
+                                               class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="{{route('deletarCidadeDocumento', ['id'=>$row->id])}}"
-                                                class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-trash"></i>
+                                            <a href="{{route('deletarCidadeDocumento', ['id'=>$row->id,'from'=>$route])}}"
+                                               class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-regular fa-trash-can"></i>
                                             </a>
                                         @endif
                                     </div>
@@ -53,13 +68,22 @@
                     <div class="row">
                         @foreach($array as $row)
                             <div class="col-12">
-                                <p style="font-size: 17px">{{$row->description}}</p>
-                                @if($row->url)
-                                    @foreach($row->url as $url)
-                                        <a href="{{$url}}" target="_blank" style="margin-right: 20px"
-                                           class="btn btn-primary">Visualizar #{{$loop->index+1}}</a>
-                                    @endforeach
+                                @if(isset($row->legend))
+                                    <small>Legenda: {{$row->legend}}</small>
                                 @endif
+                                <p style="font-size: 17px">{{$row->description}}</p>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       href="{{route('inserirCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Editar</a>
+                                    <a class="btn btn-sm btn-outline-danger"
+                                       href="{{route('deletarCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Excluir</a>
+                                    @if($row->url)
+                                        @foreach($row->url as $url)
+                                            <a href="{{$url}}" target="_blank"
+                                               class="btn btn-sm btn-outline-primary">Visualizar #{{$loop->index+1}}</a>
+                                        @endforeach
+                                    @endif
+                                </div>
                                 @if(!$loop->last)
                                     <hr class="my-4"/>
                                 @endif

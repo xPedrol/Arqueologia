@@ -52,7 +52,7 @@
                             </div>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-dark">Enviar Mensagem</button>
+                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
                     </form>
                     <div class="mt-3">
                         @if(Session::has('error'))

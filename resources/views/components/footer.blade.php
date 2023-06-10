@@ -3,7 +3,7 @@
         <div class="row py-4 w-100">
             @foreach ($firstBanners as $b)
                 <div class="col-12 col-md-6 col-lg-3 footerSection mt-3 mb-5 mb-lg-0">
-                    <p class="text-light footerSectionTitle usePoppins text-muted">{{ $b['title'] }}</p>
+                    <p class="text-light footerSectionTitle usePoppins">{{ $b['title'] }}</p>
                     @foreach ($b['itemList'] as $item)
                         @if (isset($item['tooltip']))
                             <p class="text-light footerSectionP" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -33,7 +33,7 @@
         </div>
         <div class="row mt-4 w-100 align-items-center">
             <div class="col-12 col-lg-5">
-                <p class="footerSiteTitle p-3">Patrimõnio Arqueológico</p>
+                <p class="footerSiteTitle p-3">Patrimônio Arqueológico</p>
             </div>
             <div class="col footerAnotherSites">
                 <div class="d-flex justify-content-center justify-content-lg-end">

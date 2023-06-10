@@ -1,4 +1,14 @@
 @import "~bootstrap/scss/bootstrap-utilities";
+$theme-colors: (
+    "success": #0abb98,
+    "primary": #005b5a,
+    "secondary": #6c757d,
+    "warning": #ffc107,
+    "danger": #b82126,
+    "info": #17a2b8,
+    "light": #f8f9fa,
+    "dark": #343a40,
+);
 // Body
 $body-bg: #f8fafc;
 $border-radius: 0;
@@ -47,4 +57,8 @@ $tooltip-padding-x: $spacer * 0.5;
 $tooltip-opacity: 1;
 $mark-bg: #c5c5c5;
 $mark-padding: $spacer * 0.0625;
-$modal-content-border-radius: $border-radius;
+$accordion-button-active-bg: #007e7a;
+$accordion-button-active-color:  #fff;
+$accordion-button-focus-box-shadow: 0 0 0 0.2rem rgba(0, 94, 92, 0.25);
+$accordion-icon-active-color: #fff;
+$accordion-button-active-icon:  url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-active-color}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");

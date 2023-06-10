@@ -52,7 +52,7 @@
                         currículo.</p>
                     @guest
                         <div class="text-center">
-                            <a class="btn btn-dark" href="{{ route('register') }}">Registrar</a>
+                            <a class="btn btn-primary" href="{{ route('register') }}">Registrar</a>
                         </div>
                     @endguest
                 </div>

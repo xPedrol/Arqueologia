@@ -8,12 +8,12 @@
                     @method('POST')
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <label class="">Nome Completo</label>
-                            <input name="name" id="name" type="text" autocomplete="nome"
-                                   class="form-control @error('name') is-invalid @enderror" placeholder="Digite seu nome"
+                            <label class="">Apelido</label>
+                            <input name="login" id="login" type="text" autocomplete="login"
+                                   class="form-control @error('login') is-invalid @enderror" placeholder="Digite seu nome"
                                    aria-label="Username"
                                    aria-describedby="basic-addon1">
-                            @error('name')
+                            @error('login')
                             <div class="invalid-feedback">
                                 Campo inválido
                             </div>
@@ -116,7 +116,7 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
                         <div class="col-12">
-                            <button type="submit" class="btn btn-dark btn-lg w-100">Register</button>
+                            <button type="submit" class="btn btn-dark btn-lg w-100">Registrar</button>
                         </div>
                     </div>
                 </form>

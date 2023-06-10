@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MailHelper;
+use App\Jobs\SendEmailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,50 +42,56 @@ class AuthPages extends Controller
 
     public function registering(Request $request)
     {
-        $registerValidated = $request->validate([
+        $request->validate([
             'email' => 'required',
             'password' => 'required',
             'confirmPassword' => 'required',
-            'name' => 'required',
-
-
+            'login' => 'required',
+            'bithDate' => 'required',
         ]);
-        if ($request['useTerms'] != 'on') {
-            return back()->with('error', 'Você precisa aceitar os termos de uso');
-        }
-        if ($request['password'] !== $request['confirmPassword']) {
-            return back()->with('error', 'As senhas não conferem');
-        }
-        $user = new User();
-        $user->cargo = 'dft';
-        $user->status = 'Aceito';
-        $user->email = $request['email'];
-        $user->senha = sha1($request['password']);
-        $user->nome = $request['name'];
-        $user->dataRegistro = date('Y-m-d');
-        $storedUser = User::where('email', $user->email)->first();
-        if ($storedUser != null) {
-            return back()->with('error', 'Email já cadastrado');
-        }
-        $res = $user->save();
-        if ($res) {
-            $base_url = Config::get('app.env') === 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
-
-            $subject = "Por favor, verifique seu email";
-            $body = "
-              <h1>Olá $user->nome.</h1> <br>
-              Recebemos seu cadastro. Para utilizar sua conta basta logar em nosssa plataforma.<br><br>
-
-                <a href='$base_url/admin/login'>  Clique aqui para logar</a>
-            ";
-            $user = [
-                'Nome' => $user->nome,
-                'email' => $user->email,
-            ];
-            MailHelper::instance()->sendMail($subject, $body, $user);
-            return redirect()->route('login')->with('success', 'Usuário cadastrado com sucesso!');
-        } else {
-            return back()->with('error', 'Erro ao cadastrar');
+        try {
+            if ($request['password'] !== $request['confirmPassword']) {
+                return back()->with('error', 'As senhas não conferem');
+            }
+            $user = new User();
+            $user->role = 'user';
+            $user->email = $request['email'];
+            $user->password = sha1($request['password']);
+            $user->login = $request['login'];
+            $user->birthDate = $request['bithDate'];
+            $user->location = $request['location'];
+            $user->link = $request['link'];
+            $user->token = sha1($request['email'] . $request['password']);
+            $user->status = 'disable';
+            $user->token = substr($user->token, 0, 11);
+//            print_r($user);
+//            return;
+            $storedUser = User::where('email', $user->email)->first();
+            if ($storedUser != null) {
+                return back()->with('error', 'Email já cadastrado');
+            }
+            $res = $user->save();
+            if ($res) {
+                $base_url = Config::get('app.env') === 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
+                $encodedEmail = urlencode($user->email);
+                $tokenEncoded = urlencode($user->token);
+                $link = "$base_url/confirmEmail?email=$encodedEmail&token=$tokenEncoded";
+                $body = "Recebemos seu cadastro. Para utilizar sua conta é precisa verificar este email. Para isso, basta clicar no botão abaixo.<br/><br/>";
+                $body .= "<a href='$link' style='background-color: #212529; padding: 8px 8px; border: none; color: white; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;'>Confirmar Cadastro</a>";
+                $details = [
+                    'email' => $user->email,
+                    'subject' => 'Confirmação de Email',
+                    'title' => "Olá, " . $user->login . ".",
+                    'body' => $body
+                ];
+                dispatch(new SendEmailJob($details));
+//            MailHelper::instance()->sendMail($subject, $body, $user);
+                return redirect()->route('login')->with('success', 'Usuário cadastrado com sucesso! Um link de confirmação foi enviado para seu email.');
+            } else {
+                return back()->with('error', 'Erro ao cadastrar');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -156,16 +163,18 @@ class AuthPages extends Controller
         $email = $request->get('email') ?? null;
         $token = $request->get('token') ?? null;
         $user = User::where('email', $email)->first();
+        echo $email;
+        echo(!!$user);
         if ($user) {
             if ($user['token'] == $token) {
-                $user->Emailconfirmado = 1;
+                $user->status= 'active';
                 $res = $user->save();
                 if ($res) {
-                    return redirect('login')->with("success", 'Email confirmado com sucesso!');
+                    return redirect()->route('login')->with("success", 'Email confirmado com sucesso!');
                 }
             }
         }
-        return redirect('login')->with("error", 'Erro ao confirmar email');
+        return redirect()->route('login')->with("error", 'Erro ao confirmar email');
     }
 
     public function deleteUser(Request $request)

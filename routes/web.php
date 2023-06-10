@@ -17,6 +17,7 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('members', 'members')->name('members');
     Route::get('contact', 'contact')->name('contact');
+    Route::post('contactUs/post', 'contactUsPost')->name('contactUsPost');
     Route::get('about', 'about')->name('about');
     Route::middleware(['auth'])->group(function () {
         Route::get('fontes', 'fontes')->name('fontes');
@@ -24,9 +25,9 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('arquivo-publico/{id}', 'arquivoPublico')->name('arquivoPublico');
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
         Route::middleware(['checkRole:admin'])->group(function () {
-            Route::get('inserir-ibge-historico', 'inserirIbgeHistorico')->name('inserirIbgeHistorico');
-            Route::get('inserir-arquivo-publico', 'inserirArquivoPublico')->name('inserirArquivoPublico');
-            Route::get('inserir-biblioteca-nacional', 'inserirBibliotecaNacional')->name('inserirBibliotecaNacional');
+            Route::get('inserir-documento', 'inserirCidadeDocumento')->name('inserirCidadeDocumento');
+            Route::get('editar-documento/{id}', 'editarCidadeDocumento')->name('editarCidadeDocumento');
+            Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
         });
     });
 });
@@ -34,10 +35,12 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
 
 Route::controller(\App\Http\Controllers\AuthPages::class)->group(function () {
     Route::get('entrar', 'login')->name('login');
-    Route::get('register', 'register')->name('register');
+    Route::get('registrar', 'register')->name('register');
     Route::get('sair', 'logout')->name('logout');
+    Route::get('confirmEmail', 'confirmEmail')->name('confirmEmail');
 
     Route::post('logging', 'logging')->name('logging');
     Route::post('registering', 'registering')->name('registering');
     Route::delete('', 'deleteUser')->name('deleteUser');
+
 });

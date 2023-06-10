@@ -9,6 +9,10 @@
 
                 </ol>
             </nav>
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-sm btn-outline-primary" href="{{route('inserirCidadeDocumento',['from'=>$route])}}">Adicionar
+                    documento</a>
+            </div>
             @if(count($array) > 0)
                 @if(!isset($isIbgeHistorico))
                     <x-table :params="['id'=>$cidade->id]" :query="$query" :columns="$columns" :data="$array"
@@ -22,8 +26,20 @@
                                 <td>{{$row->subject}}</td>
                                 <td>{{$row->comments}}</td>
                                 <td>
-                                    <a href="{{$row->link}}" target="_blank"
-                                       class="btn btn-sm btn-outline-primary">Visualizar</a>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{$row->link}}" target="_blank"
+                                           class="btn btn-sm btn-outline-primary">Visualizar</a>
+                                        @if(auth()->user()->role == 'admin')
+                                            <a href="{{route('editarCidadeDocumento', ['id'=>$row->id])}}"
+                                                class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{route('deletarCidadeDocumento', ['id'=>$row->id])}}"
+                                                class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

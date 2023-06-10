@@ -3,9 +3,9 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
-    <title>Casa Setecentista de Mariana - {{ $title }}</title>
+    <title>{{ $title }} - Patrimônio Arqueológico</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Arquivos da Casa Setecentista de Mariana - MG">
+    <meta name="description" content="Patrimônio Arqueológico">
     {{--    icon --}}
     <link rel="icon" href="./images/icone.jpg">
     <!-- Styles -->

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
+use App\Jobs\SendEmailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class Home extends Controller
@@ -132,9 +134,26 @@ class Home extends Controller
             'query' => $query, 'maxPage' => $maxPage, 'count' => $count, 'route' => $route]);
     }
 
-   public function inserirIbgeHistorico(Request $request){
-    
+   public function inserirCidadeDocumento(Request $request){
+        $type = 'archive';
+        if($request->query()['from'] == 'bibliotecaNacional'){
+            $type = 'library';
+        }
+        $cidades = DB::table('cidades')->get();
+        return view('inserirCidadeDoc', ['type' => $type, 'cidades' => $cidades]);
    }
+
+   public function editarCidadeDocumento(Request $request){
+        $id = $request->route('id');
+        $cidades = DB::table('cidades')->get();
+        $documento = DB::table('dadoscidades')->where('id', $id)->first();
+        $type = $documento->type;
+        return view('inserirCidadeDoc', ['cidades' => $cidades, 'documento' => $documento, 'type' => $type]);
+   }
+
+    public function deletarCidadeDocumento(Request $request){
+
+    }
 
     public function members(Request $request)
     {
@@ -179,6 +198,44 @@ class Home extends Controller
     public function contact()
     {
         return view('contact');
+    }
+
+    public function contactUsPost()
+    {
+        $validated = request()->validate([
+            'email' => 'required|email',
+            'assunto' => 'required',
+            'nome' => 'required',
+            'texto' => 'required',
+        ]);
+        $data = request()->only(['email', 'assunto', 'nome', 'texto']);
+        if ($data['email'] != 'sample@email.tst') {
+            $data['assunto'] = preg_replace(array("/(á|à|ã|â|ä)/", "/(Á|À|Ã|Â|Ä)/", "/(é|è|ê|ë)/", "/(É|È|Ê|Ë)/", "/(í|ì|î|ï)/", "/(Í|Ì|Î|Ï)/", "/(ó|ò|õ|ô|ö)/", "/(Ó|Ò|Õ|Ô|Ö)/", "/(ú|ù|û|ü)/", "/(Ú|Ù|Û|Ü)/", "/(ñ)/", "/(Ñ)/"), explode(" ", "a A e E i I o O u U n N"), $data['assunto']);
+            require base_path("vendor/autoload.php");
+
+            $subject = "Fale Conosco [LAMPEH]: " . $data['assunto'];
+            $body = "
+            <h4>E-mail enviado pelo Fale Conosco do Patrimônio Arqueológico.</h4>
+
+            Nome: " . $data['nome'] . "<br>
+            Email: " . $data['email'] . "<br>
+            <br>
+            Mensagem: <br>"
+                . $data['texto'] . "
+        ";
+            $hostEmail = Config::get('app.mail_host');
+            if ($hostEmail) {
+                $details = [
+                    'email' => $hostEmail,
+                    'subject' => $subject,
+                    'body' => $body,
+                    'title' => ''
+                ];
+                dispatch(new SendEmailJob($details));
+            }
+            return back()->with("success", 'Mensagem enviada com sucesso!');
+        }
+        return back()->with("error", 'Erro ao enviar mensagem!');
     }
 
     public function about()

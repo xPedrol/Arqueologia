@@ -1,5 +1,5 @@
-<div class="pagination-wrap">
-    <ul class="pagination">
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-sm justify-content-end">
         <li class="page-item">
             <a class="page-link" href="{{route($route, array_merge($params,$query,['page'=>1]))}}">Início</a>
         </li>
@@ -18,4 +18,4 @@
             <a class="page-link" href="{{route($route, array_merge($params,['page'=>$maxPage]))}}">Fim</a>
         </li>
     </ul>
-</div>
+</nav>

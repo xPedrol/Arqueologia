@@ -27,13 +27,13 @@
             <div class="col align-self-center">
                 <a target="_blank" href="{{ $sites[0]['link'] }}"><img
                         src="{{ asset(env('PATH_BASE') . 'images/logo-lampehCut.webp') }}"
-                        alt="Logo Casa Setecentista de Mariana" class="img-fluid"></a>
+                        alt="Logo Arqueológia" class="img-fluid"></a>
             </div>
 
         </div>
         <div class="row mt-4 w-100 align-items-center">
             <div class="col-12 col-lg-5">
-                <p class="footerSiteTitle p-3">Acervo Virtual do Arquivo da Casa Setecentista de Mariana</p>
+                <p class="footerSiteTitle p-3">Patrimõnio Arqueológico</p>
             </div>
             <div class="col footerAnotherSites">
                 <div class="d-flex justify-content-center justify-content-lg-end">

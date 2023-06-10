@@ -31,12 +31,12 @@
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="prev">
+                                data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="next">
+                                data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
@@ -50,9 +50,11 @@
                         e trabalho, publicações, fontes e notícias.</p>
                     <p style="font-size: 17px">Seja membro do grupo! Tenha acesso a conteúdos exclusivos e divulgue seu
                         currículo.</p>
-                    <div class="text-center">
-                        <a class="btn btn-dark" href="{{ route('register') }}">Registrar</a>
-                    </div>
+                    @guest
+                        <div class="text-center">
+                            <a class="btn btn-dark" href="{{ route('register') }}">Registrar</a>
+                        </div>
+                    @endguest
                 </div>
                 <div class="col-3">
                     <div class="d-flex flex-column">
@@ -65,9 +67,9 @@
                         <h5 class="usePoppins">Apoio</h5>
                         <hr>
                         <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
-                            class="mb-4" alt="" width="100%">
+                             class="mb-4" alt="" width="100%">
                         <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
-                            alt="" width="100%" class="mb-4">
+                             alt="" width="100%" class="mb-4">
                         <img src="/images/logotipoUfv.jpg" alt="" width="100%">
                     </div>
                 </div>

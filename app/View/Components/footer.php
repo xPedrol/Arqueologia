@@ -8,10 +8,10 @@ class footer extends Component
 {
     public $firstBanners = [
         [
-            'title' => 'Casa Setecentista de Mariana',
+            'title' => 'Patrimônio Arqueológico',
             'itemList' => [
                 [
-                    'title' => 'Casa Setecentista de Mariana',
+                    'title' => 'Patrimônio Arqueológico',
                     'url' => 'home',
                     'isInternal' => true
                 ],

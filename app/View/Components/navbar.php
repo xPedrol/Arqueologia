@@ -17,7 +17,10 @@ class navbar extends Component
         ],
         [
             'title' => 'Associados',
-            'url' => 'members'
+            'url' => 'members',
+            'auth'=> true,
+            'role'=>'admin'
+
         ],
         [
             'title' => 'Fontes',

@@ -2,7 +2,7 @@
     <x-slot name="content">
         <div class="container">
             <div class="row">
-                <div class="col-9">
+                <div class="col-12 col-lg-9">
                     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -56,7 +56,7 @@
                         </div>
                     @endguest
                 </div>
-                <div class="col-3">
+                <div class="col-12 col-lg-3">
                     <div class="d-flex flex-column">
                         <h5 class="usePoppins">Destaques</h5>
                         <hr>
@@ -66,11 +66,20 @@
                     <div class="d-flex flex-column mt-5">
                         <h5 class="usePoppins">Apoio</h5>
                         <hr>
-                        <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
-                             class="mb-4" alt="" width="100%">
-                        <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
-                             alt="" width="100%" class="mb-4">
-                        <img src="/images/logotipoUfv.jpg" alt="" width="100%">
+                        <div class="d-none flex-column align-items-center d-lg-flex">
+                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
+                                 class="mb-4" alt="" width="100%">
+                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
+                                 alt="" width="100%" class="mb-4">
+                            <img src="/images/logotipoUfv.jpg" alt="" width="100%">
+                        </div>
+                        <div class="d-flex flex-column align-items-center d-lg-none">
+                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
+                                 class="mb-4" alt="" width="60%">
+                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
+                                 alt="" width="60%" class="mb-4 d-lg-none">
+                            <img src="/images/logotipoUfv.jpg" alt="" width="60%">
+                        </div>
                     </div>
                 </div>
             </div>

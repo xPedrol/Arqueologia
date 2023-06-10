@@ -27,6 +27,10 @@ class navbar extends Component
             'url' => 'fontes'
         ],
         [
+            'title' => 'Relatos Viajantes',
+            'url' => 'relatosQuadrilatero'
+        ],
+        [
             'title' => 'Contato',
             'url' => 'contact'
         ]

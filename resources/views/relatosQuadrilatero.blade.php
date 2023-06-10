@@ -4,53 +4,29 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Cidades do Quadrilátero Ferrífero</li>
+                    <li class="breadcrumb-item active" aria-current="page">Relatos de Viajantes que percorreram o
+                        Quadrilátero Ferrífero
+                    </li>
                 </ol>
             </nav>
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="usePoppins m-0">Cidades do Quadrilatero Ferrífero</h5>
-                    <small>Cidades: {{count($cidadesQF)}}</small>
+                    <h5 class="usePoppins m-0">Relatos de Viajantes que percorreram o Quadrilátero Ferrífero</h5>
+                    <small>Relatos: {{count($relatos)}}</small>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal"
+                <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal" disabled
                         data-bs-target="#inserirCidadeModal">
-                    Inserir Cidade
+                    Inserir relato
                 </button>
             </div>
-            @foreach($cidadesQF as $cidade)
-                <div class="accordion accordion-flush" id="accordion-{{$cidade->id}}">
-                    <div class="accordion-item my-2">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#accordion-flush-{{$cidade->id}}" aria-expanded="false"
-                                    aria-controls="flush-collapseOne">
-                                {{$cidade->name}}
-                            </button>
-                        </h2>
-                        <div id="accordion-flush-{{$cidade->id}}" class="accordion-collapse collapse"
-                             data-bs-parent="#accordionFlushExample">
-                            <ul class="py-3">
-                                <li>
-                                    <a
-                                        href="{{route('ibgeHistorico', ['id' => $cidade->id])}}" target="_blank"
-                                        data-type="URL"
-                                        data-id="http://arqueologia.lampeh.ufv.br/tabela/?id=571">Histórico IBGE</a>
-                                </li>
-                                <li class="my-2">
-                                    <a target="_blank"
-                                       href="{{route('arquivoPublico', ['id' => $cidade->id])}}">Arquivo público
-                                        mineiro</a>
-                                </li>
-                                <li>
-                                    <a target="_blank"
-                                       href="{{route('bibliotecaNacional', ['id' => $cidade->id])}}">Biblioteca
-                                        nacional</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <hr/>
+            @if(count($relatos) > 0)
+
+            @else
+                <div class="text-center">
+                    Nenhum registro encontrado
                 </div>
-            @endforeach
+            @endif
         </div>
         <!-- Modal -->
         <form method="POST" action="{{route('inserirCidadePost')}}">

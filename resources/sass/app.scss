@@ -200,6 +200,10 @@ a {
     list-style: none;
     margin: 0;
     padding: 0;
+    color: unset !important;
+    .dropdown-item{
+        color: unset !important;
+    }
 }
 
 .navProfileUl li a::before {

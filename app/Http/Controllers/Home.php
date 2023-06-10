@@ -141,7 +141,7 @@ class Home extends Controller
         $documento = null;
         $cidadeAtual = null;
         if ($request->query()['from'] != 'ibgeHistorico') {
-            if($request->query()['from'] != 'arquivoPublico') {
+            if ($request->query()['from'] != 'arquivoPublico') {
                 $type = 'library';
             }
             if (isset($query['id'])) {
@@ -303,7 +303,6 @@ class Home extends Controller
             'userCount' => $userCount]);
     }
 
-
     public function contact()
     {
         return view('contact');
@@ -345,6 +344,57 @@ class Home extends Controller
             return back()->with("success", 'Mensagem enviada com sucesso!');
         }
         return back()->with("error", 'Erro ao enviar mensagem!');
+    }
+
+    public function inserirCidadePost(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required',
+            ]);
+            $data = $request->all();
+            $res = DB::table('cidades')->insert([
+                'name' => $data['name'],
+            ]);
+            if ($res) {
+                return redirect()->route('fontes')->with('success', 'Cidade inserida com sucesso');
+            } else {
+                return back()->with('error', 'Erro ao inserir a cidade');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function relatosQuadrilatero(Request $request)
+    {
+        $query = $request->query();
+        if (isset($query['sort'])) {
+            $relatos = DB::table('relatosquadrilatero')->orderBy($query['sort'], $query['order']);
+        } else {
+            $relatos = DB::table('relatosquadrilatero')->orderBy('author');
+        }
+        $count = $relatos->count();
+        $maxPage = ceil($count / 15);
+        PaginationHelper::instance()->handlePagination($request, $maxPage);
+        $relatos = $relatos->paginate(100);
+        $query = $request->query();
+        $columns = [
+            [
+                'name' => 'Autor',
+                'key' => 'author'
+            ],
+            [
+                'name' => 'Fichamento',
+                'key' => 'registration'
+            ],
+            [
+                'name' => 'PDF',
+                'key' => 'filePath'
+            ]
+        ];
+        return view('relatosQuadrilatero', ['relatos' => $relatos, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
+            'userCount' => $count]);
     }
 
     public function about()

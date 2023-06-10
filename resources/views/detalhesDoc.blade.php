@@ -4,7 +4,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('fontes')}}">Fontes</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('fontes')}}">Cidades do Quadrilátero Ferrífero</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$title}}</li>
 
                 </ol>
@@ -92,7 +92,7 @@
                     </div>
                 @endif
             @else
-                <div style="text-align: center">
+                <div class="text-center">
                     Nenhum registro encontrado
                 </div>
             @endif

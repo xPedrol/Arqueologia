@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DocumentArchive extends Model
+class RelatoArchive extends Model
 {
     public $primaryKey = 'id';
 
@@ -27,7 +27,7 @@ class DocumentArchive extends Model
     protected $fillable = [
         'id',
         'path',
-        'documentId'
+        'relatosQId'
     ];
 //    protected $fillable = [
 //        'fundo',
@@ -46,7 +46,7 @@ class DocumentArchive extends Model
 //        'observacao',
 //        'usuario'
 //    ];
-    protected $table = 'arquivos';
+    protected $table = 'relatosdocs';
     protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;

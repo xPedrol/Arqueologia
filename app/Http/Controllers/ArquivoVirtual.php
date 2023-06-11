@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
-use App\Models\DocumentArchive;
+use App\Models\RelatoArchive;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -65,7 +65,7 @@ class ArquivoVirtual extends Controller
     {
         $id = $request->route('id');
         $document = DB::table('documentos')->where('id_documento', $id)->first();
-        $files = DocumentArchive::where('documentId', $id)->get();
+        $files = RelatoArchive::where('documentId', $id)->get();
         return view('arquivoVirtual.documentDetail', ['document' => $document, 'files' => $files, 'documentId' => $id]);
     }
 
@@ -90,7 +90,7 @@ class ArquivoVirtual extends Controller
     {
         try {
             $id = $request->route('id');
-            $documento = DocumentArchive::find($id);
+            $documento = RelatoArchive::find($id);
             $path = $documento->path;
             $fullPath = Storage::disk('externo')->path(Config::get('app.app_files_path').$path);
             // Header content type
@@ -112,7 +112,7 @@ class ArquivoVirtual extends Controller
     public function documentDetailDownload(Request $request)
     {
         $id = $request->route('id');
-        $archive = DocumentArchive::find($id);
+        $archive = RelatoArchive::find($id);
         $path = $archive->path;
         if (!Storage::disk('externo')->exists(Config::get('app.app_files_path') . $path)) {
             return redirect()->back()->with('error', 'Arquivo não encontrado');

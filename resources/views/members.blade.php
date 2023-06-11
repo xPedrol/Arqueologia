@@ -16,7 +16,7 @@
                         <td>{{ $user->email }}</td>
                         <td>{{$user->createdAt}}</td>
                         <td>
-                            <div class="d-flex justify-content-center gap-2">
+                            <div class="d-flex justify-content-end gap-2">
                                 <form action="{{ route('deleteUser', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

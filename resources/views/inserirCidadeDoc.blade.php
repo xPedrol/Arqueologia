@@ -5,24 +5,19 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('fontes')}}">Cidades do Quadrilátero Ferrífero</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('fontes')}}">{{$cidadeAtual->name}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{url()->previous()}}">
+                            @if($type=='archive')
+                                Arquivo Público
+                            @elseif($type=='library')
+                                Biblioteca Nacional
+                            @else
+                                Histórico IBGE
+                            @endif</a></li>
                     @if(!isset($documento))
-                        <li class="breadcrumb-item active" aria-current="page">Inserir
-                            @if($type=='archive')
-                                Arquivo Público
-                            @elseif($type=='library')
-                                Biblioteca Nacional
-                            @else
-                                Histórico IBGE
-                            @endif</li>
+                        <li class="breadcrumb-item active" aria-current="page">Inserir</li>
                     @else
-                        <li class="breadcrumb-item active" aria-current="page">Editar
-                            @if($type=='archive')
-                                Arquivo Público
-                            @elseif($type=='library')
-                                Biblioteca Nacional
-                            @else
-                                Histórico IBGE
-                            @endif</li>
+                        <li class="breadcrumb-item active breadcrumb-item-overflow" aria-current="page">Editar {{$documento->title}}</li>
                     @endif
                 </ol>
             </nav>
@@ -46,6 +41,16 @@
             <small>Cidade: {{$cidadeAtual->name}}</small>
 
             <hr/>
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{Session::get('success')}}
+                </div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{Session::get('error')}}
+                </div>
+            @endif
             <form method="POST" action="{{route('inserirCidadeDocumentoPost')}}">
                 @csrf
                 @method('POST')
@@ -134,8 +139,9 @@
                                     cidade...
                                 </option>
                                 @foreach($cidades as $cidade)
-                                    <option @if((isset($documento) && $cidade->id==$documento->cityId) || $cidadeAtual->id==$cidade->id) selected
-                                            @endif value="{{$cidade->id}}">{{$cidade->name}}</option>
+                                    <option
+                                        @if((isset($documento) && $cidade->id==$documento->cityId) || $cidadeAtual->id==$cidade->id) selected
+                                        @endif value="{{$cidade->id}}">{{$cidade->name}}</option>
                                 @endforeach
                             </select>
                             @error('cityId')
@@ -225,7 +231,8 @@
                                     aria-label="type"
                                     aria-describedby="basic-addon1">
                                 <option disabled value="">Selecione o tipo...</option>
-                                <option @if($type=='historico') selected @endif value="historico">Histórico IBGE</option>
+                                <option @if($type=='historico') selected @endif value="historico">Histórico IBGE
+                                </option>
                             </select>
                             @error('type')
                             <div class="invalid-feedback">
@@ -265,16 +272,6 @@
                     </div>
                 </div>
             </form>
-            @if(Session::has('success'))
-                <div class="alert alert-success" role="alert">
-                    {{Session::get('success')}}
-                </div>
-            @endif
-            @if(Session::has('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{Session::get('error')}}
-                </div>
-            @endif
         </div>
     </x-slot>
 </x-layout>

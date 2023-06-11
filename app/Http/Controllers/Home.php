@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
 use App\Jobs\SendEmailJob;
+use App\Models\RelatoArchive;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Home extends Controller
 {
@@ -257,9 +259,15 @@ class Home extends Controller
             }
             if ($res) {
                 $route = $data['type'] == 'archive' ? 'arquivoPublico' : 'bibliotecaNacional';
-                return redirect()->route($route, ['id' => $data['cityId']])->with('success', 'Documento inserido/editado com sucesso');
+                if (isset($data['id'])) {
+                    return back()->with('success', 'Documento atualizado com sucesso');
+                }
+                return redirect()->route($route, ['id' => $data['cityId']])->with('success', 'Documento inserido com sucesso');
             } else {
-                return back()->with('error', 'Erro ao inserir/editar o documento');
+                if (isset($data['id'])) {
+                    return back()->with('error', 'Erro ao atualizar o documento');
+                }
+                return back()->with('error', 'Erro ao inserir o documento');
             }
         }
     }
@@ -369,10 +377,17 @@ class Home extends Controller
     public function relatosQuadrilatero(Request $request)
     {
         $query = $request->query();
+//        print_r(DB::table('relatosquadrilatero')->select('relatosquadrilatero.*', DB::raw('COUNT(relatosdocs.id) AS docs'))
+//            ->leftJoin('relatosdocs', 'relatosquadrilatero.id', '=', 'relatosdocs.relatosQId')->groupBy('relatosquadrilatero.id')->toSql());
+//        return;
+        $relatos = DB::table('relatosquadrilatero')->select('relatosquadrilatero.*', DB::raw('COUNT(relatosdocs.id) AS docs'))
+            ->leftJoin('relatosdocs', 'relatosquadrilatero.id', '=', 'relatosdocs.relatosQId')
+            ->groupBy('relatosquadrilatero.id', 'relatosquadrilatero.author', 'relatosquadrilatero.registration',
+                'relatosquadrilatero.title', 'relatosquadrilatero.filePath', 'relatosquadrilatero.createdAt', 'relatosquadrilatero.updatedAt', 'relatosquadrilatero.legend');
         if (isset($query['sort'])) {
-            $relatos = DB::table('relatosquadrilatero')->orderBy($query['sort'], $query['order']);
+            $relatos = $relatos->orderBy($query['sort'], $query['order']);
         } else {
-            $relatos = DB::table('relatosquadrilatero')->orderBy('author');
+            $relatos = $relatos->orderBy('author');
         }
         $count = $relatos->count();
         $maxPage = ceil($count / 15);
@@ -381,8 +396,16 @@ class Home extends Controller
         $query = $request->query();
         $columns = [
             [
+                'name' => 'Título',
+                'key' => 'title'
+            ],
+            [
                 'name' => 'Autor',
                 'key' => 'author'
+            ],
+            [
+                'name' => 'Dt. Cadastro',
+                'key' => 'createdAt'
             ],
             [
                 'name' => 'Fichamento',
@@ -391,11 +414,136 @@ class Home extends Controller
             [
                 'name' => 'PDF',
                 'key' => 'filePath'
+            ],
+            [
+                'name' => '',
+                'key' => 'actions'
             ]
         ];
         return view('relatosQuadrilatero', ['relatos' => $relatos, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'userCount' => $count]);
+            'relatoCount' => $count]);
     }
+
+    public function inserirRelatoQuadrilatero(Request $request)
+    {
+        $relato = null;
+        $files = null;
+        $query = $request->query();
+        if (isset($query['id'])) {
+            $id = $query['id'];
+            $relato = DB::table('relatosquadrilatero')->where('id', $id)->first();
+            $files = RelatoArchive::where('relatosQId', $id)->get();
+        }
+        return view('inserirRelatoQuadrilatero', ['relato' => $relato, 'files' => $files]);
+    }
+
+    public function inserirRelatoQuadrilateroPost(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'registration' => 'required',
+        ]);
+        try {
+            if (!is_dir(Config::get('app.app_files_path'))) {
+                mkdir(Config::get('app.app_files_path'), 0777, true);
+            }
+            $data = $request->all();
+            if (!isset($data['id'])) {
+                $res = DB::table('relatosquadrilatero')->insert([
+                    'author' => $data['author'],
+                    'registration' => $data['registration'],
+                    'title' => $data['title'],
+                    'legend' => $data['legend'],
+                ]);
+            } else {
+                //verify if changed
+                $relato = DB::table('relatosquadrilatero')->where('id', $data['id'])->first();
+                if ($relato->author == $data['author'] && $relato->registration == $data['registration'] && $relato->title == $data['title'] && $relato->legend == $data['legend']) {
+                    $res = true;
+                } else {
+                    $res = DB::table('relatosquadrilatero')->where('id', $data['id'])->update([
+                        'author' => $data['author'],
+                        'registration' => $data['registration'],
+                        'title' => $data['title'],
+                        'legend' => $data['legend'],
+                    ]);
+                }
+            }
+            if ($res) {
+                if (isset($data['id'])) {
+                    $newId = $data['id'];
+                } else {
+                    $newId = DB::getPdo()->lastInsertId();
+                }
+                if ($request->hasFile('files')) {
+                    $files = $request->file('files');
+                    $fullDir = Config::get('app.app_files_path') . '\\' . $newId;
+                    if (!Storage::disk('externo')->exists($fullDir)) {
+                        $dirCreated = Storage::disk('externo')->makeDirectory($fullDir);
+                        if (!$dirCreated) {
+                            return back()->with('error', 'Erro ao criar diretório para armazenar arquivos');
+                        }
+                    }
+                    foreach ($files as $file) {
+                        $filename = "\\" . $file->getClientOriginalName();
+                        $file->storeAs($fullDir, $filename, 'externo');
+                        DB::table('relatosdocs')->insert([
+                            'path' => '\\' . $newId . $filename,
+                            'relatosQId' => $newId
+                        ]);
+                    }
+                }
+                if (isset($data['id'])) {
+                    return back()->with('success', 'Relato atualizado com sucesso');
+                }
+                return redirect()->route('relatosQuadrilatero')->with('success', 'Relato inserido com sucesso');
+            } else {
+                if (isset($data['id'])) {
+                    return back()->with('error', 'Erro ao atualizar o relato');
+                }
+                return back()->with('error', 'Erro ao inserir o relato');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function detalhesRelatosQuadrilatero(Request $request)
+    {
+        $id = $request['id'];
+        $relato = DB::table('relatosquadrilatero')->where('id', $id)->first();
+        $files = RelatoArchive::where('relatosQId', $id)->get();
+        return view('detalhesRelatoQuadrilatero', ['relato' => $relato, 'files' => $files]);
+    }
+
+    public function deletarRelatoQuadrilateroPost(Request $request)
+    {
+        try {
+            $archive = DB::table('relatosdocs')->where('id', $request->id)->first();
+            $relatoId = $archive->relatosQId;
+            if (!$archive) {
+                return redirect()->back()->with('error', 'Arquivo não encontrado');
+            }
+            $path = Config::get('app.app_files_path') . $archive->path;
+            //remove file form disk
+            if (Storage::disk('externo')->exists($path)) {
+                $archiveDeletedFormDisk = Storage::disk('externo')->delete($path);
+                if (!$archiveDeletedFormDisk) {
+                    return redirect()->back()->with('error', 'Erro ao deletar arquivo do dísco');
+                }
+            }
+            $deleted = DB::table('relatosdocs')->where('id', $request->id)->delete();
+            //verify deleted
+            if ($deleted) {
+                return redirect()->route('inserirRelatoQuadrilatero', ['id' => $relatoId])->with('success', 'Arquivo deletado com sucesso');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->back()->with('error', 'Erro ao deletar arquivo');
+    }
+
 
     public function about()
     {

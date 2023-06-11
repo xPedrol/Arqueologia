@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
-use App\Models\DocumentArchive;
+use App\Models\RelatoArchive;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -67,7 +67,7 @@ class Admin extends Controller
                     foreach ($files as $file) {
                         $filename = "\\" . $file->getClientOriginalName();
                         $file->storeAs($fullDir, $filename, 'externo');
-                        DocumentArchive::insert([
+                        RelatoArchive::insert([
                             'path' => $formatedLocalizacao . $filename,
                             'documentId' => $documentId
                         ]);
@@ -82,7 +82,7 @@ class Admin extends Controller
             $id = $request->id;
             if ($id) {
                 $document = DB::table('documentos')->where('id_documento', $id)->first();
-                $files = DocumentArchive::where('documentId', $id)->get();
+                $files = RelatoArchive::where('documentId', $id)->get();
                 return view('arquivoVirtual.insertDocument', ['documentId' => $id, 'document' => $document, 'files' => $files]);
             }
             return view('arquivoVirtual.insertDocument', []);
@@ -160,7 +160,7 @@ class Admin extends Controller
         try {
             //Deleting files
             //Deleting arquchives
-            $archives = DocumentArchive::where('documentId', $request->id)->get();
+            $archives = RelatoArchive::where('documentId', $request->id)->get();
             $documentbaseFolder = null;
             for ($i = 0; $i < count($archives); $i++) {
                 $archive = $archives[$i];
@@ -181,7 +181,7 @@ class Admin extends Controller
                         return back()->with('error', 'Erro ao deletar arquivos');
                     }
                 }
-                $deletedOnDB = DocumentArchive::where('id', $archive->id)->delete();
+                $deletedOnDB = RelatoArchive::where('id', $archive->id)->delete();
                 if (!$deletedOnDB) {
                     return back()->with('error', 'Erro ao deletar arquivos');
                 }

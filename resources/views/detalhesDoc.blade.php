@@ -14,8 +14,11 @@
                     <h4 class="usePoppins m-0">{{$cidade->name}}</h4>
                     <small>Documentos referente a cidade {{$cidade->name}}</small>
                 </div>
-                <a class="btn btn-sm btn-outline-primary" href="{{route('inserirCidadeDocumento',['from'=>$route,'cidadeId'=>$cidade->id])}}">Adicionar
-                    documento</a>
+                @if(auth()->user()->role == 'admin')
+                    <a class="btn btn-sm btn-outline-primary"
+                       href="{{route('inserirCidadeDocumento',['from'=>$route,'cidadeId'=>$cidade->id])}}">Adicionar
+                        documento</a>
+                @endif
             </div>
             <hr/>
             @if(Session::has('success'))
@@ -41,7 +44,7 @@
                                 <td>{{$row->subject}}</td>
                                 <td>{{$row->comments}}</td>
                                 <td>
-                                    <div class="d-flex gap-2">
+                                    <div class="d-flex justify-content-end gap-2">
                                         <a href="{{$row->link}}" target="_blank"
                                            class="btn btn-sm btn-outline-primary">Visualizar</a>
                                         @if(auth()->user()->role == 'admin')

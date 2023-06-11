@@ -14,58 +14,43 @@
                     <h5 class="usePoppins m-0">Relatos de Viajantes que percorreram o Quadrilátero Ferrífero</h5>
                     <small>Relatos: {{count($relatos)}}</small>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal" disabled
-                        data-bs-target="#inserirCidadeModal">
-                    Inserir relato
-                </button>
+                @if(auth()->user()->role == 'admin')
+                    <a class="btn btn-sm btn-outline-primary mb-2" href="{{route('inserirRelatoQuadrilatero')}}">
+                        Inserir relato
+                    </a>
+                @endif
             </div>
             <hr/>
             @if(count($relatos) > 0)
-
+                <x-table :query="$query" :columns="$columns" :data="$relatos" :route="'relatosQuadrilatero'"
+                         :caption="'Lista de todos os relatos cadastrados. '.$relatoCount.' relatos(s) encontrado(s)'">
+                    @foreach ($relatos as $relato)
+                        <tr>
+                            <td class="text-center">{{ $relato->title }}</td>
+                            <td class="text-center">{{ $relato->author }}</td>
+                            <td class="text-center">{{ $relato->registration }}</td>
+                            <td class="text-center">{{$relato->createdAt}}</td>
+                            <td class="text-center">{{$relato->docs}}</td>
+                            <td>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{route('detalhesRelatosQuadrilatero', ['id'=>$relato->id])}}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Visualizar</a>
+                                    @if(auth()->user()->role == 'admin')
+                                        <a href="{{route('inserirRelatoQuadrilatero', ['id'=>$relato->id])}}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i></a>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </x-table>
             @else
                 <div class="text-center">
                     Nenhum registro encontrado
                 </div>
             @endif
         </div>
-        <!-- Modal -->
-        <form method="POST" action="{{route('inserirCidadePost')}}">
-            <div class="modal fade" id="inserirCidadeModal" tabindex="-1" aria-labelledby="inserirCidadeModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title usePoppins fs-5" id="inserirCidadeModalLabel">Inserir Cidade</h1>
-                            <button type="button" class="btn-close me-2" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            @csrf
-                            @method('POST')
-                            <div class="row">
-                                <div class="col-12">
-                                    <label class="">Nome</label>
-                                    <input name="name" id="name" type="text" autocomplete="name"
-                                           value="{{old('name',$documento->title??null)}}"
-                                           class="form-control @error('name') is-invalid @enderror"
-                                           placeholder="Digite o nome da cidade"
-                                           aria-label="name"
-                                           aria-describedby="basic-addon1">
-                                    @error('name')
-                                    <div class="invalid-feedback">
-                                        Campo inválido
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
     </x-slot>
 </x-layout>

@@ -270,3 +270,9 @@ article {
 .btn-navbar-auth:hover{
     color: #000 !important;
 }
+.breadcrumb-item-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 250px;
+}

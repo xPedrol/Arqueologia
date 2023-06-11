@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Arquivo da Camara Municipal de Viçosa'),
+    'name' => env('APP_NAME', 'Patrimônio Arqueológico'),
     'app_url' => env('APP_URL', 'http://localhost'),
     'app_port' => env('APP_PORT', '8000'),
-    'app_files_path' => env('APP_FILES_PATH', '/public/Documentos Câmara/Arquivo da Câmara de Viçosa/'),
-    'mail_host' => env('MAIL_USERNAME', 'arquivocamaravicosa@gmail.com'),
+    'app_files_path' => env('APP_FILES_PATH', '/public/Docs'),
+    'mail_host' => env('MAIL_USERNAME', 'lampeh@ufv.br'),
     'mail_password' => env('MAIL_PASSWORD'),
 
     /*
@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------

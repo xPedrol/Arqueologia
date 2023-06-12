@@ -67,18 +67,18 @@
                         <h5 class="usePoppins">Apoio</h5>
                         <hr>
                         <div class="d-none flex-column align-items-center d-lg-flex">
-                            <img src="/images/vale.webp"
+                            <img src="/images/resized/vale.webp"
                                  class="mb-4" alt="" width="100%">
-                            <img src="/images/logo-lampehCut.webp"
+                            <img src="/images/resized/logo-lampehCut.webp"
                                  alt="" width="100%" class="mb-4">
-                            <img src="/images/logotipoUfv.webp" alt="" width="100%">
+                            <img src="/images/resized/logotipoUfv.webp" alt="" width="100%">
                         </div>
                         <div class="d-flex flex-column align-items-center d-lg-none">
-                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
+                            <img src="/images/resized/vale.webp"
                                  class="mb-4" alt="" width="60%">
-                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
+                            <img src="/images/resized/logo-lampehCut.webp"
                                  alt="" width="60%" class="mb-4 d-lg-none">
-                            <img src="/images/logotipoUfv.webp" alt="" width="60%">
+                            <img src="/images/resized/logotipoUfv.webp" alt="" width="60%">
                         </div>
                     </div>
                 </div>

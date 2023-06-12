@@ -41,7 +41,7 @@ a {
 
 .navbar {
     background-color: #007e7a !important;
-    min-height: 90px;
+    //min-height: 90px;
 }
 
 .navbarTitle {
@@ -145,7 +145,8 @@ a {
 }
 
 .nav-link:hover {
-    color: white;
+    background: #007e7a !important;
+    color: white !important;
 }
 
 .about-section {
@@ -193,25 +194,17 @@ a {
 
 .navProfile i:hover {
     transform: scale(1.2);
-    color: white;
 }
 
 .navProfileUl {
     list-style: none;
     margin: 0;
     padding: 0;
-    color: unset !important;
-    .dropdown-item{
-        color: unset !important;
-    }
+    //color: unset !important;
 }
 
-.navProfileUl li a::before {
+.navProfileUl li a::after {
     display: none !important;
-}
-
-.navProfileUl li a small {
-    font-size: 12px;
 }
 
 .tutorialImageDiv a {
@@ -275,4 +268,10 @@ article {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 250px;
+}
+.dropdown-item-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
 }

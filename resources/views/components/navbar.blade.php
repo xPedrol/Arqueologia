@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+<nav class="navbar py-4 fixed-top navbar-expand-lg navbar-dark">
     <div class="container">
         <div class="d-flex flex-grow-1 flex-md-grow-1 flex-nowrap justify-content-between">
             <div class="d-flex align-items-center">
@@ -26,7 +26,7 @@
                             <ul class="dropdown-menu">
                                 @foreach ($item['navItems'] as $subItem)
                                     <li>
-                                        <a class="nav-link usePoppins"
+                                        <a class="dropdown-item"
                                            href="{{ route($subItem['url']) }}">{{ $subItem['title'] }}</a>
                                     </li>
                                 @endforeach
@@ -35,17 +35,16 @@
                     @endif
                 @endforeach
             </ul>
-            <div class="navbar-text ms-lg-5 d-flex align-items-center">
+            <div class="ms-lg-5 d-flex align-items-center">
                 @auth
-                    <ul class="navProfileUl d-flex align-items-center dropstart">
+                    <ul class="navProfileUl">
                         <li class="nav-item dropdown navProfile d-flex align-items-center">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="false">
-                                <i class="fa-solid fa-user"></i>
+                                <i class="fa-solid fa-user text-white"></i>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-start">
-                                <li><a class="dropdown-item myAccountDropdownSmall"><small>Logado
-                                            como</small><br/>{{auth()->user()->login}}</a></li>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item dropdown-item-overflow">Logado como {{auth()->user()->login}}</a></li>
                                 <li><a class="dropdown-item" href="{{route('logout')}}">Deslogar</a></li>
                             </ul>
                         </li>

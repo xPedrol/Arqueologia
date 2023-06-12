@@ -14,22 +14,27 @@ class navbar extends Component
         [
             'title' => 'Associe-se!',
             'url' => 'register',
-            'guest'=> true,
+            'guest' => true,
         ],
         [
             'title' => 'Associados',
             'url' => 'members',
-            'auth'=> true,
-            'role'=>'admin'
+            'auth' => true,
+            'role' => 'admin'
 
         ],
         [
-            'title' => 'Cidades',
-            'url' => 'fontes'
-        ],
-        [
-            'title' => 'Relatos Viajantes',
-            'url' => 'relatosQuadrilatero'
+            'title' => 'Fontes',
+            'navItems' => [
+                [
+                    'title' => 'Cidades',
+                    'url' => 'fontes'
+                ],
+                [
+                    'title' => 'Relatos Viajantes',
+                    'url' => 'relatosQuadrilatero'
+                ],
+            ]
         ],
         [
             'title' => 'Contato',
@@ -61,7 +66,7 @@ class navbar extends Component
     private function checkAuth(&$navItems)
     {
         foreach ($navItems as $key => $navItem) {
-            if(isset($navItem['guest']) && !!$navItem['guest'] && auth()->check()){
+            if (isset($navItem['guest']) && !!$navItem['guest'] && auth()->check()) {
                 unset($navItems[$key]);
                 continue;
             }

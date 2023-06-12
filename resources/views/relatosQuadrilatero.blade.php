@@ -12,7 +12,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h5 class="usePoppins m-0">Relatos de Viajantes que percorreram o Quadrilátero Ferrífero</h5>
-                    <small>Relatos: {{count($relatos)}}</small>
+                    <small>Relatos: {{$count}}</small>
                 </div>
                 @if(auth()->user()->role == 'admin')
                     <a class="btn btn-sm btn-outline-primary mb-2" href="{{route('inserirRelatoQuadrilatero')}}">
@@ -23,14 +23,16 @@
             <hr/>
             @if(count($relatos) > 0)
                 <x-table :query="$query" :columns="$columns" :data="$relatos" :route="'relatosQuadrilatero'"
-                         :caption="'Lista de todos os relatos cadastrados. '.$relatoCount.' relatos(s) encontrado(s)'">
+                         :caption="'Lista de todos os relatos cadastrados. '.$count.' relatos(s) encontrado(s)'">
                     @foreach ($relatos as $relato)
                         <tr>
                             <td class="text-center">{{ $relato->title }}</td>
                             <td class="text-center">{{ $relato->author }}</td>
                             <td class="text-center">{{ $relato->registration }}</td>
-                            <td class="text-center">{{$relato->createdAt}}</td>
                             <td class="text-center">{{$relato->docs}}</td>
+                            <td class="text-center">
+                                {{\Carbon\Carbon::parse($relato->createdAt)->format('d/m/Y H:i')}} -
+                            {{\Carbon\Carbon::parse($relato->createdAt)->diffForHumans()}}</td>
                             <td>
                                 <div class="d-flex justify-content-end gap-2">
                                     <a href="{{route('detalhesRelatosQuadrilatero', ['id'=>$relato->id])}}"
@@ -46,6 +48,11 @@
                         </tr>
                     @endforeach
                 </x-table>
+                <div class="d-flex justify-content-between align-items-center">
+                    {{$count}} registro(s) encontrado(s)
+                    <x-pagination :query="$query" :maxPage="$maxPage"
+                                  :route="'relatosQuadrilatero'"/>
+                </div>
             @else
                 <div class="text-center">
                     Nenhum registro encontrado

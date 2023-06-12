@@ -111,23 +111,29 @@ class AuthPages extends Controller
         $validated = $request->validate([
             'email' => 'required',
         ]);
-        $user = User::where('email', $request['email'])->first();
-        if ($user) {
-            $subject = "Recuperação de senha";
-            $base_url = Config::get('app.env') === 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
-            $link = "<a href='" . $base_url . "/newPassword?email=" . $request['email'] . "&token=" . $user['token'] . "'> Clique aqui!</a>";
-            $body = "
-              <h1>Olá " . $user->Nome . ",</h1> <br>
-              Você solicitou uma atualização na sua senha. Para realizar esta operação, você precisa entrar no link abaixo:<br><br>
-                $link
-            ";
-            $res = MailHelper::instance()->sendMail($subject, $body, $user);
-            if ($res['success']) {
+        try {
+            $user = User::where('email', $request['email'])->first();
+            if ($user) {
+                $base_url = Config::get('app.env') === 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
+                $emailEncoded = urlencode($user->email);
+                $tokenEncoded = urlencode($user->token);
+                $link = "$base_url/newPassword?email=$emailEncoded&token=$tokenEncoded";
+                $body = "Foi solicitada uma atualização de senha. Para realizar esta operação, clique no botão abaixo.<br/><br/>";
+                $body .= "<a href='$link' style='background-color: #005b5a; padding: 8px 8px; border: none; color: white; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;'>Alterar Senha</a>";
+                $details = [
+                    'email' => $user->email,
+                    'subject' => 'Alterar Senha',
+                    'title' => "Olá, " . $user->socialName . ".",
+                    'body' => $body
+                ];
+                dispatch(new SendEmailJob($details));
                 return back()->with('success', 'Um email com alteração de senha foi enviado para você!');
-//                return redirect('newPassword?email=' . $request['email'] . '&token=' . $user['token'])->with("success", $res['message']);
+
             }
+            return redirect('forgotPassword')->with("error", 'Email não encontrado');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-        return redirect('forgotPassword')->with("error", 'Email não encontrado');
     }
 
     public function newPassword(Request $request)
@@ -141,21 +147,25 @@ class AuthPages extends Controller
     {
         $validated = $request->validate([
             'email' => 'required',
-            'password' => 'required',
             'newPassword' => 'required',
         ]);
-        $user = User::where('email', $request['email'])->first();
-        if ($user) {
-            if ($user['token'] == $request['token'] && $user['password'] == sha1($request['password'])) {
-                $user->senha = sha1($request['newPassword']);
-                $user->token = null;
-                $res = $user->save();
-                if ($res) {
-                    return redirect('login')->with("success", 'Senha atualizada com sucesso!');
+        try {
+            $user = User::where('email', $request['email'])->first();
+            if ($user) {
+                if ($user['token'] == $request['token']) {
+                    $user['password'] = sha1($request['newPassword']);
+                    $res = $user->save();
+                    if ($res) {
+                        return redirect()->route('login')->with("success", 'Senha atualizada com sucesso!');
+                    }
                 }
             }
+            $emailEncoded = urlencode($request['email']);
+            $tokenEncoded = urlencode($request['token']);
+            return redirect('newPassword?email=' . $emailEncoded . '&token=' . $tokenEncoded)->with("error", 'Erro ao atualizar senha');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-//        return redirect('newPassword?email=' . $request['email'] . '&token=' . $request['token'])->with("error", 'Erro ao atualizar senha');
     }
 
     public function confirmEmail(Request $request)
@@ -167,7 +177,7 @@ class AuthPages extends Controller
         echo(!!$user);
         if ($user) {
             if ($user['token'] == $token) {
-                $user->status= 'active';
+                $user->status = 'active';
                 $res = $user->save();
                 if ($res) {
                     return redirect()->route('login')->with("success", 'Email confirmado com sucesso!');

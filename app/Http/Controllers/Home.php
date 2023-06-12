@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
 use App\Jobs\SendEmailJob;
+use App\Models\DocumentArchive;
 use App\Models\RelatoArchive;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -139,12 +141,14 @@ class Home extends Controller
     public function inserirCidadeDocumento(Request $request)
     {
         $type = 'archive';
+        $previousRoute = 'arquivoPublico';
         $query = $request->query();
         $documento = null;
         $cidadeAtual = null;
         if ($request->query()['from'] != 'ibgeHistorico') {
             if ($request->query()['from'] != 'arquivoPublico') {
                 $type = 'library';
+                $previousRoute = 'bibliotecaNacional';
             }
             if (isset($query['id'])) {
                 $id = $query['id'];
@@ -156,6 +160,7 @@ class Home extends Controller
         }
         if ($request->query()['from'] == 'ibgeHistorico') {
             $type = 'historico';
+            $previousRoute = 'ibgeHistorico';
             if (isset($query['id'])) {
                 $id = $query['id'];
                 $documento = DB::table('historicoibge')->where('id', $id)->first();
@@ -165,7 +170,7 @@ class Home extends Controller
             }
         }
         $cidades = DB::table('cidades')->get();
-        return view('inserirCidadeDoc', ['type' => $type, 'cidades' => $cidades, 'documento' => $documento, 'cidadeAtual' => $cidadeAtual]);
+        return view('inserirCidadeDoc', ['type' => $type, 'cidades' => $cidades, 'documento' => $documento, 'cidadeAtual' => $cidadeAtual, 'previousRoute' => $previousRoute]);
     }
 
     public function deletarCidadeDocumento(Request $request)
@@ -385,11 +390,11 @@ class Home extends Controller
             ->groupBy('relatosquadrilatero.id', 'relatosquadrilatero.author', 'relatosquadrilatero.registration',
                 'relatosquadrilatero.title', 'relatosquadrilatero.filePath', 'relatosquadrilatero.createdAt', 'relatosquadrilatero.updatedAt', 'relatosquadrilatero.legend');
         if (isset($query['sort'])) {
-            $relatos = $relatos->orderBy($query['sort'], $query['order']);
+            $relatos = $relatos->orderBy('relatosquadrilatero.'.$query['sort'], $query['order']);
         } else {
-            $relatos = $relatos->orderBy('author');
+            $relatos = $relatos->orderBy('relatosquadrilatero.author');
         }
-        $count = $relatos->count();
+        $count = DB::table('relatosquadrilatero')->count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
         $relatos = $relatos->paginate(100);
@@ -404,10 +409,6 @@ class Home extends Controller
                 'key' => 'author'
             ],
             [
-                'name' => 'Dt. Cadastro',
-                'key' => 'createdAt'
-            ],
-            [
                 'name' => 'Fichamento',
                 'key' => 'registration'
             ],
@@ -416,12 +417,16 @@ class Home extends Controller
                 'key' => 'filePath'
             ],
             [
+                'name' => 'Dt. Cadastro',
+                'key' => 'createdAt'
+            ],
+            [
                 'name' => '',
                 'key' => 'actions'
             ]
         ];
         return view('relatosQuadrilatero', ['relatos' => $relatos, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'relatoCount' => $count]);
+            'count' => $count]);
     }
 
     public function inserirRelatoQuadrilatero(Request $request)
@@ -542,6 +547,29 @@ class Home extends Controller
         }
 
         return redirect()->back()->with('error', 'Erro ao deletar arquivo');
+    }
+
+    public function viewRelatoDoc(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $documento = RelatoArchive::find($id);
+            $path = $documento->path;
+            $fullPath = Storage::disk('externo')->path(Config::get('app.app_files_path').$path);
+            // Header content type
+            header('Content-type: application/pdf');
+
+            header('Content-Disposition: inline; filename="' . $fullPath . '"');
+
+            header('Content-Transfer-Encoding: binary');
+
+            header('Accept-Ranges: bytes');
+            ini_set('memory_limit', '-1');
+            // Read the file
+            @readfile($fullPath);
+        }catch (Exception $e) {
+            return redirect()->back()->with('error', 'Arquivo não encontrado');
+        }
     }
 
 

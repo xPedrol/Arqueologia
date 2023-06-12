@@ -6,7 +6,7 @@
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('fontes')}}">Cidades do Quadrilátero Ferrífero</a></li>
                     <li class="breadcrumb-item"><a href="{{route('fontes')}}">{{$cidadeAtual->name}}</a></li>
-                    <li class="breadcrumb-item"><a href="{{url()->previous()}}">
+                    <li class="breadcrumb-item"><a href="{{route($previousRoute,['id'=>$cidadeAtual->id])}}">
                             @if($type=='archive')
                                 Arquivo Público
                             @elseif($type=='library')
@@ -17,7 +17,8 @@
                     @if(!isset($documento))
                         <li class="breadcrumb-item active" aria-current="page">Inserir</li>
                     @else
-                        <li class="breadcrumb-item active breadcrumb-item-overflow" aria-current="page">Editar {{$documento->title}}</li>
+                        <li class="breadcrumb-item active breadcrumb-item-overflow" aria-current="page">
+                            Editar {{$documento->title}}</li>
                     @endif
                 </ol>
             </nav>

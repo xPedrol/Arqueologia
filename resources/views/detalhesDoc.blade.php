@@ -5,6 +5,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('fontes')}}">Cidades do Quadrilátero Ferrífero</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('fontes')}}">{{$cidade->name}}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{$title}}</li>
 
                 </ol>
@@ -76,10 +77,12 @@
                                 @endif
                                 <p style="font-size: 17px">{{$row->description}}</p>
                                 <div class="d-flex flex-wrap gap-3">
-                                    <a class="btn btn-sm btn-outline-primary"
-                                       href="{{route('inserirCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Editar</a>
-                                    <a class="btn btn-sm btn-outline-danger"
-                                       href="{{route('deletarCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Excluir</a>
+                                    @if(auth()->user()->role == 'admin')
+                                        <a class="btn btn-sm btn-outline-primary"
+                                           href="{{route('inserirCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Editar</a>
+                                        <a class="btn btn-sm btn-outline-danger"
+                                           href="{{route('deletarCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Excluir</a>
+                                    @endif
                                     @if($row->url)
                                         @foreach($row->url as $url)
                                             <a href="{{$url}}" target="_blank"

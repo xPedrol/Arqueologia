@@ -12,10 +12,12 @@
                     <h5 class="usePoppins m-0">Cidades do Quadrilatero Ferrífero</h5>
                     <small>Cidades: {{count($cidadesQF)}}</small>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal"
-                        data-bs-target="#inserirCidadeModal">
-                    Inserir Cidade
-                </button>
+                @if(auth()->user()->role == 'admin')
+                    <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal"
+                            data-bs-target="#inserirCidadeModal">
+                        Inserir Cidade
+                    </button>
+                @endif
             </div>
             @foreach($cidadesQF as $cidade)
                 <div class="accordion accordion-flush" id="accordion-{{$cidade->id}}">
@@ -52,44 +54,46 @@
                 </div>
             @endforeach
         </div>
-        <!-- Modal -->
-        <form method="POST" action="{{route('inserirCidadePost')}}">
-            <div class="modal fade" id="inserirCidadeModal" tabindex="-1" aria-labelledby="inserirCidadeModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title usePoppins fs-5" id="inserirCidadeModalLabel">Inserir Cidade</h1>
-                            <button type="button" class="btn-close me-2" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            @csrf
-                            @method('POST')
-                            <div class="row">
-                                <div class="col-12">
-                                    <label class="">Nome</label>
-                                    <input name="name" id="name" type="text" autocomplete="name"
-                                           value="{{old('name',$documento->title??null)}}"
-                                           class="form-control @error('name') is-invalid @enderror"
-                                           placeholder="Digite o nome da cidade"
-                                           aria-label="name"
-                                           aria-describedby="basic-addon1">
-                                    @error('name')
-                                    <div class="invalid-feedback">
-                                        Campo inválido
+        @if(auth()->user()->role == 'admin')
+            <!-- Modal -->
+            <form method="POST" action="{{route('inserirCidadePost')}}">
+                <div class="modal fade" id="inserirCidadeModal" tabindex="-1" aria-labelledby="inserirCidadeModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title usePoppins fs-5" id="inserirCidadeModalLabel">Inserir Cidade</h1>
+                                <button type="button" class="btn-close me-2" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                @csrf
+                                @method('POST')
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="">Nome</label>
+                                        <input name="name" id="name" type="text" autocomplete="name"
+                                               value="{{old('name',$documento->title??null)}}"
+                                               class="form-control @error('name') is-invalid @enderror"
+                                               placeholder="Digite o nome da cidade"
+                                               aria-label="name"
+                                               aria-describedby="basic-addon1">
+                                        @error('name')
+                                        <div class="invalid-feedback">
+                                            Campo inválido
+                                        </div>
+                                        @enderror
                                     </div>
-                                    @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        @endif
     </x-slot>
 </x-layout>

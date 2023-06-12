@@ -13,7 +13,8 @@ class navbar extends Component
         ],
         [
             'title' => 'Associe-se!',
-            'url' => 'register'
+            'url' => 'register',
+            'guest'=> true,
         ],
         [
             'title' => 'Associados',
@@ -23,7 +24,7 @@ class navbar extends Component
 
         ],
         [
-            'title' => 'Fontes',
+            'title' => 'Cidades',
             'url' => 'fontes'
         ],
         [
@@ -60,6 +61,10 @@ class navbar extends Component
     private function checkAuth(&$navItems)
     {
         foreach ($navItems as $key => $navItem) {
+            if(isset($navItem['guest']) && !!$navItem['guest'] && auth()->check()){
+                unset($navItems[$key]);
+                continue;
+            }
             if (isset($navItem['auth']) && !!$navItem['auth'] && !auth()->check()) {
                 unset($navItems[$key]);
                 continue;

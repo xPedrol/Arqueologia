@@ -26,6 +26,7 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('historico-ibge/{id}', 'ibgeHistorico')->name('ibgeHistorico');
         Route::get('arquivo-publico/{id}', 'arquivoPublico')->name('arquivoPublico');
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
+        Route::get('visulizar-relato-documento/{id}', 'viewRelatoDoc')->name('viewRelatoDoc');
         Route::middleware(['checkRole:admin'])->group(function () {
 
             Route::get('inserir-relato-quadrilatero', 'inserirRelatoQuadrilatero')->name('inserirRelatoQuadrilatero');
@@ -47,9 +48,13 @@ Route::controller(\App\Http\Controllers\AuthPages::class)->group(function () {
     Route::get('registrar', 'register')->name('register');
     Route::get('sair', 'logout')->name('logout');
     Route::get('confirmEmail', 'confirmEmail')->name('confirmEmail');
+    Route::get('forgotPassword', 'forgotPassword')->name('forgotPassword');
+    Route::get('newPassword', 'newPassword')->name('newPassword');
 
     Route::post('logging', 'logging')->name('logging');
     Route::post('registering', 'registering')->name('registering');
+    Route::post('forgotPasswordPost', 'forgotPasswordPost')->name('forgotPasswordPost');
+    Route::post('newPasswordPost', 'newPasswordPost')->name('newPasswordPost');
     Route::delete('', 'deleteUser')->name('deleteUser');
 
 });

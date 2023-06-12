@@ -1,15 +1,17 @@
-<x-layout :title="'Login'">
+<x-layout :title="'Nova senha'">
     <x-slot name="content">
         <div class="d-flex justify-content-center align-items-center flex-column authDiv px-1 px-md-0">
-            <h1 class="usePoppins loginTitle">Entrar</h1>
+            <h1 class="usePoppins loginTitle">Nova Senha</h1>
             <div class="authCard">
-                <form method="POST" action="{{route('logging')}}">
+                <form method="POST" action="{{route('newPasswordPost')}}">
                     @csrf
                     @method('POST')
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <label class="">Email</label>
-                            <input name="email" id="email" type="email" autocomplete="email"
+                            <label class="" for="token">Email</label>
+                            <input name="token" id="token" type="text" autocomplete="token" class="d-none" readonly
+                                   value="{{$token}}"/>
+                            <input name="email" id="email" type="email" autocomplete="email" value="{{$email}}"readonly
                                    class="form-control @error('email') is-invalid @enderror" placeholder="Digite seu email"
                                    aria-label="Username"
                                    aria-describedby="basic-addon1">
@@ -20,25 +22,20 @@
                             @enderror
                         </div>
                         <div class="col-12 mb-3">
-                            <label class="">Senha</label>
-                            <input name="password" autocomplete="current-password" type="password" id="password"
-                                   class="form-control @error('password') is-invalid @enderror"
-                                   placeholder="Digite sua senha"
+                            <label class="">Senha nova</label>
+                            <input name="newPassword" autocomplete="current-newPassword" type="password" id="newPassword"
+                                   class="form-control @error('newPassword') is-invalid @enderror"
+                                   placeholder="Digite sua nova senha"
                                    aria-label="Username"
                                    aria-describedby="basic-addon1">
-                            @error('password')
+                            @error('newPassword')
                             <div class="invalid-feedback">
                                 Campo inválido
                             </div>
                             @enderror
                         </div>
-                        <div class="col-12 mb-3">
-                            <p class="">Esqueceu sua senha? <a href="{{route('forgotPassword')}}" class="text-decoration-none text-primary">Clique
-                                    Aqui</a>
-                            </p>
-                        </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-lg w-100">Login</button>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Cadastrar nova senha</button>
                         </div>
                     </div>
                 </form>

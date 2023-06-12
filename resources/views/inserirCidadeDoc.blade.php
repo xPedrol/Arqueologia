@@ -58,7 +58,7 @@
                 <div class="row">
                     <input class="d-none" name="id" id="id" value="{{old('id',$documento->id??null)}}">
                     @if($type !== 'historico')
-                        <div class="col-6 mb-3">
+                        <div class="col-12 col-lg-6 mb-3">
                             <label class="">Título</label>
                             <input name="title" id="title" type="text" autocomplete="title"
                                    value="{{old('title',$documento->title??null)}}"
@@ -72,7 +72,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-6 mb-3">
+                        <div class="col-12 col-lg-6 mb-3">
                             <label class="">Assunto</label>
                             <input name="subject" id="subject" type="text" autocomplete="subject"
                                    value="{{old('subject',$documento->subject??null)}}"
@@ -86,7 +86,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-6 mb-3">
+                        <div class="col-12 col-lg-6 mb-3">
                             <label class="">Link</label>
                             <input name="link" id="link" type="text" autocomplete="link"
                                    value="{{old('link',$documento->link??null)}}"
@@ -99,7 +99,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-6 mb-3">
+                        <div class="col-12 col-lg-6 mb-3">
                             <label class="">Autor</label>
                             <input name="author" id="author" type="text" autocomplete="author"
                                    value="{{old('author',$documento->author??null)}}"
@@ -113,7 +113,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-lg-4 mb-3">
                             <label class="">Tipo</label>
                             <select name="type" id="type" autocomplete="type"
                                     class="form-control @error('type') is-invalid @enderror"
@@ -130,7 +130,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-lg-4 mb-3">
                             <label class="">Cidade</label>
                             <select name="cityId" id="cityId" autocomplete="cityId"
                                     class="form-control @error('cityId') is-invalid @enderror"
@@ -151,7 +151,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-lg-4 mb-3">
                             <label class="">Data</label>
                             <input name="year" id="year" type="text" autocomplete="year"
                                    value="{{old('year',$documento->author??null)}}"
@@ -192,7 +192,7 @@
                             @enderror
                         </div>
                     @else
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-lg-4 mb-3">
                             <label class="">Cidade</label>
                             <select name="cityId" id="cityId" autocomplete="cityId"
                                     class="form-control @error('cityId') is-invalid @enderror"
@@ -212,7 +212,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-lg-4 mb-3">
                             <label class="">Link</label>
                             <input name="url" id="url" type="text" autocomplete="url"
                                    value="{{old('url',$documento->url??null)}}"
@@ -225,7 +225,7 @@
                             </div>
                             @enderror
                         </div>
-                        <div class="col-4 mb-3">
+                        <div class="col-12 col-lg-4 mb-3">
                             <label class="">Tipo</label>
                             <select name="type" id="type" autocomplete="type"
                                     class="form-control @error('type') is-invalid @enderror"

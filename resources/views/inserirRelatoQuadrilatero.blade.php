@@ -39,7 +39,7 @@
                 @method('POST')
                 <div class="row">
                     <input class="d-none" name="id" id="id" value="{{old('id',$relato->id??null)}}">
-                    <div class="col-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label class="">Título</label>
                         <input name="title" id="title" type="text" autocomplete="title"
                                value="{{old('title',$relato->title??null)}}"
@@ -53,7 +53,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="col-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label class="">Autor</label>
                         <input name="author" id="author" type="text" autocomplete="author"
                                value="{{old('author',$relato->author??null)}}"
@@ -67,7 +67,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="col-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label class="">Fichamento</label>
                         <input name="registration" id="registration" type="text" autocomplete="registration"
                                value="{{old('registration',$relato->registration??null)}}"
@@ -82,7 +82,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label class="">Arquivos</label>
                         <input name="files[]" autocomplete="current-arquivos" type="file" accept="application/pdf"
                                multiple

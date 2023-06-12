@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::get('/', 'home')->name('home');
-    Route::get('members', 'members')->name('members');
-    Route::get('contact', 'contact')->name('contact');
-    Route::post('contactUs/post', 'contactUsPost')->name('contactUsPost');
-    Route::get('about', 'about')->name('about');
+    Route::get('membros', 'members')->name('members');
+    Route::get('contato', 'contact')->name('contact');
+    Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
+    Route::get('sobre', 'about')->name('about');
     Route::middleware(['auth'])->group(function () {
         Route::get('cidades-quadrilatero', 'fontes')->name('fontes');
         Route::get('relatos-quadrilatero', 'relatosQuadrilatero')->name('relatosQuadrilatero');
@@ -47,14 +47,14 @@ Route::controller(\App\Http\Controllers\AuthPages::class)->group(function () {
     Route::get('entrar', 'login')->name('login');
     Route::get('registrar', 'register')->name('register');
     Route::get('sair', 'logout')->name('logout');
-    Route::get('confirmEmail', 'confirmEmail')->name('confirmEmail');
-    Route::get('forgotPassword', 'forgotPassword')->name('forgotPassword');
-    Route::get('newPassword', 'newPassword')->name('newPassword');
+    Route::get('confirmar-email', 'confirmEmail')->name('confirmEmail');
+    Route::get('senha-esquecida', 'forgotPassword')->name('forgotPassword');
+    Route::get('nova-senha', 'newPassword')->name('newPassword');
 
-    Route::post('logging', 'logging')->name('logging');
-    Route::post('registering', 'registering')->name('registering');
-    Route::post('forgotPasswordPost', 'forgotPasswordPost')->name('forgotPasswordPost');
-    Route::post('newPasswordPost', 'newPasswordPost')->name('newPasswordPost');
+    Route::post('entrando', 'logging')->name('logging');
+    Route::post('registrando', 'registering')->name('registering');
+    Route::post('senha-esquecida-post', 'forgotPasswordPost')->name('forgotPasswordPost');
+    Route::post('nova-senha-post', 'newPasswordPost')->name('newPasswordPost');
     Route::delete('', 'deleteUser')->name('deleteUser');
 
 });

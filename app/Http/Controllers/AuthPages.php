@@ -114,7 +114,7 @@ class AuthPages extends Controller
         try {
             $user = User::where('email', $request['email'])->first();
             if ($user) {
-                $base_url = Config::get('app.env') === 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
+                $base_url = Config::get('app.env') == 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
                 $emailEncoded = urlencode($user->email);
                 $tokenEncoded = urlencode($user->token);
                 $link = "$base_url/newPassword?email=$emailEncoded&token=$tokenEncoded";

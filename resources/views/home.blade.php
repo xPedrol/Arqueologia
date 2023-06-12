@@ -6,28 +6,28 @@
                     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="/images/1.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/1.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/2.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/2.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/3.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/3.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/6.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/6.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/4.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/4.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/5.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/5.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/7.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/7.webp" class="d-block w-100" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/8.jpeg" class="d-block w-100" alt="...">
+                                <img src="/images/8.webp" class="d-block w-100" alt="...">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
@@ -67,18 +67,18 @@
                         <h5 class="usePoppins">Apoio</h5>
                         <hr>
                         <div class="d-none flex-column align-items-center d-lg-flex">
-                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
+                            <img src="/images/vale.webp"
                                  class="mb-4" alt="" width="100%">
-                            <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
+                            <img src="/images/logo-lampehCut.webp"
                                  alt="" width="100%" class="mb-4">
-                            <img src="/images/logotipoUfv.jpg" alt="" width="100%">
+                            <img src="/images/logotipoUfv.webp" alt="" width="100%">
                         </div>
                         <div class="d-flex flex-column align-items-center d-lg-none">
                             <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/indice-1.jpg"
                                  class="mb-4" alt="" width="60%">
                             <img src="https://arqueologia.lampeh.ufv.br/wp-content/uploads/2022/08/lampeh-1.jpg"
                                  alt="" width="60%" class="mb-4 d-lg-none">
-                            <img src="/images/logotipoUfv.jpg" alt="" width="60%">
+                            <img src="/images/logotipoUfv.webp" alt="" width="60%">
                         </div>
                     </div>
                 </div>

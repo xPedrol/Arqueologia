@@ -48,12 +48,12 @@ Route::controller(\App\Http\Controllers\AuthPages::class)->group(function () {
     Route::get('registrar', 'register')->name('register');
     Route::get('sair', 'logout')->name('logout');
     Route::get('confirmar-email', 'confirmEmail')->name('confirmEmail');
-    Route::get('senha-esquecida', 'forgotPassword')->name('forgotPassword');
+    Route::get('recuperar-senha', 'forgotPassword')->name('forgotPassword');
     Route::get('nova-senha', 'newPassword')->name('newPassword');
 
     Route::post('entrando', 'logging')->name('logging');
     Route::post('registrando', 'registering')->name('registering');
-    Route::post('senha-esquecida-post', 'forgotPasswordPost')->name('forgotPasswordPost');
+    Route::post('recuperar-senha-post', 'forgotPasswordPost')->name('forgotPasswordPost');
     Route::post('nova-senha-post', 'newPasswordPost')->name('newPasswordPost');
     Route::delete('', 'deleteUser')->name('deleteUser');
 

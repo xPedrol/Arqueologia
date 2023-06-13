@@ -117,7 +117,7 @@ class AuthPages extends Controller
                 $base_url = Config::get('app.env') == 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
                 $emailEncoded = urlencode($user->email);
                 $tokenEncoded = urlencode($user->token);
-                $link = "$base_url/newPassword?email=$emailEncoded&token=$tokenEncoded";
+                $link = "$base_url/nova-senha?email=$emailEncoded&token=$tokenEncoded";
                 $body = "Foi solicitada uma atualização de senha. Para realizar esta operação, clique no botão abaixo.<br/><br/>";
                 $body .= "<a href='$link' style='background-color: #005b5a; padding: 8px 8px; border: none; color: white; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;'>Alterar Senha</a>";
                 $details = [
@@ -162,7 +162,7 @@ class AuthPages extends Controller
             }
             $emailEncoded = urlencode($request['email']);
             $tokenEncoded = urlencode($request['token']);
-            return redirect('newPassword?email=' . $emailEncoded . '&token=' . $tokenEncoded)->with("error", 'Erro ao atualizar senha');
+            return redirect()->route('newPassword', ['email' => $emailEncoded, 'token' => $tokenEncoded])->with("error", 'Erro ao atualizar senha');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

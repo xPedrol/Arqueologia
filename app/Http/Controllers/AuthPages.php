@@ -29,7 +29,7 @@ class AuthPages extends Controller
         if (\Illuminate\Support\Facades\Auth::attempt(['email' => $email, 'password' => $password])) {
             //update last login
             $user->lastAccess = now();
-            if(!isset($user->role)) {
+            if(!isset($user->role) || $user->role == null) {
                 $user->role = 'user';
             }
             $user->save();

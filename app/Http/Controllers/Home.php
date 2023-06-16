@@ -9,6 +9,7 @@ use App\Models\RelatoArchive;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -296,8 +297,8 @@ class Home extends Controller
                 'key' => 'login'
             ],
             [
-                'name' => 'Apelido',
-                'key' => 'niceName'
+                'name' => 'Nome',
+                'key' => 'socialName'
             ],
             [
                 'name' => 'Email',
@@ -308,13 +309,26 @@ class Home extends Controller
                 'key' => 'createdAt'
             ],
             [
+                'name' => 'Status',
+                'key' => 'status',
+                'show' => Auth::check() && Auth::user()->isAdmin()
+            ],
+            [
+                'name' => 'Permissão',
+                'key' => 'role',
+                'show' => Auth::check() && Auth::user()->isAdmin()
+            ],
+            [
                 'name' => '',
-                'key' => 'actions'
+                'key' => 'actions',
+                'show' => Auth::check() && Auth::user()->isAdmin()
             ]
         ];
         return view('members', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
             'userCount' => $userCount]);
     }
+
+
 
     public function contact()
     {

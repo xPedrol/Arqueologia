@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::get('/', 'home')->name('home');
-    Route::get('membros', 'members')->name('members');
+    Route::middleware(['checkRole:admin'])->group(function () {
+        Route::get('membros', 'members')->name('members');
+    });
     Route::get('contato', 'contact')->name('contact');
     Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
     Route::get('sobre', 'about')->name('about');
@@ -55,6 +57,17 @@ Route::controller(\App\Http\Controllers\AuthPages::class)->group(function () {
     Route::post('registrando', 'registering')->name('registering');
     Route::post('recuperar-senha-post', 'forgotPasswordPost')->name('forgotPasswordPost');
     Route::post('nova-senha-post', 'newPasswordPost')->name('newPasswordPost');
-    Route::delete('', 'deleteUser')->name('deleteUser');
 
+});
+
+Route::controller(\App\Http\Controllers\Profile::class)->group(function () {
+    Route::get('minha-conta', 'myAccount')->name('myAccount');
+    Route::post('minha-conta-post', 'savingAccountChanges')->name('savingAccountChanges');
+});
+Route::controller(\App\Http\Controllers\Admin::class)->group(function () {
+    Route::middleware(['checkRole:admin'])->group(function () {
+        Route::delete('deletar-usuario', 'deleteUser')->name('deleteUser');
+        Route::get('ativar-usuario', 'toggleUserActive')->name('toggleUserActive');
+        Route::get('trocar-permissao', 'toggleUserPermission')->name('toggleUserPermission');
+    });
 });

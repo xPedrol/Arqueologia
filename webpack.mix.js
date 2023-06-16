@@ -13,8 +13,6 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/arquivoVirtualHome.scss', 'public/css')
-    .js('resources/js/insertDocument.js', 'public/js')
     .sass('resources/sass/documentDetail.scss', 'public/css')
     .sass('resources/sass/home.scss', 'public/css')
     .sass('resources/sass/table.scss', 'public/css')

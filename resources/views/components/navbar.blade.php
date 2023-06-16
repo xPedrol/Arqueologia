@@ -44,7 +44,9 @@
                                 <i class="fa-solid fa-user text-white"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item dropdown-item-overflow">Logado como {{auth()->user()->login}}</a></li>
+                                <li><a class="dropdown-item dropdown-item-overflow" data-bs-toggle="tooltip"
+                                       data-bs-title="Clique para atualizar suas informações" href="{{route('myAccount')}}">Logado
+                                        como {{auth()->user()->login}}</a></li>
                                 <li><a class="dropdown-item" href="{{route('logout')}}">Deslogar</a></li>
                             </ul>
                         </li>

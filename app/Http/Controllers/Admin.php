@@ -286,14 +286,14 @@ class Admin extends Controller
 
     public function toggleUserPermission(Request $request)
     {
-        $id = $request->id;
-        if ($id) {
-            $user = User::where('id_usuario', $id)->first();
+        try {
+            $id = $request->id;
+            $user = User::where('id', $id)->first();
             if ($user) {
-                if ($user->cargo == 'adm') {
-                    $user->cargo = 'est';
+                if ($user->role == 'admin') {
+                    $user->role = 'user';
                 } else {
-                    $user->cargo = 'adm';
+                    $user->role = 'admin';
                 }
                 $res = $user->save();
                 if ($res) {
@@ -304,20 +304,20 @@ class Admin extends Controller
             } else {
                 return back()->with('error', 'Usuário não encontrado!');
             }
-        } else {
-            return back()->with('error', 'Erro ao atualizar permissão!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
     public function toggleUserActive(Request $request)
     {
-        $id = $request->id;
-        if ($id) {
-            $user = User::where('id_usuario', $id)->first();
-            if ($user->status == 'Aceito') {
-                $user->status = 'Espera';
+        try {
+            $id = $request->id;
+            $user = User::where('id', $id)->first();
+            if ($user->status == 'active') {
+                $user->status = 'disable';
             } else {
-                $user->status = 'Aceito';
+                $user->status = 'active';
             }
             $res = $user->save();
             if ($res) {
@@ -325,24 +325,28 @@ class Admin extends Controller
             } else {
                 return back()->with('error', 'Erro ao atualizar usuário!');
             }
-        } else {
-            return back()->with('error', 'Usuário não encontrado!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
     public function deleteUser(Request $request)
     {
-        $id = $request->id;
-        if ($id) {
-            $user = User::where('id_usuario', $id)->first();
-            $res = $user->delete();
-            if ($res) {
-                return back()->with('success', 'Usuário excluído com sucesso!');
+        try {
+            $email = $request->input('email');
+            if ($email) {
+                $user = User::where('email', $email)->first();
+                $res = $user->delete();
+                if ($res) {
+                    return back()->with('success', 'Usuário excluído com sucesso!');
+                } else {
+                    return back()->with('error', 'Erro ao excluir usuário!');
+                }
             } else {
-                return back()->with('error', 'Erro ao excluir usuário!');
+                return back()->with('error', 'Usuário não encontrado!');
             }
-        } else {
-            return back()->with('error', 'Usuário não encontrado!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 

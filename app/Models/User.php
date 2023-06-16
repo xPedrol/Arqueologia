@@ -19,4 +19,9 @@ class User extends Authenticatable
     protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;
+
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
 }

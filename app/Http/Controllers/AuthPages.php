@@ -186,20 +186,4 @@ class AuthPages extends Controller
         }
         return redirect()->route('login')->with("error", 'Erro ao confirmar email');
     }
-
-    public function deleteUser(Request $request)
-    {
-        $email = $request->input('email');
-        if ($email) {
-            $user = User::where('email', $email)->first();
-            $res = $user->delete();
-            if ($res) {
-                return back()->with('success', 'Usuário excluído com sucesso!');
-            } else {
-                return back()->with('error', 'Erro ao excluir usuário!');
-            }
-        } else {
-            return back()->with('error', 'Usuário não encontrado!');
-        }
-    }
 }

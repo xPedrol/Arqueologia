@@ -28,7 +28,10 @@ class AuthPages extends Controller
         $user = User::where('email', $email)->first();
         if (\Illuminate\Support\Facades\Auth::attempt(['email' => $email, 'password' => $password])) {
             //update last login
-//            $user->ultimoLogin = now();
+            $user->lastAccess = now();
+            if(!$user->role) {
+                $user->role = 'user';
+            }
             $user->save();
             return redirect()->route('home');
         }

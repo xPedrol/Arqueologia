@@ -68,7 +68,7 @@
                         @enderror
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
-                        <label class="">Fichamento</label>
+                        <label class="">Referência Bibliográfica</label>
                         <input name="registration" id="registration" type="text" autocomplete="registration"
                                value="{{old('registration',$relato->registration??null)}}"
                                class="form-control @error('registration') is-invalid @enderror"
@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="col-12 col-lg-6 mb-3">
-                        <label class="">Arquivos</label>
+                        <label class="">Fichamento</label>
                         <input name="files[]" autocomplete="current-arquivos" type="file" accept="application/pdf"
                                multiple
                                id="files"
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="col-12 mb-3">
-                        <label class="">Legenda</label>
+                        <label class="">Observações</label>
                         <textarea name="legend" id="legend" rows="3" autocomplete="legend"
                                   class="form-control @error('legend') is-invalid @enderror"
                                   placeholder="Digite uma legenda"

@@ -28,12 +28,12 @@
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <div class="form-floating mb-3">
-                            <small class="text-muted">Fichamento</small>
+                            <small class="text-muted">Referência Bibliográfica</small>
                             <p>{{old('registration',$relato->registration??null)}}</p>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
-                        <small class="text-muted">Legenda</small>
+                        <small class="text-muted">Observações</small>
                         <p>{{old('legend',$relato->legend??null)}}</p>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
             @if(isset($relato) && $relato != null)
                 <hr/>
                 <div class="col-12 mb-2">
-                    <label class="">Arquivos já cadastrados</label>
+                    <label class="">Fichamentos cadastrados</label>
                     <div class="row">
                         @if(count($files) > 0)
                             @foreach($files as $file)

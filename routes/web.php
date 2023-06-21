@@ -22,6 +22,8 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
     Route::get('sobre', 'about')->name('about');
     Route::middleware(['auth'])->group(function () {
+        Route::get('bibliografias', 'bibliografias')->name('bibliografias');
+        Route::get('bibliografia/{id}', 'detalhesBibliografia')->name('detalhesBibliografia');
         Route::get('cidades-quadrilatero', 'fontes')->name('fontes');
         Route::get('relatos-quadrilatero', 'relatosQuadrilatero')->name('relatosQuadrilatero');
         Route::get('relatos-quadrilatero/{id}', 'detalhesRelatosQuadrilatero')->name('detalhesRelatosQuadrilatero');
@@ -29,12 +31,16 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('arquivo-publico/{id}', 'arquivoPublico')->name('arquivoPublico');
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
         Route::get('visulizar-relato-documento/{id}', 'viewRelatoDoc')->name('viewRelatoDoc');
+        Route::get('visulizar-relato-bibliografia/{id}', 'viewRelatoBibliografiaDoc')->name('viewRelatoBibliografiaDoc');
         Route::middleware(['checkRole:admin'])->group(function () {
+            Route::get('inserir-bibliografia', 'inserirBibliografia')->name('inserirBibliografia');
+            Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');
 
             Route::get('inserir-relato-quadrilatero', 'inserirRelatoQuadrilatero')->name('inserirRelatoQuadrilatero');
             Route::get('inserir-documento', 'inserirCidadeDocumento')->name('inserirCidadeDocumento');
             Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
 
+            Route::post('inserir-bibliografia-post', 'inserirBibliografiaPost')->name('inserirBibliografiaPost');
             Route::post('inserir-relato-quadrilatero-post', 'inserirRelatoQuadrilateroPost')->name('inserirRelatoQuadrilateroPost');
             Route::post('inserir-documento-post', 'inserirCidadeDocumentoPost')->name('inserirCidadeDocumentoPost');
             Route::post('inserir-cidade-post', 'inserirCidadePost')->name('inserirCidadePost');

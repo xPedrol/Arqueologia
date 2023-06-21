@@ -34,6 +34,10 @@ class navbar extends Component
                     'title' => 'Relatos Viajantes',
                     'url' => 'relatosQuadrilatero'
                 ],
+                [
+                    'title' => 'Bibliografia',
+                    'url' => 'bibliografias'
+                ],
             ]
         ],
         [

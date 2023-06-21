@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PaginationHelper;
 use App\Jobs\SendEmailJob;
+use App\Models\Bibliografia;
+use App\Models\BibliografiaArchive;
 use App\Models\DocumentArchive;
 use App\Models\RelatoArchive;
 use App\Models\User;
@@ -329,7 +331,6 @@ class Home extends Controller
     }
 
 
-
     public function contact()
     {
         return view('contact');
@@ -404,7 +405,7 @@ class Home extends Controller
             ->groupBy('relatosquadrilatero.id', 'relatosquadrilatero.author', 'relatosquadrilatero.registration',
                 'relatosquadrilatero.title', 'relatosquadrilatero.filePath', 'relatosquadrilatero.createdAt', 'relatosquadrilatero.updatedAt', 'relatosquadrilatero.legend');
         if (isset($query['sort'])) {
-            $relatos = $relatos->orderBy('relatosquadrilatero.'.$query['sort'], $query['order']);
+            $relatos = $relatos->orderBy('relatosquadrilatero.' . $query['sort'], $query['order']);
         } else {
             $relatos = $relatos->orderBy('relatosquadrilatero.author');
         }
@@ -569,7 +570,7 @@ class Home extends Controller
             $id = $request->route('id');
             $documento = RelatoArchive::find($id);
             $path = $documento->path;
-            $fullPath = Storage::disk('externo')->path(Config::get('app.app_files_path').$path);
+            $fullPath = Storage::disk('externo')->path(Config::get('app.app_files_path') . $path);
             // Header content type
             header('Content-type: application/pdf');
 
@@ -581,7 +582,30 @@ class Home extends Controller
             ini_set('memory_limit', '-1');
             // Read the file
             @readfile($fullPath);
-        }catch (Exception $e) {
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Arquivo não encontrado');
+        }
+    }
+
+    public function viewRelatoBibliografiaDoc(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $documento = BibliografiaArchive::find($id);
+            $path = $documento->path;
+            $fullPath = Storage::disk('externo')->path(Config::get('app.app_files_path') . $path);
+            // Header content type
+            header('Content-type: application/pdf');
+
+            header('Content-Disposition: inline; filename="' . $fullPath . '"');
+
+            header('Content-Transfer-Encoding: binary');
+
+            header('Accept-Ranges: bytes');
+            ini_set('memory_limit', '-1');
+            // Read the file
+            @readfile($fullPath);
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'Arquivo não encontrado');
         }
     }
@@ -590,5 +614,164 @@ class Home extends Controller
     public function about()
     {
         return view('about');
+    }
+
+    public function bibliografias(Request $request)
+    {
+        $query = $request->query();
+        $bibliografia = Bibliografia::select('bibliografia.*', DB::raw('COUNT(bibliografiadocs.id) AS docs'))
+            ->leftJoin('bibliografiadocs', 'bibliografia.id', '=', 'bibliografiadocs.bibliografiaId')
+            ->groupBy('bibliografia.id', 'bibliografia.author', 'bibliografia.summary',
+                'bibliografia.theme', 'bibliografia.type', 'bibliografia.createdAt', 'bibliografia.updatedAt', 'bibliografia.legend');
+        if (isset($query['sort'])) {
+            $bibliografia = $bibliografia->orderBy('bibliografia.' . $query['sort'], $query['order']);
+        } else {
+            $bibliografia = $bibliografia->orderBy('bibliografia.author');
+        }
+        $count = DB::table('bibliografia')->count();
+        $maxPage = ceil($count / 15);
+        PaginationHelper::instance()->handlePagination($request, $maxPage);
+        $bibliografia = $bibliografia->paginate(100);
+        $query = $request->query();
+        $columns = [
+            [
+                'name' => 'Autor',
+                'key' => 'author'
+            ],
+            [
+                'name' => 'Tema',
+                'key' => 'theme'
+            ],
+            [
+                'name' => 'Tipo',
+                'key' => 'type'
+            ],
+            [
+                'name' => 'Sumário',
+                'key' => 'summary'
+            ],
+            [
+                'name' => 'PDF',
+                'key' => 'filePath'
+            ],
+            [
+                'name' => 'Dt. Cadastro',
+                'key' => 'createdAt'
+            ],
+            [
+                'name' => '',
+                'key' => 'actions'
+            ]
+        ];
+        return view('bibliografias', ['bibliografias' => $bibliografia, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
+            'count' => $count]);
+    }
+
+    public function detalhesBibliografia(Request $request)
+    {
+        $id = $request['id'];
+        $bibliografia = Bibliografia::where('id', $id)->first();
+        $files = BibliografiaArchive::where('bibliografiaId', $id)->get();
+        return view('detalhesBibliografia', ['bibliografia' => $bibliografia, 'files' => $files]);
+    }
+
+    public function inserirBibliografia(Request $request)
+    {
+
+        $bibliografia = null;
+        $files = null;
+        $query = $request->query();
+        if (isset($query['id'])) {
+            $id = $query['id'];
+            $bibliografia = DB::table('bibliografia')->where('id', $id)->first();
+            $files = BibliografiaArchive::where('bibliografiaId', $id)->get();
+        }
+        return view('inserirBibliografia', ['bibliografia' => $bibliografia, 'files' => $files]);
+    }
+
+    public function inserirBibliografiaPost(Request $request)
+    {
+        $request->validate([
+            'author' => 'required',
+            'summary' => 'required',
+            'theme' => 'required',
+            'type' => 'required',
+        ]);
+        try {
+            if (!is_dir(Config::get('app.app_files_path'))) {
+                mkdir(Config::get('app.app_files_path'), 0777, true);
+            }
+            $data = $request->all();
+            if (!isset($data['id'])) {
+                $res = DB::table('bibliografia')->insert([
+                    'author' => $data['author'],
+                    'summary' => $data['summary'],
+                    'theme' => $data['theme'],
+                    'type' => $data['type'],
+                    'legend' => $data['legend'],
+                    'createdAt' => now(),
+                    'updatedAt' => now()
+                ]);
+            } else {
+                $res = DB::table('bibliografia')->where('id', $data['id'])->update([
+                    'author' => $data['author'],
+                    'summary' => $data['summary'],
+                    'theme' => $data['theme'],
+                    'type' => $data['type'],
+                    'legend' => $data['legend'],
+                    'updatedAt' => now()
+                ]);
+            }
+            if ($res) {
+                if (isset($data['id'])) {
+                    $newId = $data['id'];
+                } else {
+                    $newId = DB::getPdo()->lastInsertId();
+                }
+                if ($request->hasFile('files')) {
+                    $files = $request->file('files');
+                    $fullDir = Config::get('app.app_files_path') . '\\' . $newId;
+                    if (!Storage::disk('externo')->exists($fullDir)) {
+                        $dirCreated = Storage::disk('externo')->makeDirectory($fullDir);
+                        if (!$dirCreated) {
+                            return back()->with('error', 'Erro ao criar diretório para armazenar arquivos');
+                        }
+                    }
+                    foreach ($files as $file) {
+                        $filename = "\\" . $file->getClientOriginalName();
+                        $file->storeAs($fullDir, $filename, 'externo');
+                        DB::table('bibliografiadocs')->insert([
+                            'path' => '\\' . $newId . $filename,
+                            'bibliografiaId' => $newId
+                        ]);
+                    }
+                }
+                if (isset($data['id'])) {
+                    return back()->with('success', 'Bibliografia atualizada com sucesso');
+                }
+                return redirect()->route('bibliografias')->with('success', 'Bibliografia inserida com sucesso');
+            } else {
+                if (isset($data['id'])) {
+                    return back()->with('error', 'Erro ao atualizar a bibliografia');
+                }
+                return back()->with('error', 'Erro ao inserir a bibliografia');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deletarBibliografia(Request $request)
+    {
+        try {
+            $id = $request['id'];
+            $deleted = DB::table('bibliografia')->where('id', $id)->delete();
+            if ($deleted) {
+                return redirect()->route('bibliografia')->with('success', 'Bibliografia deletada com sucesso');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+        return redirect()->back()->with('error', 'Erro ao deletar bibliografia');
     }
 }

@@ -11,11 +11,6 @@ class footer extends Component
             'title' => 'Patrimônio Arqueológico',
             'itemList' => [
                 [
-                    'title' => 'Patrimônio Arqueológico',
-                    'url' => 'home',
-                    'isInternal' => true
-                ],
-                [
                     'title' => 'CEP: 35400-000',
                     'isInternal' => false
                 ],
@@ -47,10 +42,20 @@ class footer extends Component
                     'isInternal' => true
                 ],
                 [
-                    'title' => 'Fontes',
+                    'title' => 'Cidades do Quadrilátero',
                     'url' => 'fontes',
                     'isInternal' => true
                 ],
+                [
+                    'title'=>'Relatos de Viajantes',
+                    'url'=>'relatosQuadrilatero',
+                    'isInternal' => true
+                ],
+                [
+                    'title'=>'Bibliografias',
+                    'url'=>'bibliografias',
+                    'isInternal' => true
+                ]
             ]
         ]
     ];

@@ -619,10 +619,15 @@ class Home extends Controller
     public function bibliografias(Request $request)
     {
         $query = $request->query();
+        $type = $request->query('type');
         $bibliografia = Bibliografia::select('bibliografia.*', DB::raw('COUNT(bibliografiadocs.id) AS docs'))
             ->leftJoin('bibliografiadocs', 'bibliografia.id', '=', 'bibliografiadocs.bibliografiaId')
             ->groupBy('bibliografia.id', 'bibliografia.author', 'bibliografia.summary',
                 'bibliografia.theme', 'bibliografia.type', 'bibliografia.createdAt', 'bibliografia.updatedAt', 'bibliografia.legend');
+
+        if (isset($type) && $type) {
+            $bibliografia = $bibliografia->where('bibliografia.type', $type);
+        }
         if (isset($query['sort'])) {
             $bibliografia = $bibliografia->orderBy('bibliografia.' . $query['sort'], $query['order']);
         } else {
@@ -663,8 +668,9 @@ class Home extends Controller
                 'key' => 'actions'
             ]
         ];
+
         return view('bibliografias', ['bibliografias' => $bibliografia, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'count' => $count]);
+            'count' => $count, 'type' => $type]);
     }
 
     public function detalhesBibliografia(Request $request)

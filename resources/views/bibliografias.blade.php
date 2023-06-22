@@ -8,16 +8,29 @@
                     </li>
                 </ol>
             </nav>
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
+            <div class="row justify-content-between align-items-center w-100">
+                <div class="col-6 col-lg-3 col-xl-4 order-0">
                     <h5 class="usePoppins m-0">Bibliografias</h5>
                     <small>Total: {{$count}}</small>
                 </div>
-                @if(auth()->user()->isAdmin())
-                    <a class="btn btn-sm btn-outline-primary mb-2" href="{{route('inserirBibliografia')}}">
-                        Inserir bibliografia
-                    </a>
-                @endif
+                <div class="col-lg-6 col-xl-4 order-2 order-lg-1 mt-2 mt-lg-0">
+                    <form class="d-flex" method="GET" action="{{route('bibliografias')}}">
+                        <select class="form-control form-control-sm me-2" name="type" id="type">
+                            <option value="{{null}}" @if(!$type) selected @endif>Todos</option>
+                            <option value="book" @if($type == 'book') selected @endif>Livro</option>
+                            <option value="article" @if($type == 'article') selected @endif>Artigo</option>
+                            <option value="disserts" @if($type == 'disserts') selected @endif>Tese e/ou Dissertação</option>
+                        </select>
+                        <button class="btn btn-sm btn-outline-primary" type="submit">Pesquisar</button>
+                    </form>
+                </div>
+                <div class="col-6 col-lg-3 col-xl-4 text-end order-1 order-lg-2">
+                    @if(auth()->user()->isAdmin())
+                        <a class="btn btn-sm btn-outline-primary" href="{{route('inserirBibliografia')}}">
+                            Inserir bibliografia
+                        </a>
+                    @endif
+                </div>
             </div>
             <hr/>
             @if(count($bibliografias) > 0)

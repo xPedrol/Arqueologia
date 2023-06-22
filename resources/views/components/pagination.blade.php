@@ -15,7 +15,7 @@
             </li>
         @endif
         <li class="page-item">
-            <a class="page-link" href="{{route($route, array_merge($params,['page'=>$maxPage]))}}">Fim</a>
+            <a class="page-link" href="{{route($route, array_merge($params,$query,['page'=>$maxPage]))}}">Fim</a>
         </li>
     </ul>
 </nav>

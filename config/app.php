@@ -21,6 +21,9 @@ return [
     'app_files_path' => env('APP_FILES_PATH', '/public/Docs'),
     'mail_host' => env('MAIL_USERNAME', 'lampeh@ufv.br'),
     'mail_password' => env('MAIL_PASSWORD'),
+    'relatosdocs_sheet'=> env('RELATOSDOCS_SHEET', '01'),
+    'relatosdocs_book'=> env('RELATOSDOCS_BOOK', '02'),
+    'bibliografiadocs_file'=> env('BIBLIOGRAFIADOCS_FILE', '03'),
 
     /*
     |--------------------------------------------------------------------------

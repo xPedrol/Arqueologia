@@ -29,16 +29,13 @@
                             <td class="text-center">{{ $relato->title }}</td>
                             <td class="text-center">{{ $relato->author }}</td>
                             <td class="text-center">{{ $relato->registration }}</td>
-                            <td class="text-center">{{$relato->docs}}</td>
-                            <td class="text-center">
-                                {{\Carbon\Carbon::parse($relato->createdAt)->format('d/m/Y H:i')}} -
-                            {{\Carbon\Carbon::parse($relato->createdAt)->diffForHumans()}}</td>
+                            <td class="text-center">{{$relato->getFormatedCreatedAt()}}</td>
                             <td>
                                 <div class="d-flex justify-content-end gap-2">
                                     <a href="{{route('detalhesRelatosQuadrilatero', ['id'=>$relato->id])}}"
                                        class="btn btn-sm btn-outline-primary">
                                         Visualizar</a>
-                                    @if(auth()->user()->role == 'admin')
+                                    @if(auth()->user()->isAdmin())
                                         <a href="{{route('inserirRelatoQuadrilatero', ['id'=>$relato->id])}}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i></a>

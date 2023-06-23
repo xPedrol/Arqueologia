@@ -91,4 +91,14 @@ class RelatoArchive extends Model
         else
             return "Arquivo sem nome";
     }
+
+    public function getFormatedtype()
+    {
+        if ($this->type == 'book') {
+            return 'Livro';
+        } else if ($this->type == 'sheet') {
+            return 'Ficha';
+        }
+        return 'Não definido';
+    }
 }

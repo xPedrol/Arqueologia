@@ -41,16 +41,20 @@
             @if(isset($relato) && $relato != null)
                 <hr/>
                 <div class="col-12 mb-2">
-                    <label class="">Fichamentos cadastrados</label>
+                    <label class="">Fichamentos/Livros cadastrados</label>
                     <div class="row">
                         @if(count($files) > 0)
                             @foreach($files as $file)
                                 <div class="col-12 col-md-3 mb-4">
                                     <div class="card">
                                         <div class="card-body">
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill
+                                                @if($file->type=='book')text-bg-primary @else text-bg-info text-light @endif">{{$file->getFormatedtype()}}<span
+                                                    class="visually-hidden">{{$file->getFormatedtype()}}</span></span>
                                             <div class="d-flex justify-content-between align-items-center gap-2">
                                                 <div class="overflow-hidden">
-                                                    <a target="_blank">{{$file->getArchiveName()}}</a>
+                                                    <span class="texto-com-quebra-2">{{$file->getArchiveName()}}</span>
                                                 </div>
                                                 <div>
                                                     <a href="{{route('viewRelatoDoc',['id' => $file->id])}}"

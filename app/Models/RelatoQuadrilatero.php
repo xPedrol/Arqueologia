@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bibliografia extends Model
+class RelatoQuadrilatero extends Model
 {
     public $primaryKey = 'id';
 
     protected $fillable = [
         'id',
         'author',
-        'theme',
-        'summary',
-        'type',
+        'registration',
+        'title',
+        'legend',
         'createdAt',
         'updatedAt'
     ];
 
-    protected $table = 'bibliografia';
+    protected $table = 'relatosquadrilatero';
     protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;
@@ -33,18 +33,5 @@ class Bibliografia extends Model
     public function getFormatedUpdatedAt()
     {
         return \Carbon\Carbon::parse($this->updatedAt)->format('d/m/Y H:i') . ' - ' . \Carbon\Carbon::parse($this->updatedAt)->diffForHumans();
-    }
-
-    public function getFormatedtype()
-    {
-        if ($this->type == 'book') {
-            return 'Livro';
-        } else if ($this->type == 'article') {
-            return 'Artigo';
-        } else if ($this->type == 'disserts') {
-            return 'Tese';
-
-        }
-        return 'Outro';
     }
 }

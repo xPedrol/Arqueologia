@@ -67,7 +67,7 @@
                         </div>
                         @enderror
                     </div>
-                    <div class="col-12 col-lg-6 mb-3">
+                    <div class="col-12 mb-3">
                         <label class="">Referência Bibliográfica</label>
                         <input name="registration" id="registration" type="text" autocomplete="registration"
                                value="{{old('registration',$relato->registration??null)}}"
@@ -84,13 +84,27 @@
 
                     <div class="col-12 col-lg-6 mb-3">
                         <label class="">Fichamento</label>
-                        <input name="files[]" autocomplete="current-arquivos" type="file" accept="application/pdf"
+                        <input name="sheets[]" autocomplete="current-arquivos" type="file" accept="application/pdf"
                                multiple
-                               id="files"
-                               class="form-control @error('files') is-invalid @enderror"
+                               id="sheets"
+                               class="form-control @error('sheets') is-invalid @enderror"
                                aria-label="Username"
                                aria-describedby="basic-addon1">
-                        @error('files')
+                        @error('sheets')
+                        <div class="invalid-feedback">
+                            Campo inválido
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="col-12 col-lg-6 mb-3">
+                        <label class="">Livro Completo em PDF</label>
+                        <input name="book" autocomplete="current-arquivos" type="file" accept="application/pdf"
+                               id="book"
+                               class="form-control @error('book') is-invalid @enderror"
+                               aria-label="book"
+                               aria-describedby="basic-addon1">
+                        @error('book')
                         <div class="invalid-feedback">
                             Campo inválido
                         </div>
@@ -125,9 +139,14 @@
                                 <div class="col-12 col-md-3 mb-4">
                                     <div class="card">
                                         <div class="card-body">
+                                            <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill
+                                                @if($file->type=='book')text-bg-primary @else text-bg-info text-light @endif">{{$file->getFormatedtype()}}<span
+                                                    class="visually-hidden">{{$file->getFormatedtype()}}</span></span>
                                             <div class="d-flex justify-content-between align-items-center gap-2">
                                                 <div class="overflow-hidden">
-                                                    <a target="_blank">{{$file->getArchiveName()}}</a>
+                                                    <a href="{{route('viewRelatoDoc',['id' => $file->id])}}"
+                                                       target="_blank" class="texto-com-quebra-2">{{$file->getArchiveName()}}</a>
                                                 </div>
                                                 <div>
                                                     <a href="{{route('deletarRelatoQuadrilateroPost',['id'=>$file->id])}}"

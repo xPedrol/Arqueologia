@@ -8,6 +8,7 @@ use App\Models\Bibliografia;
 use App\Models\BibliografiaArchive;
 use App\Models\DocumentArchive;
 use App\Models\RelatoArchive;
+use App\Models\RelatoQuadrilatero;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -400,16 +401,13 @@ class Home extends Controller
 //        print_r(DB::table('relatosquadrilatero')->select('relatosquadrilatero.*', DB::raw('COUNT(relatosdocs.id) AS docs'))
 //            ->leftJoin('relatosdocs', 'relatosquadrilatero.id', '=', 'relatosdocs.relatosQId')->groupBy('relatosquadrilatero.id')->toSql());
 //        return;
-        $relatos = DB::table('relatosquadrilatero')->select('relatosquadrilatero.*', DB::raw('COUNT(relatosdocs.id) AS docs'))
-            ->leftJoin('relatosdocs', 'relatosquadrilatero.id', '=', 'relatosdocs.relatosQId')
-            ->groupBy('relatosquadrilatero.id', 'relatosquadrilatero.author', 'relatosquadrilatero.registration',
-                'relatosquadrilatero.title', 'relatosquadrilatero.filePath', 'relatosquadrilatero.createdAt', 'relatosquadrilatero.updatedAt', 'relatosquadrilatero.legend');
+        $relatos = RelatoQuadrilatero::query();
         if (isset($query['sort'])) {
-            $relatos = $relatos->orderBy('relatosquadrilatero.' . $query['sort'], $query['order']);
+            $relatos = $relatos->orderBy($query['sort'], $query['order']);
         } else {
-            $relatos = $relatos->orderBy('relatosquadrilatero.author');
+            $relatos = $relatos->orderBy('author');
         }
-        $count = DB::table('relatosquadrilatero')->count();
+        $count = RelatoQuadrilatero::count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
         $relatos = $relatos->paginate(100);
@@ -426,10 +424,6 @@ class Home extends Controller
             [
                 'name' => 'Fichamento',
                 'key' => 'registration'
-            ],
-            [
-                'name' => 'PDF',
-                'key' => 'filePath'
             ],
             [
                 'name' => 'Dt. Cadastro',
@@ -495,23 +489,28 @@ class Home extends Controller
                 } else {
                     $newId = DB::getPdo()->lastInsertId();
                 }
-                if ($request->hasFile('files')) {
-                    $files = $request->file('files');
-                    $fullDir = Config::get('app.app_files_path') . '\\' . $newId;
-                    if (!Storage::disk('externo')->exists($fullDir)) {
-                        $dirCreated = Storage::disk('externo')->makeDirectory($fullDir);
-                        if (!$dirCreated) {
-                            return back()->with('error', 'Erro ao criar diretório para armazenar arquivos');
-                        }
-                    }
+                $fullDir = Config::get('app.app_files_path');
+                if ($request->hasFile('sheets')) {
+                    $files = $request->file('sheets');
                     foreach ($files as $file) {
-                        $filename = "\\" . $file->getClientOriginalName();
+                        $filename = "\\" . Config::get('app.relatosdocs_sheet') . "." . $newId . "." . $file->getClientOriginalName();
                         $file->storeAs($fullDir, $filename, 'externo');
                         DB::table('relatosdocs')->insert([
-                            'path' => '\\' . $newId . $filename,
-                            'relatosQId' => $newId
+                            'path' => $filename,
+                            'relatosQId' => $newId,
+                            'type' => 'sheet'
                         ]);
                     }
+                }
+                if ($request->hasFile('book')) {
+                    $file = $request->file('book');
+                    $filename = "\\" . Config::get('app.relatosdocs_book') . "." . $newId . "." . $file->getClientOriginalName();
+                    $file->storeAs($fullDir, $filename, 'externo');
+                    DB::table('relatosdocs')->insert([
+                        'path' => $filename,
+                        'relatosQId' => $newId,
+                        'type' => 'book'
+                    ]);
                 }
                 if (isset($data['id'])) {
                     return back()->with('success', 'Relato atualizado com sucesso');
@@ -540,10 +539,10 @@ class Home extends Controller
     {
         try {
             $archive = DB::table('relatosdocs')->where('id', $request->id)->first();
-            $relatoId = $archive->relatosQId;
             if (!$archive) {
                 return redirect()->back()->with('error', 'Arquivo não encontrado');
             }
+            $relatoId = $archive->relatosQId;
             $path = Config::get('app.app_files_path') . $archive->path;
             //remove file form disk
             if (Storage::disk('externo')->exists($path)) {
@@ -736,18 +735,12 @@ class Home extends Controller
                 }
                 if ($request->hasFile('files')) {
                     $files = $request->file('files');
-                    $fullDir = Config::get('app.app_files_path') . '\\' . $newId;
-                    if (!Storage::disk('externo')->exists($fullDir)) {
-                        $dirCreated = Storage::disk('externo')->makeDirectory($fullDir);
-                        if (!$dirCreated) {
-                            return back()->with('error', 'Erro ao criar diretório para armazenar arquivos');
-                        }
-                    }
+                    $fullDir = Config::get('app.app_files_path');
                     foreach ($files as $file) {
-                        $filename = "\\" . $file->getClientOriginalName();
+                        $filename = "\\" . Config::get('app.bibliografiadocs_file') . "." . $newId . "." . $file->getClientOriginalName();
                         $file->storeAs($fullDir, $filename, 'externo');
                         DB::table('bibliografiadocs')->insert([
-                            'path' => '\\' . $newId . $filename,
+                            'path' => $filename,
                             'bibliografiaId' => $newId
                         ]);
                     }

@@ -333,9 +333,9 @@ class Admin extends Controller
     public function deleteUser(Request $request)
     {
         try {
-            $email = $request->input('email');
-            if ($email) {
-                $user = User::where('email', $email)->first();
+            $id = $request->query('id');
+            if ($id) {
+                $user = User::where('id', $id)->first();
                 $res = $user->delete();
                 if ($res) {
                     return back()->with('success', 'Usuário excluído com sucesso!');

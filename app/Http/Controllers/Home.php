@@ -398,10 +398,16 @@ class Home extends Controller
     public function relatosQuadrilatero(Request $request)
     {
         $query = $request->query();
-//        print_r(DB::table('relatosquadrilatero')->select('relatosquadrilatero.*', DB::raw('COUNT(relatosdocs.id) AS docs'))
-//            ->leftJoin('relatosdocs', 'relatosquadrilatero.id', '=', 'relatosdocs.relatosQId')->groupBy('relatosquadrilatero.id')->toSql());
-//        return;
         $relatos = RelatoQuadrilatero::query();
+        $search = '';
+        if (isset($query['search'])) {
+            $search = $query['search'];
+            $relatos = $relatos->where('title', 'like', '%' . $query['search'] . '%')
+                ->orWhere('author', 'like', '%' . $query['search'] . '%')
+                ->orWhere('registration', 'like', '%' . $query['search'] . '%')
+                ->orWhere('createdAt', 'like', '%' . $query['search'] . '%')
+                ->orWhere('updatedAt', 'like', '%' . $query['search'] . '%');
+        }
         if (isset($query['sort'])) {
             $relatos = $relatos->orderBy($query['sort'], $query['order']);
         } else {
@@ -410,7 +416,7 @@ class Home extends Controller
         $count = RelatoQuadrilatero::count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
-        $relatos = $relatos->paginate(100);
+        $relatos = $relatos->paginate(15);
         $query = $request->query();
         $columns = [
             [
@@ -435,7 +441,7 @@ class Home extends Controller
             ]
         ];
         return view('relatosQuadrilatero', ['relatos' => $relatos, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'count' => $count]);
+            'count' => $count, 'search' => $search]);
     }
 
     public function inserirRelatoQuadrilatero(Request $request)

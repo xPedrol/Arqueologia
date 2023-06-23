@@ -78,9 +78,9 @@ class AuthPages extends Controller
                 $base_url = Config::get('app.env') === 'local' ? Config::get('app.app_url') . ":" . Config::get('app.app_port') : Config::get('app.app_url');
                 $encodedEmail = urlencode($user->email);
                 $tokenEncoded = urlencode($user->token);
-                $link = "$base_url/confirmEmail?email=$encodedEmail&token=$tokenEncoded";
+                $link = "$base_url/confirmar-email?email=$encodedEmail&token=$tokenEncoded";
                 $body = "Recebemos seu cadastro. Para utilizar sua conta é precisa verificar este email. Para isso, basta clicar no botão abaixo.<br/><br/>";
-                $body .= "<a href='$link' style='background-color: #212529; padding: 8px 8px; border: none; color: white; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;'>Confirmar Cadastro</a>";
+                $body .= "<a href='$link' style='background-color: #005b5a; padding: 8px 8px; border: none; color: white; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;'>Confirmar Cadastro</a>";
                 $details = [
                     'email' => $user->email,
                     'subject' => 'Confirmação de Email',

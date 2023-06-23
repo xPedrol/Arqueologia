@@ -413,7 +413,7 @@ class Home extends Controller
         } else {
             $relatos = $relatos->orderBy('author');
         }
-        $count = RelatoQuadrilatero::count();
+        $count = $relatos->count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
         $relatos = $relatos->paginate(15);

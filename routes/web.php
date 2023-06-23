@@ -72,7 +72,7 @@ Route::controller(\App\Http\Controllers\Profile::class)->group(function () {
 });
 Route::controller(\App\Http\Controllers\Admin::class)->group(function () {
     Route::middleware(['checkRole:admin'])->group(function () {
-        Route::delete('deletar-usuario', 'deleteUser')->name('deleteUser');
+        Route::get('deletar-usuario', 'deleteUser')->name('deleteUser');
         Route::get('ativar-usuario', 'toggleUserActive')->name('toggleUserActive');
         Route::get('trocar-permissao', 'toggleUserPermission')->name('toggleUserPermission');
     });

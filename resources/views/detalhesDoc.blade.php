@@ -45,9 +45,11 @@
                                 <td class="text-center">{{$row->subject}}</td>
                                 <td class="text-center">{{$row->comments}}</td>
                                 <td class="text-center">
-                                    @if(isset($row->link) && $row->link)
-                                        {{$row->link}}
-                                    @endif
+                                    <div class="table-max-width">
+                                        @if(isset($row->link) && $row->link)
+                                            {!! $row->link !!}
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-end gap-2">

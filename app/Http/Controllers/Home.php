@@ -62,6 +62,10 @@ class Home extends Controller
             [
                 'name' => 'Link',
                 'key' => 'link'
+            ],
+            [
+                'name' => '',
+                'key' => 'actions'
             ]
         ];
         return [
@@ -254,6 +258,8 @@ class Home extends Controller
                     'material' => 'Manunscrito'
                 ]);
             } else {
+//                print_r($data['id']);
+//                return;
                 $res = DB::table('dadoscidades')->where('id', $data['id'])->update([
                     'title' => $data['title'],
                     'subject' => $data['subject'],
@@ -306,6 +312,10 @@ class Home extends Controller
             [
                 'name' => 'Email',
                 'key' => 'email'
+            ],
+            [
+                'name' => 'Ultimo acesso',
+                'key' => 'lastAccess'
             ],
             [
                 'name' => 'Dt. Cadastro',

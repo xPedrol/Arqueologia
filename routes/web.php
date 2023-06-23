@@ -32,7 +32,7 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
         Route::get('visulizar-relato-documento/{id}', 'viewRelatoDoc')->name('viewRelatoDoc');
         Route::get('visulizar-relato-bibliografia/{id}', 'viewRelatoBibliografiaDoc')->name('viewRelatoBibliografiaDoc');
-        Route::middleware(['checkRole:admin'])->group(function () {
+        Route::middleware(['checkRole:admin,intern'])->group(function () {
             Route::get('inserir-bibliografia', 'inserirBibliografia')->name('inserirBibliografia');
             Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');
 

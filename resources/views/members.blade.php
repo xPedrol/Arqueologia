@@ -24,16 +24,17 @@
                         <td class="text-center">{{ $user->login }}</td>
                         <td class="text-center">{{ $user->socialName }}</td>
                         <td class="text-center">{{ $user->email }}</td>
-                        <td class="text-center">{{$user->createdAt}}</td>
-                        @if(isset($columns[4]['show']) && $columns[4]['show'])
+                        <td class="text-center">{{ $user->getFormatedLastAccess() }}</td>
+                        <td class="text-center">{{$user->getFormatedUpdatedAt()}}</td>
+                        @if(isset($columns[5]['show']) && $columns[5]['show'])
                             <td class="text-center">{{$user->status}}</td>
                         @endif
-                        @if(isset($columns[5]['show']) && $columns[5]['show'])
+                        @if(isset($columns[6]['show']) && $columns[6]['show'])
                             <td class="text-center"><span
-                                    class="badge @if($user->role == 'user') text-bg-secondary @else text-bg-info @endif text-light">{{$user->role}}</span>
+                                    class="badge @if($user->isUser()) text-bg-secondary @else text-bg-info @endif text-light">{{$user->role}}</span>
                             </td>
                         @endif
-                        @if(isset($columns[6]['show']) && $columns[6]['show'])
+                        @if(isset($columns[7]['show']) && $columns[7]['show'])
                             <td>
                                 <div class="d-flex justify-content-end gap-2">
                                     <div class="dropdown">
@@ -45,7 +46,7 @@
                                             <li class="mb-2">
                                                 <a class="dropdown-item"
                                                    href="{{ route('toggleUserActive',['id' => $user->id]) }}">
-                                                    @if ($user->status == 'active')
+                                                    @if ($user->isActive())
                                                         Desativar
                                                     @else
                                                         Ativar

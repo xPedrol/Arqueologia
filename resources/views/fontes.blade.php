@@ -12,7 +12,7 @@
                     <h5 class="usePoppins m-0">Cidades do Quadrilatero Ferrífero</h5>
                     <small>Cidades: {{count($cidadesQF)}}</small>
                 </div>
-                @if(auth()->user()->role == 'admin')
+                @if(!auth()->user()->isUser())
                     <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal"
                             data-bs-target="#inserirCidadeModal">
                         Inserir Cidade
@@ -54,7 +54,7 @@
                 </div>
             @endforeach
         </div>
-        @if(auth()->user()->role == 'admin')
+        @if(!auth()->user()->isUser())
             <!-- Modal -->
             <form method="POST" action="{{route('inserirCidadePost')}}">
                 <div class="modal fade" id="inserirCidadeModal" tabindex="-1" aria-labelledby="inserirCidadeModalLabel"

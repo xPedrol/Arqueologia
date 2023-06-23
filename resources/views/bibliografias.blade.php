@@ -25,7 +25,7 @@
                     </form>
                 </div>
                 <div class="col-6 col-lg-3 col-xl-4 text-end order-1 order-lg-2">
-                    @if(auth()->user()->isAdmin())
+                    @if(!auth()->user()->isUser())
                         <a class="btn btn-sm btn-outline-primary" href="{{route('inserirBibliografia')}}">
                             Inserir bibliografia
                         </a>
@@ -50,7 +50,7 @@
                                     <a href="{{route('detalhesBibliografia', ['id'=>$bibliografia->id])}}"
                                        class="btn btn-sm btn-outline-primary">
                                         Visualizar</a>
-                                    @if(auth()->user()->isAdmin())
+                                    @if(!auth()->user()->isUser())
                                         <a href="{{route('inserirBibliografia', ['id'=>$bibliografia->id])}}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i></a>

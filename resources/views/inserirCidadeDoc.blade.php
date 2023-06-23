@@ -18,7 +18,11 @@
                         <li class="breadcrumb-item active" aria-current="page">Inserir</li>
                     @else
                         <li class="breadcrumb-item active breadcrumb-item-overflow" aria-current="page">
-                            Editar {{$documento->title}}</li>
+                            Editar
+                            @if($type !== 'historico')
+                                {{$documento->title}} @eelse Histórico
+                            @endif
+                        </li>
                     @endif
                 </ol>
             </nav>
@@ -154,7 +158,7 @@
                         <div class="col-12 col-lg-4 mb-3">
                             <label class="">Data</label>
                             <input name="year" id="year" type="text" autocomplete="year"
-                                   value="{{old('year',$documento->author??null)}}"
+                                   value="{{old('year',$documento->year??null)}}"
                                    class="form-control @error('year') is-invalid @enderror"
                                    placeholder="Digite a data"
                                    aria-label="year"

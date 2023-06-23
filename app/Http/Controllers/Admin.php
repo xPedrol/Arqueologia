@@ -291,7 +291,7 @@ class Admin extends Controller
             $user = User::where('id', $id)->first();
             if ($user) {
                 if ($user->role == 'admin') {
-                    $user->role = 'user';
+                    $user->role = 'intern';
                 } else {
                     $user->role = 'admin';
                 }

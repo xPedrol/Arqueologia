@@ -15,7 +15,7 @@
                     <h4 class="usePoppins m-0">{{$cidade->name}}</h4>
                     <small>Documentos referente a cidade {{$cidade->name}}</small>
                 </div>
-                @if(auth()->user()->role == 'admin')
+                @if(!auth()->user()->isUser())
                     <a class="btn btn-sm btn-outline-primary"
                        href="{{route('inserirCidadeDocumento',['from'=>$route,'cidadeId'=>$cidade->id])}}">Adicionar
                         documento</a>
@@ -39,16 +39,21 @@
                              :caption="'Lista de todos os registros cadastrados. '.$count.' registro(s) encontrado(s)'">
                         @foreach($array as $row)
                             <tr>
-                                <td>{{$row->material}}</td>
-                                <td>{{$row->title}}</td>
-                                <td>{{$row->year}}</td>
-                                <td>{{$row->subject}}</td>
-                                <td>{{$row->comments}}</td>
-                                <td>
+                                <td class="text-center">{{$row->material}}</td>
+                                <td class="text-center">{{$row->title}}</td>
+                                <td class="text-center">{{$row->year}}</td>
+                                <td class="text-center">{{$row->subject}}</td>
+                                <td class="text-center">{{$row->comments}}</td>
+                                <td class="text-center">
+                                    @if(isset($row->link) && $row->link)
+                                        {{$row->link}}
+                                    @endif
+                                </td>
+                                <td class="text-center">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a href="{{$row->link}}" target="_blank"
-                                           class="btn btn-sm btn-outline-primary">Visualizar</a>
-                                        @if(auth()->user()->role == 'admin')
+                                        {{--                                        <a href="{{$row->link}}" target="_blank"--}}
+                                        {{--                                           class="btn btn-sm btn-outline-primary">Visualizar</a>--}}
+                                        @if(!auth()->user()->isUser())
                                             <a href="{{route('inserirCidadeDocumento', ['id'=>$row->id,'from'=>$route])}}"
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-edit"></i>
@@ -77,7 +82,7 @@
                                 @endif
                                 <p style="font-size: 17px">{{$row->description}}</p>
                                 <div class="d-flex flex-wrap gap-3">
-                                    @if(auth()->user()->role == 'admin')
+                                    @if(!auth()->user()->isUser())
                                         <a class="btn btn-sm btn-outline-primary"
                                            href="{{route('inserirCidadeDocumento',['id'=>$row->id,'from'=>'ibgeHistorico'])}}">Editar</a>
                                         <a class="btn btn-sm btn-outline-danger"

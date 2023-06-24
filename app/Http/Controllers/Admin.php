@@ -288,13 +288,14 @@ class Admin extends Controller
     {
         try {
             $id = $request->id;
+            $role = $request->role;
+            $roles = ['admin', 'user', 'intern'];
+            if (!in_array($role, $roles)) {
+                return back()->with('error', 'Permissão inválida!');
+            }
             $user = User::where('id', $id)->first();
             if ($user) {
-                if ($user->role == 'admin') {
-                    $user->role = 'intern';
-                } else {
-                    $user->role = 'admin';
-                }
+                $user->role = $role;
                 $res = $user->save();
                 if ($res) {
                     return back()->with('success', 'Permissão atualizada com sucesso!');

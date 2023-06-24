@@ -19,6 +19,11 @@ class navbar extends Component
         [
             'title' => 'Associados',
             'url' => 'members',
+            'auth' => false,
+        ],
+        [
+            'title' => 'Usários',
+            'url' => 'users',
             'auth' => true,
             'role' => 'admin'
 

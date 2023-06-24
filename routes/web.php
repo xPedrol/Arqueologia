@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::controller(\App\Http\Controllers\Home::class)->group(function () {
-    Route::get('/', 'home')->name('home');
     Route::middleware(['checkRole:admin'])->group(function () {
-        Route::get('membros', 'members')->name('members');
+        Route::get('usuarios', 'users')->name('users');
     });
+    Route::get('/', 'home')->name('home');
+    Route::get('membros', 'members')->name('members');
     Route::get('contato', 'contact')->name('contact');
     Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
     Route::get('sobre', 'about')->name('about');

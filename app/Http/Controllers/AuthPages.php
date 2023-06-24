@@ -66,6 +66,7 @@ class AuthPages extends Controller
             $user->link = $request['link'];
             $user->token = sha1($request['email'] . $request['password']);
             $user->status = 'disable';
+            $user->keepPublic = $request['keepPublic'] == 'on' ? true : false;
             $user->token = substr($user->token, 0, 11);
 //            print_r($user);
 //            return;

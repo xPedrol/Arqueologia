@@ -79,7 +79,7 @@ class Home extends Controller
 
     public function fontes()
     {
-        $cidadesQF = DB::table('cidades')->get();
+        $cidadesQF = DB::table('cidades')->orderBy('name')->get();
         return view('fontes', ['cidadesQF' => $cidadesQF]);
     }
 
@@ -287,7 +287,46 @@ class Home extends Controller
         }
     }
 
-    public function members(Request $request)
+    public function members(Request $request){
+        $query = $request->query();
+        if (isset($query['sort'])) {
+            $users = User::orderBy($query['sort'], $query['order']);
+        } else {
+            $users = User::orderBy('login');
+        }
+        $users = $users->where('role', '=', 'user')->where('keepPublic', '=', '1');
+        $userCount = $users->count();
+        $maxPage = ceil($userCount / 15);
+        PaginationHelper::instance()->handlePagination($request, $maxPage);
+        $users = $users->paginate(100);
+        $query = $request->query();
+        $columns = [
+            [
+                'name' => 'Nome',
+                'key' => 'socialName'
+            ],
+            [
+                'name' => 'Email',
+                'key' => 'email'
+            ],
+            [
+                'name' => 'Instituição',
+                'key' => 'institution'
+            ],
+            [
+                'name' => 'Link',
+                'key' => 'url'
+            ],
+            [
+                'name' => '',
+                'key' => 'actions',
+            ]
+        ];
+        return view('members', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
+            'userCount' => $userCount,'count' => $userCount]);
+    }
+
+    public function users(Request $request)
     {
         $query = $request->query();
         if (isset($query['sort'])) {
@@ -302,7 +341,7 @@ class Home extends Controller
         $query = $request->query();
         $columns = [
             [
-                'name' => 'Nome',
+                'name' => 'Login',
                 'key' => 'login'
             ],
             [
@@ -337,7 +376,7 @@ class Home extends Controller
                 'show' => Auth::check() && Auth::user()->isAdmin()
             ]
         ];
-        return view('members', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
+        return view('users', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
             'userCount' => $userCount]);
     }
 

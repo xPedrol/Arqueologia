@@ -107,14 +107,14 @@
                             </div>
                             @enderror
                         </div>
-{{--                        <div class="col-12 mb-3">--}}
-{{--                            <div class="form-check">--}}
-{{--                                <input class="form-check-input" type="checkbox" name="useTerms" id="useTerms">--}}
-{{--                                <label class="form-check-label cursorPointer" for="useTerms">--}}
-{{--                                    Aceitar termos de uso. <a href="{{route('useTerms')}}">Clique aqui para ler.</a>--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        <div class="col-12 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="keepPublic" id="keepPublic">
+                                <label class="form-check-label cursorPointer" for="keepPublic">
+                                   Permitir divulgação do curriculo no site
+                                </label>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-lg w-100">Registrar</button>
                         </div>

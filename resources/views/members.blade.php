@@ -17,31 +17,34 @@
                     {{Session::get('error')}}
                 </div>
             @endif
-            <x-table :query="$query" :columns="$columns" :data="$users" :route="'members'"
-                     :caption="'Lista de todos os associados cadastrados. '.$userCount.' associado(s) encontrado(s)'">
-                @foreach ($users as $user)
-                    <tr>
-                        <td class="text-center">
-                            {{ $user->socialName }}
-                        </td>
-                        <td class="text-center">{{ $user->email }}</td>
-                        <td class="text-center">{{ $user->institution }}</td>
-                        <td class="text-center">
-                            @if($user->url)
-                                {{ $user->url }}
-                            @else
-                                <span class="badge text-bg-secondary">Não informado</span>
-                            @endif
-                        </td>
-                        <td></td>
-                    </tr>
-                @endforeach
-            </x-table>
-            <div class="d-flex justify-content-between align-items-center">
-                {{$count}} registro(s) encontrado(s)
-                <x-pagination :query="$query" :maxPage="$maxPage"
-                              :route="'members'"/>
+            <div class="text-center">
+                <h6>Em construção...</h6>
             </div>
+{{--            <x-table :query="$query" :columns="$columns" :data="$users" :route="'members'"--}}
+{{--                     :caption="'Lista de todos os associados cadastrados. '.$userCount.' associado(s) encontrado(s)'">--}}
+{{--                @foreach ($users as $user)--}}
+{{--                    <tr>--}}
+{{--                        <td class="text-center">--}}
+{{--                            {{ $user->socialName }}--}}
+{{--                        </td>--}}
+{{--                        <td class="text-center">{{ $user->email }}</td>--}}
+{{--                        <td class="text-center">{{ $user->institution }}</td>--}}
+{{--                        <td class="text-center">--}}
+{{--                            @if($user->url)--}}
+{{--                                {{ $user->url }}--}}
+{{--                            @else--}}
+{{--                                <span class="badge text-bg-secondary">Não informado</span>--}}
+{{--                            @endif--}}
+{{--                        </td>--}}
+{{--                        <td></td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
+{{--            </x-table>--}}
+{{--            <div class="d-flex justify-content-between align-items-center">--}}
+{{--                {{$count}} registro(s) encontrado(s)--}}
+{{--                <x-pagination :query="$query" :maxPage="$maxPage"--}}
+{{--                              :route="'members'"/>--}}
+{{--            </div>--}}
         </div>
     </x-slot>
 </x-layout>

@@ -139,7 +139,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-dark">Salvar mudanças</button>
+                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
                     </form>
                     <div class="mt-3">
                         @if(Session::has('error'))

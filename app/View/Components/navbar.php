@@ -23,10 +23,18 @@ class navbar extends Component
         ],
         [
             'title' => 'Usários',
-            'url' => 'users',
             'auth' => true,
-            'role' => 'admin'
-
+            'role' => 'admin',
+            'navItems' => [
+                [
+                    'title' => 'Lista de Usuários',
+                    'url' => 'users'
+                ],
+                [
+                    'title' => 'Inserir Usuário',
+                    'url' => 'insertUser'
+                ]
+            ]
         ],
         [
             'title' => 'Fontes',

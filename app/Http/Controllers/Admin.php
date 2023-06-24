@@ -353,31 +353,49 @@ class Admin extends Controller
 
     public function insertUser(Request $request)
     {
-        if ($request->method() == 'GET') {
-            return view('admin.insertUser');
+        try {
+            $id = $request->query('id');
+            $user = User::where('id', $id)->first();
+            return view('inserirUsuario', ['user' => $user]);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
+    }
+
+    public function insertUserPost(Request $request)
+    {
         $registerValidated = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:usuarios',
+            'email' => 'required',
             'password' => 'required',
-            'confirmPassword' => 'required',
-            'cargo' => 'required'
+            'socialName' => 'required',
+            'login' => 'required',
         ]);
         try {
-            if ($registerValidated['password'] != $registerValidated['confirmPassword']) {
-                return back()->with('error', 'As senhas não coincidem!');
-            }
-            $user = new User();
-            $user->Nome = $request->name;
-            $user->email = $request->email;
-            $user->senha = sha1($request->password);
-            $user->cargo = $request->cargo;
-            $user->status = 'Aceito';
-            $res = $user->save();
-            if ($res) {
-                return back()->with('success', 'Usuário cadastrado com sucesso!');
+            $data = $request->only(['nome', 'login', 'birthDate', 'institution', 'socialName', 'link', 'location','email','role']);
+            $data['keepPublic'] = $request['keepPublic'] == 'on' ? true : false;
+            $data['status'] = $request['status'] == 'on' ? 'active' : 'disable';
+            $id = $request->query('id');
+            if ($id) {
+                $user = User::where('id', $id)->first();
+                if ($user) {
+                    $data['updatedAt'] = now();
+                    $res = User::where('id', $user->id)->update($data);
+                } else {
+                    return back()->with('error', 'Usuário não encontrado!');
+                }
             } else {
-                return back()->with('error', 'Erro ao cadastrar usuário!');
+                if (!isset($request['password']) || !$request['password']) {
+                    return back()->with('error', 'Senha não pode ser vazia!');
+                }
+                $data['password'] = sha1($request['password']);
+                $data['createdAt'] = now();
+                $data['updatedAt'] = now();
+                $res = User::create($data);
+            }
+            if ($res) {
+                return back()->with('success', 'Usuário criado/atualizado com sucesso!');
+            } else {
+                return back()->with('error', 'Dados inválidos');
             }
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

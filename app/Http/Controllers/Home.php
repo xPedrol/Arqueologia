@@ -287,7 +287,8 @@ class Home extends Controller
         }
     }
 
-    public function members(Request $request){
+    public function members(Request $request)
+    {
         $query = $request->query();
         if (isset($query['sort'])) {
             $users = User::orderBy($query['sort'], $query['order']);
@@ -323,7 +324,7 @@ class Home extends Controller
             ]
         ];
         return view('members', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'userCount' => $userCount,'count' => $userCount]);
+            'userCount' => $userCount, 'count' => $userCount]);
     }
 
     public function users(Request $request)
@@ -333,6 +334,17 @@ class Home extends Controller
             $users = User::orderBy($query['sort'], $query['order']);
         } else {
             $users = User::orderBy('login');
+        }
+        $search = null;
+        if (isset($query['search'])) {
+            $users = $users->where('login', 'like', '%' . $query['search'] . '%')
+                ->orWhere('socialName', 'like', '%' . $query['search'] . '%')
+                ->orWhere('email', 'like', '%' . $query['search'] . '%')
+                ->orWhere('institution', 'like', '%' . $query['search'] . '%')
+                ->orWhere('url', 'like', '%' . $query['search'] . '%')
+                ->orWhere('role', 'like', '%' . $query['search'] . '%')
+                ->orWhere('status', 'like', '%' . $query['search'] . '%');
+            $search = $query['search'];
         }
         $userCount = $users->count();
         $maxPage = ceil($userCount / 15);
@@ -377,7 +389,7 @@ class Home extends Controller
             ]
         ];
         return view('users', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'userCount' => $userCount]);
+            'count' => $userCount, 'search' => $search]);
     }
 
 

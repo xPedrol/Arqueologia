@@ -24,9 +24,9 @@
                         <td class="text-center">
                             {{ $user->socialName }}
                         </td>
-                        <td class="text-center">{{ $user->email }}</td>
-                        <td class="text-center">{{ $user->institution }}</td>
-                        <td class="text-center">{{ $user->aboutMe }}</td>
+                        <td class="text-center">{{ $user->email??'<span class="badge text-bg-secondary">Não informado</span>' }}</td>
+                        <td class="text-center">{{ $user->institution??'<span class="badge text-bg-secondary">Não informado</span>' }}</td>
+                        <td class="text-center">{{ $user->aboutMe??'<span class="badge text-bg-secondary">Não informado</span>' }}</td>
                         <td class="text-center">
                             @if($user->url)
                                 <a href="{{ $user->url }}" target="_blank" class="btn btn-sm btn-primary">Link</a>

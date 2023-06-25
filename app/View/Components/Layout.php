@@ -7,17 +7,19 @@ use Illuminate\View\Component;
 class Layout extends Component
 {
     public $title;
-    public $hasAside;
+    public $description;
+
+
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($title = 'Home', $hasAside = false)
+    public function __construct($title = 'Home', $description='Patrimônio Arqueológico')
     {
         $this->title = $title;
-        $this->hasAside = $hasAside;
+        $this->description = $description;
     }
 
     /**
@@ -27,6 +29,6 @@ class Layout extends Component
      */
     public function render()
     {
-        return view('components.layout',['title' => $this->title, 'aside' => $this->hasAside]);
+        return view('components.layout',['title' => $this->title, 'description' => $this->description]);
     }
 }

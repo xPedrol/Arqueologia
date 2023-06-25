@@ -1,4 +1,6 @@
-<x-layout :title="'Home'">
+<x-layout title="Quem somos" description="Patrimônio Arqueológico é um site criado e mantido por pesquisadores dedicados aos estudos e
+                    pesquisas desta área de conhecimento. É fruto do convênio estabelecido entre a Universidade Federal
+                    de Viçosa e a empresa Vale S. A.">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -8,10 +10,11 @@
                 </ol>
             </nav>
             <div style="font-size: 17px">
-                <p>Arqueologia e Patrimônio é um site criado e mantido por pesquisadores dedicados aos estudos e
+                <p>Patrimônio Arqueológico é um site criado e mantido por pesquisadores dedicados aos estudos e
                     pesquisas desta área de conhecimento. É fruto do convênio estabelecido entre a Universidade Federal
                     de Viçosa e a empresa Vale S. A., que tem como um de seus resultados a criação do <a
-                        href="https://posarqueologia.ufv.br/" target="_blank">Curso de Especialização em Preservação e Difusão de
+                        href="https://posarqueologia.ufv.br/" target="_blank">Curso de Especialização em Preservação e
+                        Difusão de
                         Estruturas e Sítios Arqueológicos a Céu Aberto</a>, em 2022.</p>
 
 

@@ -1,4 +1,5 @@
-<x-layout :title="'Nova senha'">
+<x-layout title="Nova senha"
+          description="Crie uma nova senha para acessar o site">
     <x-slot name="content">
         <div class="d-flex justify-content-center align-items-center flex-column authDiv px-1 px-md-0">
             <h1 class="usePoppins loginTitle">Nova Senha</h1>
@@ -11,8 +12,9 @@
                             <label class="" for="token">Email</label>
                             <input name="token" id="token" type="text" autocomplete="token" class="d-none" readonly
                                    value="{{$token}}"/>
-                            <input name="email" id="email" type="email" autocomplete="email" value="{{$email}}"readonly
-                                   class="form-control @error('email') is-invalid @enderror" placeholder="Digite seu email"
+                            <input name="email" id="email" type="email" autocomplete="email" value="{{$email}}" readonly
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   placeholder="Digite seu email"
                                    aria-label="Username"
                                    aria-describedby="basic-addon1">
                             @error('email')
@@ -23,7 +25,8 @@
                         </div>
                         <div class="col-12 mb-3">
                             <label class="">Senha nova</label>
-                            <input name="newPassword" autocomplete="current-newPassword" type="password" id="newPassword"
+                            <input name="newPassword" autocomplete="current-newPassword" type="password"
+                                   id="newPassword"
                                    class="form-control @error('newPassword') is-invalid @enderror"
                                    placeholder="Digite sua nova senha"
                                    aria-label="Username"

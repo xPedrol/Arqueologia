@@ -1,4 +1,5 @@
-<x-layout :title="'Registro'">
+<x-layout title="Registrar"
+          description="Se cadastre para se tornar um associado e ter acesso aos documentos do site patrimônio arqueológico">
     <x-slot name="content">
         <div class="d-flex justify-content-center align-items-center flex-column authDiv px-1 px-md-0">
             <h1 class="usePoppins loginTitle">Registrar</h1>
@@ -10,7 +11,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Apelido</label>
                             <input name="login" id="login" type="text" autocomplete="login"
-                                   class="form-control @error('login') is-invalid @enderror" placeholder="Digite seu nome"
+                                   class="form-control @error('login') is-invalid @enderror"
+                                   placeholder="Digite seu nome"
                                    aria-label="Username"
                                    aria-describedby="basic-addon1">
                             @error('login')
@@ -22,7 +24,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Nome Social</label>
                             <input name="socialName" id="socialName" type="text" autocomplete="socialName"
-                                   class="form-control @error('socialName') is-invalid @enderror" placeholder="Digite seu nome social (se tiver)"
+                                   class="form-control @error('socialName') is-invalid @enderror"
+                                   placeholder="Digite seu nome social (se tiver)"
                                    aria-label="socialName"
                                    aria-describedby="basic-addon1">
                             @error('socialName')
@@ -34,7 +37,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Data de Nascimento</label>
                             <input name="bithDate" id="bithDate" type="date" autocomplete="bithDate"
-                                   class="form-control @error('bithDate') is-invalid @enderror" placeholder="Digite a data de nascimento (dd/mm/aaaa)"
+                                   class="form-control @error('bithDate') is-invalid @enderror"
+                                   placeholder="Digite a data de nascimento (dd/mm/aaaa)"
                                    aria-label="bithDate"
                                    aria-describedby="basic-addon1">
                             @error('bithDate')
@@ -46,7 +50,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Cidade/Estado/Paísl</label>
                             <input name="location" id="location" type="text" autocomplete="location"
-                                   class="form-control @error('location') is-invalid @enderror" placeholder="Digite seu endereço"
+                                   class="form-control @error('location') is-invalid @enderror"
+                                   placeholder="Digite seu endereço"
                                    aria-label="location"
                                    aria-describedby="basic-addon1">
                             @error('location')
@@ -58,7 +63,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Email</label>
                             <input name="email" id="email" type="email" autocomplete="email"
-                                   class="form-control @error('email') is-invalid @enderror" placeholder="Digite seu email"
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   placeholder="Digite seu email"
                                    aria-label="email"
                                    aria-describedby="basic-addon1">
                             @error('email')
@@ -71,7 +77,8 @@
                             <label class="">Link para currículo (preferencialmente Lattes)
                             </label>
                             <input name="link" id="link" type="text" autocomplete="link"
-                                   class="form-control @error('link') is-invalid @enderror" placeholder="Digite um link de currículo"
+                                   class="form-control @error('link') is-invalid @enderror"
+                                   placeholder="Digite um link de currículo"
                                    aria-label="link"
                                    aria-describedby="basic-addon1">
                             @error('link')
@@ -111,7 +118,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="keepPublic" id="keepPublic">
                                 <label class="form-check-label cursorPointer" for="keepPublic">
-                                   Permitir divulgação do curriculo no site
+                                    Permitir divulgação do curriculo no site
                                 </label>
                             </div>
                         </div>

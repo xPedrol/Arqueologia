@@ -1,4 +1,4 @@
-<x-layout :title="'Home'">
+<x-layout title="home">
     <x-slot name="content">
         <div class="container">
             <div class="row">

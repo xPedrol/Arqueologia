@@ -1,4 +1,4 @@
-<x-layout :title="'Minha conta'">
+<x-layout title="Minha conta">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">

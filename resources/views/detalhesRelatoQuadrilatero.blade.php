@@ -1,4 +1,4 @@
-<x-layout :title="'Home'">
+<x-layout title="Detalhees de relato de viajante">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">

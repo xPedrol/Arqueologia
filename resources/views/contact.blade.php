@@ -1,4 +1,6 @@
-<x-layout :title="'Fale conosco'">
+<x-layout title="Fale conosco"
+          description="Entre em contato conosco através da nossa página 'Fale Conosco'.
+          Tire suas dúvidas, envie feedbacks e estabeleça uma comunicação direta conosco. Estamos prontos para ouvir você e atender às suas necessidades">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -14,9 +16,11 @@
                         @csrf
                         <div class="mb-3">
                             <label for="assunto" class="form-label">Assunto</label>
-                            <input type="text" class="form-control @error('assunto') is-invalid @enderror" name="assunto" id="assunto" aria-describedby="assunto"
+                            <input type="text" class="form-control @error('assunto') is-invalid @enderror"
+                                   name="assunto" id="assunto" aria-describedby="assunto"
                                    placeholder="Digite o assunto">
-                            <div id="emailHelp" class="form-text">Digite o assunto a ser tratado em poucas palavras</div>
+                            <div id="emailHelp" class="form-text">Digite o assunto a ser tratado em poucas palavras
+                            </div>
                             @error('assunto')
                             <div class="invalid-feedback">
                                 Campo inválido
@@ -25,7 +29,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" id="nome" aria-describedby="nome"
+                            <input type="text" class="form-control @error('nome') is-invalid @enderror" name="nome"
+                                   id="nome" aria-describedby="nome"
                                    placeholder="Digite seu nome">
                             @error('nome')
                             <div class="invalid-feedback">
@@ -35,7 +40,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" aria-describedby="emailHelp"
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                                   id="email" aria-describedby="emailHelp"
                                    placeholder="Digite seu email">
                             @error('email')
                             <div class="invalid-feedback">
@@ -45,7 +51,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="texto" class="form-label">Descrição detalhada</label>
-                            <textarea type="password" class="form-control @error('texto') is-invalid @enderror" name="texto" id="texto" rows="5" placeholder="Digite uma descrição"></textarea>
+                            <textarea type="password" class="form-control @error('texto') is-invalid @enderror"
+                                      name="texto" id="texto" rows="5" placeholder="Digite uma descrição"></textarea>
                             @error('texto')
                             <div class="invalid-feedback">
                                 Campo inválido

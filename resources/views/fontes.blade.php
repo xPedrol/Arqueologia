@@ -1,4 +1,4 @@
-<x-layout :title="'Home'">
+<x-layout title="Cidades do Quadrilátero Ferrífero">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">

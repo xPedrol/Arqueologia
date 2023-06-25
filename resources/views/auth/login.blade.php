@@ -1,4 +1,5 @@
-<x-layout :title="'Login'">
+<x-layout title="Entrar"
+          description="Se autentifique para ter acesso aos documentos do site patrimônio arqueológico">
     <x-slot name="content">
         <div class="d-flex justify-content-center align-items-center flex-column authDiv px-1 px-md-0">
             <h1 class="usePoppins loginTitle">Entrar</h1>
@@ -10,7 +11,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Email</label>
                             <input name="email" id="email" type="email" autocomplete="email"
-                                   class="form-control @error('email') is-invalid @enderror" placeholder="Digite seu email"
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   placeholder="Digite seu email"
                                    aria-label="Username"
                                    aria-describedby="basic-addon1">
                             @error('email')
@@ -33,7 +35,8 @@
                             @enderror
                         </div>
                         <div class="col-12 mb-3">
-                            <p class="">Esqueceu sua senha? <a href="{{route('forgotPassword')}}" class="text-decoration-none text-primary">Clique
+                            <p class="">Esqueceu sua senha? <a href="{{route('forgotPassword')}}"
+                                                               class="text-decoration-none text-primary">Clique
                                     Aqui</a>
                             </p>
                         </div>

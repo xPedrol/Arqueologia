@@ -1,4 +1,5 @@
-<x-layout :title="'Home'">
+<x-layout title="Relatos de Viajantes que percorreram o
+                        Quadrilátero Ferrífero">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -16,7 +17,8 @@
                 </div>
                 <div class="col-lg-6 col-xl-4 order-2 order-lg-1 mt-2 mt-lg-0">
                     <form class="d-flex" method="GET" action="{{route('relatosQuadrilatero')}}">
-                        <input placeholder="Buscar nos documentos..." name="search" id="search" class="form-control form-control-sm me-2" value="{{old('search',$search??null)}}">
+                        <input placeholder="Buscar nos documentos..." name="search" id="search"
+                               class="form-control form-control-sm me-2" value="{{old('search',$search??null)}}">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
                             <a href="{{route('relatosQuadrilatero')}}" class="btn btn-outline-danger">Limpar</a>
@@ -39,7 +41,8 @@
                         <tr>
                             <td class="text-center"><span class="texto-com-quebra-2">{{ $relato->title }}</span></td>
                             <td class="text-center">{{ $relato->author }}</td>
-                            <td class="text-center"><span class="texto-com-quebra-2">{{ $relato->registration }}</span></td>
+                            <td class="text-center"><span class="texto-com-quebra-2">{{ $relato->registration }}</span>
+                            </td>
                             <td class="text-center">{{$relato->getFormatedCreatedAt()}}</td>
                             <td>
                                 <div class="d-flex justify-content-end gap-2">

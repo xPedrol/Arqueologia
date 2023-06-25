@@ -1,4 +1,4 @@
-<x-layout :title="'Minha conta'">
+<x-layout title="Inserir/Editar usuário">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">

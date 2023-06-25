@@ -1,4 +1,5 @@
-<x-layout :title="'Esqueci minha senha'">
+<x-layout title="Esqueci minha senha"
+          description="Entre aqui para recuperar sua senha através do email cadastrado no site">
     <x-slot name="content">
         <div class="d-flex justify-content-center align-items-center flex-column authDiv px-1 px-md-0">
             <h1 class="usePoppins loginTitle">Recuperar Senha</h1>
@@ -10,7 +11,8 @@
                         <div class="col-12 mb-3">
                             <label class="">Email</label>
                             <input name="email" id="email" type="email" autocomplete="email"
-                                   class="form-control @error('email') is-invalid @enderror" placeholder="Digite seu email"
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   placeholder="Digite seu email"
                                    aria-label="Email"
                                    aria-describedby="basic-addon1">
                             @error('email')

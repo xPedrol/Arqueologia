@@ -1,4 +1,4 @@
-<x-layout :title="'Home'">
+<x-layout title="Usuários">
     <x-slot name="content">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -14,7 +14,8 @@
                 </div>
                 <div class="col-lg-6 col-xl-4 order-2 order-lg-1 mt-2 mt-lg-0">
                     <form class="d-flex" method="GET" action="{{route('users')}}">
-                        <input placeholder="Buscar nos documentos..." name="search" id="search" class="form-control form-control-sm me-2" value="{{old('search',$search??null)}}">
+                        <input placeholder="Buscar nos documentos..." name="search" id="search"
+                               class="form-control form-control-sm me-2" value="{{old('search',$search??null)}}">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
                             <a href="{{route('users')}}" class="btn btn-outline-danger">Limpar</a>

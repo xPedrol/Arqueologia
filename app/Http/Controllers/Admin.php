@@ -366,15 +366,17 @@ class Admin extends Controller
     {
         $registerValidated = $request->validate([
             'email' => 'required',
-            'password' => 'required',
             'socialName' => 'required',
             'login' => 'required',
         ]);
         try {
-            $data = $request->only(['nome', 'login', 'birthDate', 'institution', 'socialName', 'link', 'location','email','role']);
+            $data = $request->only(['nome', 'login', 'birthDate', 'institution', 'socialName', 'link', 'location','email','role','aboutMe']);
             $data['keepPublic'] = $request['keepPublic'] == 'on' ? true : false;
             $data['status'] = $request['status'] == 'on' ? 'active' : 'disable';
-            $id = $request->query('id');
+            $id = null;
+            if(isset($request['id'])) {
+                $id = $request['id'];
+            }
             if ($id) {
                 $user = User::where('id', $id)->first();
                 if ($user) {

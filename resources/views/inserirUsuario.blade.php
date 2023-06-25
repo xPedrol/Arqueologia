@@ -12,6 +12,9 @@
                     <form method="POST" action="{{route('insertUserPost')}}" enctype="multipart/form-data">
                         @method('POST')
                         @csrf
+                        @if($user)
+                            <input type="hidden" name="id" value="{{$user->id}}">
+                        @endif
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="socialName" class="form-label">Nome</label>
@@ -126,6 +129,17 @@
                             {{--                                </div>--}}
                             {{--                                @enderror--}}
                             {{--                            </div>--}}
+                            <div class="col-12 mb-3">
+                                <label for="aboutMe" class="form-label">Sobre</label>
+                                <textarea class="form-control @error('aboutMe') is-invalid @enderror" rows="4"
+                                          name="aboutMe" id="aboutMe"
+                                          placeholder="Escreva uma breve descrição sobre você">{{old('aboutMe',$user->aboutMe??'')}}</textarea>
+                                @error('aboutMe')
+                                <div class="invalid-feedback">
+                                    Campo inválido
+                                </div>
+                                @enderror
+                            </div>
                             <div class="col-12 mb-3">
                                 <div class="d-flex gap-5">
                                     <div class="form-check">

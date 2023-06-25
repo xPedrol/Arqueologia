@@ -25,13 +25,13 @@
                         <td class="text-center">{{ $user->socialName }}</td>
                         <td class="text-center">{{ $user->email }}</td>
                         <td class="text-center">{{ $user->getFormatedLastAccess() }}</td>
-                        <td class="text-center">{{$user->getFormatedUpdatedAt()}}</td>
+                        <td class="text-center">{{$user->getFormatedCreatedAt()}}</td>
                         @if(isset($columns[5]['show']) && $columns[5]['show'])
-                            <td class="text-center">{{$user->status}}</td>
+                            <td class="text-center">{{$user->getStatus()}}</td>
                         @endif
                         @if(isset($columns[6]['show']) && $columns[6]['show'])
                             <td class="text-center"><span
-                                    class="badge @if($user->isUser()) text-bg-secondary @else text-bg-info @endif text-light">{{$user->role}}</span>
+                                    class="badge @if($user->isUser()) text-bg-secondary @else text-bg-info @endif text-light">{{$user->getRole()}}</span>
                             </td>
                         @endif
                         @if(isset($columns[7]['show']) && $columns[7]['show'])
@@ -43,6 +43,12 @@
                                             <i class="fa-solid fa-gear"></i>
                                         </button>
                                         <ul class="dropdown-menu">
+                                            <li class="mb-2">
+                                                <a class="dropdown-item"
+                                                   href="{{ route('insertUser', ['id'=>$user->id]) }}">
+                                                    Editar
+                                                </a>
+                                            </li>
                                             <li class="mb-2">
                                                 <a class="dropdown-item"
                                                    href="{{ route('toggleUserActive',['id' => $user->id]) }}">

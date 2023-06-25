@@ -13,7 +13,18 @@ class User extends Authenticatable
         'login',
         'password',
         'email',
-        'niceName'
+        'socialName',
+        'birthDate',
+        'institution',
+        'link',
+        'location',
+        'avatar',
+        'keepPublic',
+        'role',
+        'status',
+        'createdAt',
+        'updatedAt',
+        'lastAccess',
     ];
     protected $table = 'usuarios';
     protected $keyType = 'string';
@@ -53,5 +64,25 @@ class User extends Authenticatable
     public function getFormatedLastAccess()
     {
         return \Carbon\Carbon::parse($this->lastAccess)->format('d/m/Y H:i') . ' - ' . \Carbon\Carbon::parse($this->lastAccess)->diffForHumans();
+    }
+
+    public function getStatus()
+    {
+        return $this->status == 'active' ? 'Ativo' : 'Inativo';
+    }
+
+    public function getRole()
+    {
+        if ($this->isAdmin()) {
+            return 'Administrador';
+        }
+        if ($this->isUser()) {
+            return 'Usuário';
+        }
+        if ($this->isIntern()) {
+            return 'Estagiário';
+        }
+        return 'Desconhecido';
+
     }
 }

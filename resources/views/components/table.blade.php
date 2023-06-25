@@ -2,7 +2,6 @@
 <div class="table-responsive">
     <table id="mytable" class="table table-hover table-striped">
         <caption class="caption-top text-center">{{ $caption }}</caption>
-        </caption>
         <thead class="tableHeaderCenter">
         <tr>
             @foreach($columns as $column)

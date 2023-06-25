@@ -297,9 +297,9 @@ class Home extends Controller
         }
         $users = $users->where('role', '=', 'user')->where('keepPublic', '=', '1');
         $userCount = $users->count();
-        $maxPage = ceil($userCount / 15);
+        $maxPage = ceil($userCount / 20);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
-        $users = $users->paginate(100);
+        $users = $users->paginate(20);
         $query = $request->query();
         $columns = [
             [

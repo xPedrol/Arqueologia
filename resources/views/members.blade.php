@@ -1,4 +1,4 @@
-<x-layout title="Membros"
+<x-layout title="Associados"
           description="Nessa página encontra-se a lista de associados do site patrimonio arqueológico">
     <x-slot name="content">
         <div class="container">

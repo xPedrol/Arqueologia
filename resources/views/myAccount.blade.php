@@ -118,6 +118,17 @@
                             {{--                                @enderror--}}
                             {{--                            </div>--}}
                             <div class="col-12 mb-3">
+                                <label for="aboutMe" class="form-label">Sobre</label>
+                                <textarea class="form-control @error('aboutMe') is-invalid @enderror" rows="4"
+                                          name="aboutMe" id="aboutMe"
+                                          placeholder="Escreva uma breve descrição sobre você">{{auth()->user()->aboutMe}}</textarea>
+                                @error('aboutMe')
+                                <div class="invalid-feedback">
+                                    Campo inválido
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="col-12 mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="keepPublic"
                                            id="keepPublic" @if(auth()->user()->keepPublic) checked @endif>

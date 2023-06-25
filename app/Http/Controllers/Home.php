@@ -315,6 +315,10 @@ class Home extends Controller
                 'key' => 'institution'
             ],
             [
+                'name' => 'Sobre',
+                'key' => 'aboutMe'
+            ],
+            [
                 'name' => 'Link',
                 'key' => 'url'
             ],

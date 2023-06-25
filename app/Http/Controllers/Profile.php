@@ -24,7 +24,7 @@ class Profile extends Controller
             'birthDate' => 'required',
         ]);
         try {
-            $data = $request->only(['nome', 'login', 'birthDate', 'institution', 'socialName', 'link', 'location']);
+            $data = $request->only(['nome', 'login', 'birthDate', 'institution', 'socialName', 'link', 'location', 'aboutMe']);
             $data['keepPublic'] = $request['keepPublic'] == 'on' ? true : false;
             $user = User::where('email', $request['email'])->where('password', sha1($request['password']))->first();
             if ($user) {

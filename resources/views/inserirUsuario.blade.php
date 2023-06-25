@@ -91,7 +91,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-12 mb-3">
-                                <label for="location" class="form-label">Endereço</label>
+                                <label for="location" class="form-label">Cidade/Estado/País</label>
                                 <input type="text" class="form-control @error('location') is-invalid @enderror"
                                        name="location" id="location" value="{{old('location',$user->location??'')}}"
                                        placeholder="Digite seu endereço">

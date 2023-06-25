@@ -9,34 +9,43 @@
 
 <url>
   <loc>https://arqueologia.lampeh.ufv.br/</loc>
-  <lastmod>2023-06-12T22:56:50+00:00</lastmod>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://arqueologia.lampeh.ufv.br/sobre</loc>
-  <lastmod>2023-06-12T22:56:50+00:00</lastmod>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://arqueologia.lampeh.ufv.br/registrar</loc>
-  <lastmod>2023-06-12T22:56:50+00:00</lastmod>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://arqueologia.lampeh.ufv.br/membros</loc>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://arqueologia.lampeh.ufv.br/entrar</loc>
-  <lastmod>2023-06-12T22:56:50+00:00</lastmod>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://arqueologia.lampeh.ufv.br/contato</loc>
-  <lastmod>2023-06-12T22:56:50+00:00</lastmod>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://arqueologia.lampeh.ufv.br/recuperar-senha</loc>
-  <lastmod>2023-06-12T22:56:50+00:00</lastmod>
+  <loc>https://arqueologia.lampeh.ufv.br/associados</loc>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
   <priority>0.64</priority>
 </url>
-
+<url>
+  <loc>https://arqueologia.lampeh.ufv.br/recuperar-senha</loc>
+  <lastmod>2023-06-25T20:05:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
 
 </urlset>

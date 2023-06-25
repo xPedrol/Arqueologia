@@ -18,7 +18,7 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('usuarios', 'users')->name('users');
     });
     Route::get('/', 'home')->name('home');
-    Route::get('membros', 'members')->name('members');
+    Route::get('associados', 'members')->name('members');
     Route::get('contato', 'contact')->name('contact');
     Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
     Route::get('sobre', 'about')->name('about');

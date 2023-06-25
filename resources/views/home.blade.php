@@ -60,8 +60,8 @@
                     <div class="d-flex flex-column">
                         <h5 class="usePoppins">Destaques</h5>
                         <hr>
-                        <p class="m-0">Curso de Especialização</p>
-                        <p class="m-0">Canal no youtube</p>
+                        <a class="m-0" href="https://posarqueologia.ufv.br/" target="_blank">Curso de Especialização</a>
+                        <a class="m-0" href="https://www.youtube.com/channel/UCNqiEO2clT9wvfKSbEYo_fA" target="_blank">Canal no youtube</a>
                     </div>
                     <div class="d-flex flex-column mt-5">
                         <h5 class="usePoppins">Apoio</h5>

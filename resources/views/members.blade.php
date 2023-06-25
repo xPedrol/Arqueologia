@@ -22,11 +22,17 @@
                 @foreach ($users as $user)
                     <tr>
                         <td class="text-center">
-                            {{ $user->socialName }}
+                            <x-not-found :message="$user->socialName"/>
                         </td>
-                        <td class="text-center">{{ $user->email??'<span class="badge text-bg-secondary">Não informado</span>' }}</td>
-                        <td class="text-center">{{ $user->institution??'<span class="badge text-bg-secondary">Não informado</span>' }}</td>
-                        <td class="text-center">{{ $user->aboutMe??'<span class="badge text-bg-secondary">Não informado</span>' }}</td>
+                        <td class="text-center">
+                            <x-not-found :message="$user->email"/>
+                        </td>
+                        <td class="text-center">
+                            <x-not-found :message="$user->institution"/>
+                        </td>
+                        <td class="text-center">
+                            <x-not-found :message="$user->aboutMe"/>
+                        </td>
                         <td class="text-center">
                             @if($user->url)
                                 <a href="{{ $user->url }}" target="_blank" class="btn btn-sm btn-primary">Link</a>

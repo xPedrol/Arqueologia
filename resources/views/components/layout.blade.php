@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{$description}}">
     {{--    icon --}}
-    <link rel="icon" href="./images/icone.jpg">
+    <link rel="icon" href="./images/icon.png">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{ $assets ?? '' }}

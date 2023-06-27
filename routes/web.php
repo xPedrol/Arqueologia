@@ -38,6 +38,8 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
             Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');
 
             Route::get('inserir-relato-quadrilatero', 'inserirRelatoQuadrilatero')->name('inserirRelatoQuadrilatero');
+            Route::get('deletar-relato-quadrilatero/{id}', 'deletarRelatoQuadrilatero')->name('deletarRelatoQuadrilatero');
+
             Route::get('inserir-documento', 'inserirCidadeDocumento')->name('inserirCidadeDocumento');
             Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
 
@@ -46,7 +48,8 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
             Route::post('inserir-documento-post', 'inserirCidadeDocumentoPost')->name('inserirCidadeDocumentoPost');
             Route::post('inserir-cidade-post', 'inserirCidadePost')->name('inserirCidadePost');
 
-            Route::get('deletar-arquivo-relato-quadrilatero/{id}', 'deletarRelatoQuadrilateroPost')->name('deletarRelatoQuadrilateroPost');
+            Route::get('deletar-arquivo-relato-quadrilatero/{id}', 'deletarRelatoQuadrilateroDoc')->name('deletarRelatoQuadrilateroDoc');
+            Route::get('deletar-arquivo-bibliografia/{id}', 'deletarBibliografiaDoc')->name('deletarBibliografiaDoc');
         });
     });
 });

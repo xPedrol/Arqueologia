@@ -146,7 +146,7 @@
                                                     <a target="_blank">{{$file->getArchiveName()}}</a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{route('deletarRelatoQuadrilateroPost',['id'=>$file->id])}}"
+                                                    <a href="{{route('deletarBibliografiaDoc',['id'=>$file->id])}}"
                                                        class="btn btn-outline-danger btn-sm">Excluir</a>
                                                 </div>
                                             </div>

@@ -149,7 +149,7 @@
                                                        target="_blank" class="texto-com-quebra-2">{{$file->getArchiveName()}}</a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{route('deletarRelatoQuadrilateroPost',['id'=>$file->id])}}"
+                                                    <a href="{{route('deletarRelatoQuadrilateroDoc',['id'=>$file->id])}}"
                                                         class="btn btn-outline-danger btn-sm">Excluir</a>
                                                 </div>
                                             </div>

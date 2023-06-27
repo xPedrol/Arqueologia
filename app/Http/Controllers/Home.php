@@ -217,6 +217,8 @@ class Home extends Controller
                         'description' => $data['description'],
                         'url' => $data['url'],
                         'legend' => $data['legend'],
+                        'createdAt' => now(),
+                        'updatedAt' => now(),
                     ]);
                 } else {
                     $res = DB::table('historicoibge')->where('id', $data['id'])->update([
@@ -224,6 +226,7 @@ class Home extends Controller
                         'description' => $data['description'],
                         'url' => $data['url'],
                         'legend' => $data['legend'],
+                        'updatedAt' => now(),
                     ]);
                 }
                 if ($res) {
@@ -255,7 +258,9 @@ class Home extends Controller
                     'year' => $data['year'],
                     'link' => $data['link'],
                     'comments' => $data['comments'],
-                    'material' => 'Manunscrito'
+                    'material' => 'Manunscrito',
+                    'createdAt' => now(),
+                    'updatedAt' => now(),
                 ]);
             } else {
 //                print_r($data['id']);
@@ -270,6 +275,7 @@ class Home extends Controller
                     'year' => $data['year'],
                     'link' => $data['link'],
                     'comments' => $data['comments'],
+                    'updatedAt' => now(),
                 ]);
             }
             if ($res) {
@@ -449,12 +455,37 @@ class Home extends Controller
             $data = $request->all();
             $res = DB::table('cidades')->insert([
                 'name' => $data['name'],
+                'createdAt' => now(),
+                'updatedAt' => now(),
             ]);
             if ($res) {
                 return redirect()->route('fontes')->with('success', 'Cidade inserida com sucesso');
             } else {
                 return back()->with('error', 'Erro ao inserir a cidade');
             }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deletarRelatoQuadrilatero(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $relato = RelatoQuadrilatero::find($id);
+            $docs = RelatoArchive::where('relatosQId', $id)->get();
+            foreach ($docs as $doc) {
+                $path = Config::get('app.app_files_path') . $doc->path;
+                if (Storage::disk('externo')->exists($path)) {
+                    $archiveDeletedFormDisk = Storage::disk('externo')->delete($path);
+                    if (!$archiveDeletedFormDisk) {
+                        return redirect()->back()->with('error', 'Erro ao deletar arquivo ' . $path);
+                    }
+                }
+                $doc->delete();
+            }
+            $relato->delete();
+            return redirect()->back()->with('success', 'Relato deletado com sucesso');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -516,7 +547,7 @@ class Home extends Controller
         $query = $request->query();
         if (isset($query['id'])) {
             $id = $query['id'];
-            $relato = DB::table('relatosquadrilatero')->where('id', $id)->first();
+            $relato = RelatoQuadrilatero::where('id', $id)->first();
             $files = RelatoArchive::where('relatosQId', $id)->get();
         }
         return view('inserirRelatoQuadrilatero', ['relato' => $relato, 'files' => $files]);
@@ -534,23 +565,26 @@ class Home extends Controller
             }
             $data = $request->all();
             if (!isset($data['id'])) {
-                $res = DB::table('relatosquadrilatero')->insert([
+                $res = RelatoQuadrilatero::insert([
                     'author' => $data['author'],
                     'registration' => $data['registration'],
                     'title' => $data['title'],
                     'legend' => $data['legend'],
+                    'createdAt' => now(),
+                    'updatedAt' => now(),
                 ]);
             } else {
                 //verify if changed
-                $relato = DB::table('relatosquadrilatero')->where('id', $data['id'])->first();
+                $relato = RelatoQuadrilatero::where('id', $data['id'])->first();
                 if ($relato->author == $data['author'] && $relato->registration == $data['registration'] && $relato->title == $data['title'] && $relato->legend == $data['legend']) {
                     $res = true;
                 } else {
-                    $res = DB::table('relatosquadrilatero')->where('id', $data['id'])->update([
+                    $res = RelatoQuadrilatero::where('id', $data['id'])->update([
                         'author' => $data['author'],
                         'registration' => $data['registration'],
                         'title' => $data['title'],
                         'legend' => $data['legend'],
+                        'updatedAt' => now(),
                     ]);
                 }
             }
@@ -566,10 +600,12 @@ class Home extends Controller
                     foreach ($files as $file) {
                         $filename = "\\" . Config::get('app.relatosdocs_sheet') . "." . $newId . "." . $file->getClientOriginalName();
                         $file->storeAs($fullDir, $filename, 'externo');
-                        DB::table('relatosdocs')->insert([
+                        RelatoArchive::insert([
                             'path' => $filename,
                             'relatosQId' => $newId,
-                            'type' => 'sheet'
+                            'type' => 'sheet',
+                            'createdAt' => now(),
+                            'updatedAt' => now(),
                         ]);
                     }
                 }
@@ -577,10 +613,12 @@ class Home extends Controller
                     $file = $request->file('book');
                     $filename = "\\" . Config::get('app.relatosdocs_book') . "." . $newId . "." . $file->getClientOriginalName();
                     $file->storeAs($fullDir, $filename, 'externo');
-                    DB::table('relatosdocs')->insert([
+                    RelatoArchive::insert([
                         'path' => $filename,
                         'relatosQId' => $newId,
-                        'type' => 'book'
+                        'type' => 'book',
+                        'createdAt' => now(),
+                        'updatedAt' => now(),
                     ]);
                 }
                 if (isset($data['id'])) {
@@ -601,15 +639,15 @@ class Home extends Controller
     public function detalhesRelatosQuadrilatero(Request $request)
     {
         $id = $request['id'];
-        $relato = DB::table('relatosquadrilatero')->where('id', $id)->first();
+        $relato = RelatoQuadrilatero::where('id', $id)->first();
         $files = RelatoArchive::where('relatosQId', $id)->get();
         return view('detalhesRelatoQuadrilatero', ['relato' => $relato, 'files' => $files]);
     }
 
-    public function deletarRelatoQuadrilateroPost(Request $request)
+    public function deletarRelatoQuadrilateroDoc(Request $request)
     {
         try {
-            $archive = DB::table('relatosdocs')->where('id', $request->id)->first();
+            $archive = RelatoArchive::where('id', $request->id)->first();
             if (!$archive) {
                 return redirect()->back()->with('error', 'Arquivo não encontrado');
             }
@@ -622,7 +660,7 @@ class Home extends Controller
                     return redirect()->back()->with('error', 'Erro ao deletar arquivo do dísco');
                 }
             }
-            $deleted = DB::table('relatosdocs')->where('id', $request->id)->delete();
+            $deleted = RelatoArchive::where('id', $request->id)->delete();
             //verify deleted
             if ($deleted) {
                 return redirect()->route('inserirRelatoQuadrilatero', ['id' => $relatoId])->with('success', 'Arquivo deletado com sucesso');
@@ -703,7 +741,7 @@ class Home extends Controller
         } else {
             $bibliografia = $bibliografia->orderBy('bibliografia.author');
         }
-        $count = DB::table('bibliografia')->count();
+        $count = Bibliografia::count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
         $bibliografia = $bibliografia->paginate(100);
@@ -759,7 +797,7 @@ class Home extends Controller
         $query = $request->query();
         if (isset($query['id'])) {
             $id = $query['id'];
-            $bibliografia = DB::table('bibliografia')->where('id', $id)->first();
+            $bibliografia = Bibliografia::where('id', $id)->first();
             $files = BibliografiaArchive::where('bibliografiaId', $id)->get();
         }
         return view('inserirBibliografia', ['bibliografia' => $bibliografia, 'files' => $files]);
@@ -810,9 +848,11 @@ class Home extends Controller
                     foreach ($files as $file) {
                         $filename = "\\" . Config::get('app.bibliografiadocs_file') . "." . $newId . "." . $file->getClientOriginalName();
                         $file->storeAs($fullDir, $filename, 'externo');
-                        DB::table('bibliografiadocs')->insert([
+                        BibliografiaArchive::insert([
                             'path' => $filename,
-                            'bibliografiaId' => $newId
+                            'bibliografiaId' => $newId,
+                            'createdAt' => now(),
+                            'updatedAt' => now(),
                         ]);
                     }
                 }
@@ -834,14 +874,51 @@ class Home extends Controller
     public function deletarBibliografia(Request $request)
     {
         try {
-            $id = $request['id'];
-            $deleted = DB::table('bibliografia')->where('id', $id)->delete();
+            $id = $request->route('id');
+            $bibliografia = Bibliografia::find($id);
+            $docs = BibliografiaArchive::where('bibliografiaId', $id)->get();
+            foreach ($docs as $doc) {
+                $path = Config::get('app.app_files_path') . $doc->path;
+                if (Storage::disk('externo')->exists($path)) {
+                    $archiveDeletedFormDisk = Storage::disk('externo')->delete($path);
+                    if (!$archiveDeletedFormDisk) {
+                        return redirect()->back()->with('error', 'Erro ao deletar arquivo ' . $path);
+                    }
+                }
+                $doc->delete();
+            }
+            $bibliografia->delete();
+            return redirect()->back()->with('success', 'Bibliografia deletado com sucesso');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deletarBibliografiaDoc(Request $request)
+    {
+        try {
+            $archive = BibliografiaArchive::where('id', $request->id)->first();
+            if (!$archive) {
+                return redirect()->back()->with('error', 'Arquivo não encontrado');
+            }
+            $bibliografiaId = $archive->bibliografiaId;
+            $path = Config::get('app.app_files_path') . $archive->path;
+            //remove file form disk
+            if (Storage::disk('externo')->exists($path)) {
+                $archiveDeletedFormDisk = Storage::disk('externo')->delete($path);
+                if (!$archiveDeletedFormDisk) {
+                    return redirect()->back()->with('error', 'Erro ao deletar arquivo do dísco');
+                }
+            }
+            $deleted = BibliografiaArchive::where('id', $request->id)->delete();
+            //verify deleted
             if ($deleted) {
-                return redirect()->route('bibliografia')->with('success', 'Bibliografia deletada com sucesso');
+                return redirect()->route('inserirBibliografia', ['id' => $bibliografiaId])->with('success', 'Arquivo deletado com sucesso');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->back()->with('error', 'Erro ao deletar bibliografia');
+
+        return redirect()->back()->with('error', 'Erro ao deletar arquivo');
     }
 }

@@ -34,6 +34,16 @@
                 </div>
             </div>
             <hr/>
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{Session::get('success')}}
+                </div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{Session::get('error')}}
+                </div>
+            @endif
             @if(count($relatos) > 0)
                 <x-table :query="$query" :columns="$columns" :data="$relatos" :route="'relatosQuadrilatero'"
                          :caption="'Lista de todos os relatos cadastrados. '.$count.' relatos(s) encontrado(s)'">
@@ -45,14 +55,33 @@
                             </td>
                             <td class="text-center">{{$relato->getFormatedCreatedAt()}}</td>
                             <td>
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="{{route('detalhesRelatosQuadrilatero', ['id'=>$relato->id])}}"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Visualizar</a>
-                                    @if(!auth()->user()->isUser())
-                                        <a href="{{route('inserirRelatoQuadrilatero', ['id'=>$relato->id])}}"
+                                <div class="d-block">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{route('detalhesRelatosQuadrilatero', ['id'=>$relato->id])}}"
                                            class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-edit"></i></a>
+                                            Visualizar</a>
+                                        @if(!auth()->user()->isUser())
+                                            <a href="{{route('inserirRelatoQuadrilatero', ['id'=>$relato->id])}}"
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i></a>
+                                            <a class="btn btn-sm btn-outline-danger" data-bs-toggle="collapse"
+                                               href="#collapse-deletar-{{$relato->id}}" role="button"
+                                               aria-expanded="false"
+                                               aria-controls="collapseExample">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                    @if(!auth()->user()->isUser())
+                                        <div class="collapse mt-2" id="collapse-deletar-{{$relato->id}}">
+                                            <div class="card card-body">
+                                                <span class="text-center">Confirmar exclusão?</span>
+                                                <a href="{{route('deletarRelatoQuadrilatero', ['id'=>$relato->id])}}"
+                                                   class="btn btn-sm btn-outline-danger">
+                                                    Confirmar
+                                                </a>
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
                             </td>

@@ -22,13 +22,34 @@
             @foreach($cidadesQF as $cidade)
                 <div class="accordion accordion-flush" id="accordion-{{$cidade->id}}">
                     <div class="accordion-item my-2">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#accordion-flush-{{$cidade->id}}" aria-expanded="false"
-                                    aria-controls="flush-collapseOne">
-                                {{$cidade->name}}
-                            </button>
-                        </h2>
+                        <div class="accordion-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#accordion-flush-{{$cidade->id}}" aria-expanded="false"
+                                        aria-controls="flush-collapseOne">
+                                    {{$cidade->name}}
+                                </button>
+                                @if(!auth()->user()->isUser())
+                                    <div class="d-flex align-items-center">
+                                        <a class="btn btn-sm btn-outline-danger mx-2" data-bs-toggle="collapse"
+                                           href="#collapse-deletar-{{$cidade->id}}" role="button"
+                                           aria-expanded="false"
+                                           aria-controls="collapseExample">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                        <div class="collapse" id="collapse-deletar-{{$cidade->id}}">
+                                            <div class="card card-body">
+                                                <span class="text-center">Confirmar exclusão?</span>
+                                                <a href="{{route('deletarCidade', ['id'=>$cidade->id])}}"
+                                                   class="btn btn-sm btn-outline-danger">
+                                                    Confirmar
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                         <div id="accordion-flush-{{$cidade->id}}" class="accordion-collapse collapse"
                              data-bs-parent="#accordionFlushExample">
                             <ul class="py-3">

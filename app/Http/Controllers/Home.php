@@ -181,6 +181,27 @@ class Home extends Controller
         return view('inserirCidadeDoc', ['type' => $type, 'cidades' => $cidades, 'documento' => $documento, 'cidadeAtual' => $cidadeAtual, 'previousRoute' => $previousRoute]);
     }
 
+    public function deletarCidade(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $cidade = DB::table('cidades')->where('id', $id)->first();
+            if (!$cidade) {
+                return redirect()->back()->with('error', 'Cidade não encontrada!');
+            }
+            DB::table('dadoscidades')->where('cityId', $id)->delete();
+            DB::table('historicoibge')->where('cityId', $id)->delete();
+            $deletedCidade = DB::table('cidades')->where('id', $id)->delete();
+            if ($deletedCidade) {
+                return redirect()->back()->with('success', 'Cidade deletada com sucesso!');
+            } else {
+                return redirect()->back()->with('error', 'Erro ao deletar cidade!');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
     public function deletarCidadeDocumento(Request $request)
     {
         try {

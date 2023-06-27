@@ -35,19 +35,18 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('visulizar-relato-bibliografia/{id}', 'viewRelatoBibliografiaDoc')->name('viewRelatoBibliografiaDoc');
         Route::middleware(['checkRole:admin,intern'])->group(function () {
             Route::get('inserir-bibliografia', 'inserirBibliografia')->name('inserirBibliografia');
-            Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');
-
             Route::get('inserir-relato-quadrilatero', 'inserirRelatoQuadrilatero')->name('inserirRelatoQuadrilatero');
-            Route::get('deletar-relato-quadrilatero/{id}', 'deletarRelatoQuadrilatero')->name('deletarRelatoQuadrilatero');
-
             Route::get('inserir-documento', 'inserirCidadeDocumento')->name('inserirCidadeDocumento');
-            Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
 
             Route::post('inserir-bibliografia-post', 'inserirBibliografiaPost')->name('inserirBibliografiaPost');
             Route::post('inserir-relato-quadrilatero-post', 'inserirRelatoQuadrilateroPost')->name('inserirRelatoQuadrilateroPost');
             Route::post('inserir-documento-post', 'inserirCidadeDocumentoPost')->name('inserirCidadeDocumentoPost');
             Route::post('inserir-cidade-post', 'inserirCidadePost')->name('inserirCidadePost');
 
+            Route::get('deletar-cidade/{id}', 'deletarCidade')->name('deletarCidade');
+            Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
+            Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');
+            Route::get('deletar-relato-quadrilatero/{id}', 'deletarRelatoQuadrilatero')->name('deletarRelatoQuadrilatero');
             Route::get('deletar-arquivo-relato-quadrilatero/{id}', 'deletarRelatoQuadrilateroDoc')->name('deletarRelatoQuadrilateroDoc');
             Route::get('deletar-arquivo-bibliografia/{id}', 'deletarBibliografiaDoc')->name('deletarBibliografiaDoc');
         });

@@ -83,28 +83,33 @@
                                                     @endif
                                                 </a>
                                             </li>
-                                            <li class="my-2">
-                                                @if(!$user->isUser())
+                                            @if(!$user->isUser())
+                                                <li class="my-2">
                                                     <a class="dropdown-item"
                                                        href="{{ route('toggleUserPermission', ['id'=>$user->id,'role'=>'user']) }}">
                                                         Conceder Usuário
                                                     </a>
-                                                @endif
-                                                @if(!$user->isIntern())
+                                                </li>
+                                            @endif
+                                            @if(!$user->isIntern())
+                                                <li class="my-2">
                                                     <a class="dropdown-item"
                                                        href="{{ route('toggleUserPermission', ['id'=>$user->id,'role'=>'intern']) }}">
                                                         Conceder Estagiário
                                                     </a>
-                                                @endif
-                                                @if(!$user->isAdmin())
+                                                </li>
+                                            @endif
+                                            @if(!$user->isAdmin())
+                                                <li class="my-2">
                                                     <a class="dropdown-item"
                                                        href="{{ route('toggleUserPermission', ['id'=>$user->id,'role'=>'admin']) }}">
                                                         Conceder Administrador
                                                     </a>
-                                                @endif
-                                            </li>
-                                            <li class="mt-2"><a class="dropdown-item"
-                                                                href="{{  route('deleteUser', ['id'=>$user->id]) }}">Deletar</a>
+                                                </li>
+                                            @endif
+                                            <li class="mt-2">
+                                                <a class="dropdown-item"
+                                                   href="{{  route('deleteUser', ['id'=>$user->id]) }}">Deletar</a>
                                             </li>
                                         </ul>
                                     </div>

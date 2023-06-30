@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BibliografiaArchive extends Model
+class DadosSitioArqArchive extends Model
 {
     public $primaryKey = 'id';
 
     protected $fillable = [
         'id',
         'path',
-        'bibliografiaId'
+        'dadosSitioArqId'
     ];
-    protected $table = 'bibliografiadocs';
+    protected $table = 'dadossitioarqueologicodocs';
     protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;

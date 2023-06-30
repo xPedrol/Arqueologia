@@ -6,9 +6,12 @@ use App\Helpers\PaginationHelper;
 use App\Jobs\SendEmailJob;
 use App\Models\Bibliografia;
 use App\Models\BibliografiaArchive;
+use App\Models\DadosSitioArq;
+use App\Models\DadosSitioArqArchive;
 use App\Models\DocumentArchive;
 use App\Models\RelatoArchive;
 use App\Models\RelatoQuadrilatero;
+use App\Models\SitioArq;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,7 +27,55 @@ class Home extends Controller
         return view('home');
     }
 
-    function getFontesPagination(Request $request, $sql, $table)
+    public function sitiosArqueologicos()
+    {
+        $sitios = SitioArq::orderBy('name')->get();
+        return view('sitiosArqueologicos', ['sitios' => $sitios]);
+    }
+
+
+    public function deletarSitioArq(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $sitio = SitioArq::find($id);
+            if (!$sitio) return back()->with('error', 'Sítio Arqueológico não encontrado');
+            $docs = DadosSitioArq::where('sitioArqId','=',$sitio->id)->get();
+            foreach($docs as $doc){
+                $deletedArchive = DadosSitioArqArchive::where('dadosSitioArqId','=',$doc->id)->delete();
+                if(!$deletedArchive) return back()->with('error', 'Erro ao deletar arquivo');
+                $doc->delete();
+            }
+            $sitio->delete();
+            return back()->with('success', 'Sítio Arqueológico deletado com sucesso');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function inserirSitioArqPost(Request $request)
+    {
+        try {
+            $request->validate([
+                'name' => 'required',
+            ]);
+            $data = $request->all();
+            $res = SitioArq::insert([
+                'name' => $data['name'],
+                'createdAt' => now(),
+                'updatedAt' => now(),
+            ]);
+            if ($res) {
+                return redirect()->route('sitiosArqueologicos')->with('success', 'Sítio Arqueológico inserido com sucesso');
+            } else {
+                return back()->with('error', 'Erro ao inserir sítio arqueológico');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function getCidadesQuadPagination(Request $request, $sql, $table)
     {
         $count = $sql->count();
         $maxPage = ceil($count / 15);
@@ -77,10 +128,10 @@ class Home extends Controller
         ];
     }
 
-    public function fontes()
+    public function cidadesQuadrilatero()
     {
-        $cidadesQF = DB::table('cidades')->orderBy('name')->get();
-        return view('fontes', ['cidadesQF' => $cidadesQF]);
+        $cidadesQuad = DB::table('cidades')->orderBy('name')->get();
+        return view('cidadesQuadrilatero', ['cidadesQF' => $cidadesQuad]);
     }
 
     public function ibgeHistorico(Request $request)
@@ -90,7 +141,7 @@ class Home extends Controller
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('historicoibge')->where('cityId', $id);
-        $data = $this->getFontesPagination($request, $array, 'historicoibge');
+        $data = $this->getCidadesQuadPagination($request, $array, 'historicoibge');
         $array = $data['sql'];
         $columns = $data['columns'];
         $query = $data['query'];
@@ -116,7 +167,7 @@ class Home extends Controller
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('dadoscidades')->where('cityId', $id)->where('type', 'archive');
-        $data = $this->getFontesPagination($request, $array, 'dadoscidades');
+        $data = $this->getCidadesQuadPagination($request, $array, 'dadoscidades');
         $array = $data['sql'];
         $columns = $data['columns'];
         $query = $data['query'];
@@ -134,7 +185,7 @@ class Home extends Controller
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('dadoscidades')->where('cityId', $id)->where('type', 'library');
-        $data = $this->getFontesPagination($request, $array, 'dadoscidades');
+        $data = $this->getCidadesQuadPagination($request, $array, 'dadoscidades');
         $array = $data['sql'];
         $columns = $data['columns'];
         $query = $data['query'];
@@ -751,7 +802,7 @@ class Home extends Controller
         $type = $request->query('type');
         $bibliografia = Bibliografia::select('bibliografia.*', DB::raw('COUNT(bibliografiadocs.id) AS docs'))
             ->leftJoin('bibliografiadocs', 'bibliografia.id', '=', 'bibliografiadocs.bibliografiaId')
-            ->groupBy('bibliografia.id', 'bibliografia.author', 'bibliografia.summary',
+            ->groupBy('bibliografia.id', 'bibliografia.summary',
                 'bibliografia.theme', 'bibliografia.type', 'bibliografia.createdAt', 'bibliografia.updatedAt', 'bibliografia.legend');
 
         if (isset($type) && $type) {
@@ -760,7 +811,7 @@ class Home extends Controller
         if (isset($query['sort'])) {
             $bibliografia = $bibliografia->orderBy('bibliografia.' . $query['sort'], $query['order']);
         } else {
-            $bibliografia = $bibliografia->orderBy('bibliografia.author');
+            $bibliografia = $bibliografia->orderBy('bibliografia.theme');
         }
         $count = Bibliografia::count();
         $maxPage = ceil($count / 15);
@@ -769,11 +820,7 @@ class Home extends Controller
         $query = $request->query();
         $columns = [
             [
-                'name' => 'Autor',
-                'key' => 'author'
-            ],
-            [
-                'name' => 'Tema',
+                'name' => 'Referências',
                 'key' => 'theme'
             ],
             [
@@ -781,7 +828,7 @@ class Home extends Controller
                 'key' => 'type'
             ],
             [
-                'name' => 'Sumário',
+                'name' => 'Resumo',
                 'key' => 'summary'
             ],
             [
@@ -827,7 +874,6 @@ class Home extends Controller
     public function inserirBibliografiaPost(Request $request)
     {
         $request->validate([
-            'author' => 'required',
             'summary' => 'required',
             'theme' => 'required',
             'type' => 'required',
@@ -839,7 +885,6 @@ class Home extends Controller
             $data = $request->all();
             if (!isset($data['id'])) {
                 $res = DB::table('bibliografia')->insert([
-                    'author' => $data['author'],
                     'summary' => $data['summary'],
                     'theme' => $data['theme'],
                     'type' => $data['type'],
@@ -849,7 +894,6 @@ class Home extends Controller
                 ]);
             } else {
                 $res = DB::table('bibliografia')->where('id', $data['id'])->update([
-                    'author' => $data['author'],
                     'summary' => $data['summary'],
                     'theme' => $data['theme'],
                     'type' => $data['type'],
@@ -941,5 +985,57 @@ class Home extends Controller
         }
 
         return redirect()->back()->with('error', 'Erro ao deletar arquivo');
+    }
+
+    public function sitioArqueologico(Request $request)
+    {
+        $query = $request->query();
+        $type = $request->query('type');
+        $bibliografia = Bibliografia::select('sitioarqueologico.*', DB::raw('COUNT(sitioarqueologicodocs.id) AS docs'))
+            ->leftJoin('sitioarqueologicodocs', 'sitioarqueologico.id', '=', 'sitioarqueologicodocs.sitioArqId')
+            ->groupBy('sitioarqueologico.id', 'sitioarqueologico.description');
+
+        if (isset($type) && $type) {
+            $bibliografia = $bibliografia->where('bibliografia.type', $type);
+        }
+        if (isset($query['sort'])) {
+            $bibliografia = $bibliografia->orderBy('bibliografia.' . $query['sort'], $query['order']);
+        } else {
+            $bibliografia = $bibliografia->orderBy('bibliografia.theme');
+        }
+        $count = Bibliografia::count();
+        $maxPage = ceil($count / 15);
+        PaginationHelper::instance()->handlePagination($request, $maxPage);
+        $bibliografia = $bibliografia->paginate(100);
+        $query = $request->query();
+        $columns = [
+            [
+                'name' => 'Referências',
+                'key' => 'theme'
+            ],
+            [
+                'name' => 'Tipo',
+                'key' => 'type'
+            ],
+            [
+                'name' => 'Resumo',
+                'key' => 'summary'
+            ],
+            [
+                'name' => 'PDF',
+                'key' => 'filePath'
+            ],
+            [
+                'name' => 'Dt. Cadastro',
+                'key' => 'createdAt'
+            ],
+            [
+                'name' => '',
+                'key' => 'actions'
+            ]
+        ];
+
+        return view('bibliografias', ['bibliografias' => $bibliografia, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
+            'count' => $count, 'type' => $type]);
     }
 }

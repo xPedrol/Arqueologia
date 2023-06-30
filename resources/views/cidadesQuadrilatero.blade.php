@@ -19,6 +19,7 @@
                     </button>
                 @endif
             </div>
+            <hr/>
             @foreach($cidadesQF as $cidade)
                 <div class="accordion accordion-flush" id="accordion-{{$cidade->id}}">
                     <div class="accordion-item my-2">

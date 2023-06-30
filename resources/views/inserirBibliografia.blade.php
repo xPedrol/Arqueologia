@@ -36,22 +36,8 @@
                 @method('POST')
                 <div class="row">
                     <input class="d-none" name="id" id="id" value="{{old('id',$bibliografia->id??null)}}">
-                    <div class="col-12 col-lg-6 mb-3">
-                        <label class="">Autor</label>
-                        <input name="author" id="author" type="text" autocomplete="author"
-                               value="{{old('author',$bibliografia->author??null)}}"
-                               class="form-control @error('author') is-invalid @enderror"
-                               placeholder="Digite o nome do autor"
-                               aria-label="title"
-                               aria-describedby="basic-addon1">
-                        @error('author')
-                        <div class="invalid-feedback">
-                            Campo inválido
-                        </div>
-                        @enderror
-                    </div>
-                    <div class="col-12 col-lg-6 mb-3">
-                        <label class="">Tema</label>
+                    <div class="col-12 mb-3">
+                        <label class="">Referências</label>
                         <input name="theme" id="theme" type="text" autocomplete="theme"
                                value="{{old('theme',$bibliografia->theme??null)}}"
                                class="form-control @error('theme') is-invalid @enderror"
@@ -100,7 +86,7 @@
                     </div>
 
                     <div class="col-12 col-lg-12 mb-3">
-                        <label class="">Sumário</label>
+                        <label class="">Resumo</label>
                         <textarea name="summary" id="summary" type="text" autocomplete="summary"
                                   class="form-control @error('summary') is-invalid @enderror"
                                   placeholder="Digite o sumário"

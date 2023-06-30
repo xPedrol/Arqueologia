@@ -51,6 +51,10 @@ class navbar extends Component
                     'title' => 'Bibliografia',
                     'url' => 'bibliografias'
                 ],
+                [
+                    'title' => 'Sítios Arqueológicos',
+                    'url' => 'sitiosArqueologicos'
+                ],
             ]
         ],
         [

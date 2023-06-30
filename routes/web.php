@@ -23,9 +23,10 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
     Route::get('sobre', 'about')->name('about');
     Route::middleware(['auth'])->group(function () {
+        Route::get('sitios-arqueologicos', 'sitiosArqueologicos')->name('sitiosArqueologicos');
         Route::get('bibliografias', 'bibliografias')->name('bibliografias');
         Route::get('bibliografia/{id}', 'detalhesBibliografia')->name('detalhesBibliografia');
-        Route::get('cidades-quadrilatero', 'fontes')->name('fontes');
+        Route::get('cidades-quadrilatero', 'cidadesQuadrilatero')->name('fontes');
         Route::get('relatos-quadrilatero', 'relatosQuadrilatero')->name('relatosQuadrilatero');
         Route::get('relatos-quadrilatero/{id}', 'detalhesRelatosQuadrilatero')->name('detalhesRelatosQuadrilatero');
         Route::get('historico-ibge/{id}', 'ibgeHistorico')->name('ibgeHistorico');
@@ -42,7 +43,9 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
             Route::post('inserir-relato-quadrilatero-post', 'inserirRelatoQuadrilateroPost')->name('inserirRelatoQuadrilateroPost');
             Route::post('inserir-documento-post', 'inserirCidadeDocumentoPost')->name('inserirCidadeDocumentoPost');
             Route::post('inserir-cidade-post', 'inserirCidadePost')->name('inserirCidadePost');
+            Route::post('inserir-sitio-arqueologico-post', 'inserirSitioArqPost')->name('inserirSitioArqPost');
 
+            Route::get('deletar-sitio-arqueologico/{id}', 'deletarSitioArq')->name('deletarSitioArq');
             Route::get('deletar-cidade/{id}', 'deletarCidade')->name('deletarCidade');
             Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
             Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');

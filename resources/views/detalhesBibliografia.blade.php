@@ -17,13 +17,9 @@
             <form>
                 <div class="row">
                     <input class="d-none" name="id" id="id" value="{{old('id',$bibliografia->id??null)}}">
-                    <div class="col-12 col-lg-6 mb-3">
+                    <div class="col-12 mb-3">
                         <small class="text-muted">Tema</small>
                         <p>{{old('theme',$bibliografia->theme??null)}}</p>
-                    </div>
-                    <div class="col-12 col-lg-6 mb-3">
-                        <small class="text-muted">Autor</small>
-                        <p>{{old('author',$bibliografia->author??null)}}</p>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <div class="form-floating mb-3">

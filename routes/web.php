@@ -24,6 +24,7 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::get('sobre', 'about')->name('about');
     Route::middleware(['auth'])->group(function () {
         Route::get('sitios-arqueologicos', 'sitiosArqueologicos')->name('sitiosArqueologicos');
+        Route::get('sitio-arqueologico/{id}', 'dadosSitioArqueologico')->name('dadosSitioArqueologico');
         Route::get('bibliografias', 'bibliografias')->name('bibliografias');
         Route::get('bibliografia/{id}', 'detalhesBibliografia')->name('detalhesBibliografia');
         Route::get('cidades-quadrilatero', 'cidadesQuadrilatero')->name('fontes');

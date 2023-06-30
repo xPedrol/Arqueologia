@@ -22,6 +22,8 @@ class DadosSitioArq extends Model
     public $timestamps = false;
     public $incrementing = false;
 
+    public array $files = [];
+
 
     public function getFormatedCreatedAt()
     {
@@ -31,5 +33,9 @@ class DadosSitioArq extends Model
     public function getFormatedUpdatedAt()
     {
         return \Carbon\Carbon::parse($this->updatedAt)->format('d/m/Y H:i') . ' - ' . \Carbon\Carbon::parse($this->updatedAt)->diffForHumans();
+    }
+
+    public function setFiles(array $files){
+        $this->files = $files;
     }
 }

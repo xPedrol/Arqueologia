@@ -13,7 +13,8 @@ class SitioArq extends Model
         'id',
         'name',
         'createdAt',
-        'updatedAt'
+        'updatedAt',
+        'legend'
     ];
 
     protected $table = 'sitioarqueologico';

@@ -30,54 +30,94 @@
                     {{Session::get('error')}}
                 </div>
             @endif
-            @foreach($sitios as $sitioArq)
-                <div class="accordion accordion-flush" id="accordion-{{$sitioArq->id}}">
-                    <div class="accordion-item my-2">
-                        <div class="accordion-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#accordion-flush-{{$sitioArq->id}}" aria-expanded="false"
-                                        aria-controls="flush-collapseOne">
-                                    {{$sitioArq->name}}
-                                </button>
-                                @if(!auth()->user()->isUser())
-                                    <div class="d-flex align-items-center">
-                                        <a class="btn btn-sm btn-outline-danger mx-2" data-bs-toggle="collapse"
+            <div class="row">
+                @foreach($sitios as $sitioArq)
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-0"> {{$sitioArq->name}}</h5>
+                                <small class="card-text">{{$sitioArq->legend??'Descriçao: Não Informado'}}</small>
+                                <hr/>
+                                <div class="d-flex align-items-center gap-2">
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       href="{{route('dadosSitioArqueologico',['id'=>$sitioArq->id])}}"
+                                       aria-expanded="false"
+                                       aria-controls="collapseExample">
+                                        Visualizar
+                                    </a>
+                                    @if(!auth()->user()->isUser())
+                                        <a class="btn btn-sm btn-outline-danger" data-bs-toggle="collapse"
                                            href="#collapse-deletar-{{$sitioArq->id}}" role="button"
                                            aria-expanded="false"
                                            aria-controls="collapseExample">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                            Deletar
                                         </a>
-                                        <div class="collapse" id="collapse-deletar-{{$sitioArq->id}}">
-                                            <div class="card card-body">
-                                                <span class="text-center">Confirmar exclusão?</span>
-                                                <a href="{{route('deletarSitioArq', ['id'=>$sitioArq->id])}}"
-                                                   class="btn btn-sm btn-outline-danger">
-                                                    Confirmar
-                                                </a>
-                                            </div>
-                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="collapse" id="collapse-deletar-{{$sitioArq->id}}">
+                                <div class="card-footer p-0">
+                                    <div class="card card-body border-0">
+                                        <span class="text-center">Confirmar exclusão?</span>
+                                        <a href="{{route('deletarSitioArq', ['id'=>$sitioArq->id])}}"
+                                           class="btn btn-sm btn-outline-danger">
+                                            Confirmar
+                                        </a>
                                     </div>
-                                @endif
+                                </div>
                             </div>
                         </div>
-                        <div id="accordion-flush-{{$sitioArq->id}}" class="accordion-collapse collapse"
-                             data-bs-parent="#accordionFlushExample">
-
-                        </div>
                     </div>
-                </div>
-            @endforeach
+                    {{--                <div class="accordion accordion-flush" id="accordion-{{$sitioArq->id}}">--}}
+                    {{--                    <div class="accordion-item my-2">--}}
+                    {{--                        <div class="accordion-header">--}}
+                    {{--                            <div class="d-flex justify-content-between align-items-center">--}}
+                    {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
+                    {{--                                        data-bs-target="#accordion-flush-{{$sitioArq->id}}" aria-expanded="false"--}}
+                    {{--                                        aria-controls="flush-collapseOne">--}}
+                    {{--                                    {{$sitioArq->name}}--}}
+                    {{--                                </button>--}}
+                    {{--                                @if(!auth()->user()->isUser())--}}
+                    {{--                                    <div class="d-flex align-items-center">--}}
+                    {{--                                        <a class="btn btn-sm btn-outline-danger mx-2" data-bs-toggle="collapse"--}}
+                    {{--                                           href="#collapse-deletar-{{$sitioArq->id}}" role="button"--}}
+                    {{--                                           aria-expanded="false"--}}
+                    {{--                                           aria-controls="collapseExample">--}}
+                    {{--                                            <i class="fa-solid fa-trash-can"></i>--}}
+                    {{--                                        </a>--}}
+                    {{--                                        <div class="collapse" id="collapse-deletar-{{$sitioArq->id}}">--}}
+                    {{--                                            <div class="card card-body">--}}
+                    {{--                                                <span class="text-center">Confirmar exclusão?</span>--}}
+                    {{--                                                <a href="{{route('deletarSitioArq', ['id'=>$sitioArq->id])}}"--}}
+                    {{--                                                   class="btn btn-sm btn-outline-danger">--}}
+                    {{--                                                    Confirmar--}}
+                    {{--                                                </a>--}}
+                    {{--                                            </div>--}}
+                    {{--                                        </div>--}}
+                    {{--                                    </div>--}}
+                    {{--                                @endif--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div id="accordion-flush-{{$sitioArq->id}}" class="accordion-collapse collapse"--}}
+                    {{--                             data-bs-parent="#accordionFlushExample">--}}
+
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
+                    {{--                </div>--}}
+                @endforeach
+            </div>
         </div>
         @if(!auth()->user()->isUser())
             <!-- Modal -->
             <form method="POST" action="{{route('inserirSitioArqPost')}}">
-                <div class="modal fade" id="inserirSitioArqModal" tabindex="-1" aria-labelledby="inserirSitioArqModalLabel"
+                <div class="modal fade" id="inserirSitioArqModal" tabindex="-1"
+                     aria-labelledby="inserirSitioArqModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title usePoppins fs-5" id="inserirSitioArqModalLabel">Inserir Sítio Arqueológico</h1>
+                                <h1 class="modal-title usePoppins fs-5" id="inserirSitioArqModalLabel">Inserir Sítio
+                                    Arqueológico</h1>
                                 <button type="button" class="btn-close me-2" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                             </div>
@@ -92,6 +132,19 @@
                                                placeholder="Digite o nome do sítio arqueológico"
                                                aria-label="name"
                                                aria-describedby="basic-addon1">
+                                        @error('name')
+                                        <div class="invalid-feedback">
+                                            Campo inválido
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="">Descrição</label>
+                                        <textarea name="legend" id="legend" rows="4"
+                                                  class="form-control @error('legend') is-invalid @enderror"
+                                                  placeholder="Digite uma descrição"
+                                                  aria-label="name"
+                                                  aria-describedby="basic-addon1"></textarea>
                                         @error('name')
                                         <div class="invalid-feedback">
                                             Campo inválido

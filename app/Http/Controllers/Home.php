@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\DadosSitioArqFormated;
 use App\Helpers\PaginationHelper;
 use App\Jobs\SendEmailJob;
 use App\Models\Bibliografia;
@@ -33,6 +34,36 @@ class Home extends Controller
         return view('sitiosArqueologicos', ['sitios' => $sitios]);
     }
 
+    public function dadosSitioArqueologico(Request $request)
+    {
+        $query = $request->query();
+        $id = $request->route('id');
+        $sitioArq = SitioArq::find($id);
+        if (!$sitioArq) return back()->with('error', 'Sítio Arqueológico não encontrado');
+        $documentos = DadosSitioArq::where('sitioArqId', '=', $id);
+        $search = '';
+        if (isset($query['search'])) {
+            $search = $query['search'];
+            $documentos = $documentos->where('description', 'like', '%' . $query['search'] . '%');
+        }
+        if (isset($query['sort'])) {
+            $documentos = $documentos->orderBy($query['sort'], $query['order']);
+        } else {
+            $documentos = $documentos->orderBy('author');
+        }
+        $count = $documentos->count();
+        $maxPage = ceil($count / 15);
+        PaginationHelper::instance()->handlePagination($request, $maxPage);
+        $documentos = $documentos->paginate(15);
+        $query = $request->query();
+        foreach ($documentos as $doc) {
+            $files = DadosSitioArqArchive::where('dadosSitioArqId', '=', $doc->id)->get();
+            $doc->setFiles($files);
+        }
+        return view('dadosSitioArq', ['sitioArq' => $sitioArq, 'documentos' => $documentos, 'query' => $query, 'maxPage' => $maxPage,
+            'count' => $count, 'search' => $search]);
+    }
+
 
     public function deletarSitioArq(Request $request)
     {
@@ -40,10 +71,10 @@ class Home extends Controller
             $id = $request->route('id');
             $sitio = SitioArq::find($id);
             if (!$sitio) return back()->with('error', 'Sítio Arqueológico não encontrado');
-            $docs = DadosSitioArq::where('sitioArqId','=',$sitio->id)->get();
-            foreach($docs as $doc){
-                $deletedArchive = DadosSitioArqArchive::where('dadosSitioArqId','=',$doc->id)->delete();
-                if(!$deletedArchive) return back()->with('error', 'Erro ao deletar arquivo');
+            $docs = DadosSitioArq::where('sitioArqId', '=', $sitio->id)->get();
+            foreach ($docs as $doc) {
+                $deletedArchive = DadosSitioArqArchive::where('dadosSitioArqId', '=', $doc->id)->delete();
+                if (!$deletedArchive) return back()->with('error', 'Erro ao deletar arquivo');
                 $doc->delete();
             }
             $sitio->delete();
@@ -62,6 +93,7 @@ class Home extends Controller
             $data = $request->all();
             $res = SitioArq::insert([
                 'name' => $data['name'],
+                'legend' => $data['legend'],
                 'createdAt' => now(),
                 'updatedAt' => now(),
             ]);

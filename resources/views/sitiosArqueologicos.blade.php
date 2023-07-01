@@ -36,7 +36,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title mb-0"> {{$sitioArq->name}}</h5>
-                                <small class="card-text">{{$sitioArq->legend??'Descriçao: Não Informado'}}</small>
+                                <p class="card-text">{{$sitioArq->legend??'Descriçao: Não Informado'}}</p>
                                 <hr/>
                                 <div class="d-flex align-items-center gap-2">
                                     <a class="btn btn-sm btn-outline-primary"
@@ -68,42 +68,6 @@
                             </div>
                         </div>
                     </div>
-                    {{--                <div class="accordion accordion-flush" id="accordion-{{$sitioArq->id}}">--}}
-                    {{--                    <div class="accordion-item my-2">--}}
-                    {{--                        <div class="accordion-header">--}}
-                    {{--                            <div class="d-flex justify-content-between align-items-center">--}}
-                    {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
-                    {{--                                        data-bs-target="#accordion-flush-{{$sitioArq->id}}" aria-expanded="false"--}}
-                    {{--                                        aria-controls="flush-collapseOne">--}}
-                    {{--                                    {{$sitioArq->name}}--}}
-                    {{--                                </button>--}}
-                    {{--                                @if(!auth()->user()->isUser())--}}
-                    {{--                                    <div class="d-flex align-items-center">--}}
-                    {{--                                        <a class="btn btn-sm btn-outline-danger mx-2" data-bs-toggle="collapse"--}}
-                    {{--                                           href="#collapse-deletar-{{$sitioArq->id}}" role="button"--}}
-                    {{--                                           aria-expanded="false"--}}
-                    {{--                                           aria-controls="collapseExample">--}}
-                    {{--                                            <i class="fa-solid fa-trash-can"></i>--}}
-                    {{--                                        </a>--}}
-                    {{--                                        <div class="collapse" id="collapse-deletar-{{$sitioArq->id}}">--}}
-                    {{--                                            <div class="card card-body">--}}
-                    {{--                                                <span class="text-center">Confirmar exclusão?</span>--}}
-                    {{--                                                <a href="{{route('deletarSitioArq', ['id'=>$sitioArq->id])}}"--}}
-                    {{--                                                   class="btn btn-sm btn-outline-danger">--}}
-                    {{--                                                    Confirmar--}}
-                    {{--                                                </a>--}}
-                    {{--                                            </div>--}}
-                    {{--                                        </div>--}}
-                    {{--                                    </div>--}}
-                    {{--                                @endif--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                        <div id="accordion-flush-{{$sitioArq->id}}" class="accordion-collapse collapse"--}}
-                    {{--                             data-bs-parent="#accordionFlushExample">--}}
-
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
-                    {{--                </div>--}}
                 @endforeach
             </div>
         </div>

@@ -19,7 +19,7 @@
                     ferrífero</small>
             @else
                 <h4 class="usePoppins m-0">Editar documento</h4>
-                <small class="usePoppins">Preencha os campos abaixo para editar um novo relato do quadrilátero
+                <small class="usePoppins">Preencha os campos abaixo para editar um relato do quadrilátero
                     ferrífero</small>
             @endif
             <br/>

@@ -4,7 +4,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sítio Arqueológico {{$sitioArq->name}}
+                    <li class="breadcrumb-item"><a href="{{route('sitiosArqueologicos')}}">Sítios Arqueológicos</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$sitioArq->name}}
                     </li>
                 </ol>
             </nav>
@@ -14,18 +15,21 @@
                     <small>Total: {{$count}}</small>
                 </div>
                 <div class="col-lg-6 col-xl-4 order-2 order-lg-1 mt-2 mt-lg-0">
-                    <form class="d-flex" method="GET" action="{{route('sitiosArqueologicos')}}">
+                    <form class="d-flex" method="GET"
+                          action="{{route('dadosSitioArqueologico',['id'=>$sitioArq->id])}}">
                         <input placeholder="Buscar nos documentos..." name="search" id="search"
                                class="form-control form-control-sm me-2" value="{{old('search',$search??null)}}">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
-                            <a href="{{route('sitiosArqueologicos')}}" class="btn btn-outline-danger">Limpar</a>
+                            <a href="{{route('dadosSitioArqueologico',['id'=>$sitioArq->id])}}"
+                               class="btn btn-outline-danger">Limpar</a>
                         </div>
                     </form>
                 </div>
                 <div class="col-6 col-lg-3 col-xl-4 text-end order-1 order-lg-2">
                     @if(!auth()->user()->isUser())
-                        <a class="btn btn-sm btn-outline-primary mb-2" href="{{route('inserirRelatoQuadrilatero')}}">
+                        <a class="btn btn-sm btn-outline-primary mb-2"
+                           href="{{route('inserirSitioArqDocumento',['sitioArqId'=>$sitioArq->id])}}">
                             Inserir documento
                         </a>
                     @endif
@@ -43,7 +47,55 @@
                 </div>
             @endif
             @if($count > 0)
-
+                <div class="row">
+                    @foreach($documentos as $documento)
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0"> {{$documento->description}}</h5>
+                                    <p class="card-text">{{$documento->legend??'Legenda: Não Informado'}}</p>
+                                    <hr/>
+                                    <div class="d-flex align-items-center gap-2">
+                                        @if(count($files) > 0)
+                                            <a class="btn btn-sm btn-outline-primary"
+                                               href="{{route('viewSitioArqDoc',['id' => $files[0]->id])}}"
+                                               target="_blank"
+                                               aria-expanded="false"
+                                               aria-controls="collapseExample">
+                                                Visualizar
+                                            </a>
+                                        @endif
+                                        @if(!auth()->user()->isUser())
+                                            <a class="btn btn-sm btn-outline-primary"
+                                               href="{{route('inserirSitioArqDocumento',['id'=>$documento->id])}}"
+                                               aria-expanded="false"
+                                               aria-controls="collapseExample">
+                                                Editar
+                                            </a>
+                                            <a class="btn btn-sm btn-outline-danger" data-bs-toggle="collapse"
+                                               href="#collapse-deletar-{{$documento->id}}" role="button"
+                                               aria-expanded="false"
+                                               aria-controls="collapseExample">
+                                                Deletar
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapse-deletar-{{$documento->id}}">
+                                    <div class="card-footer p-0">
+                                        <div class="card card-body border-0">
+                                            <span class="text-center">Confirmar exclusão?</span>
+                                            <a href="{{route('deletarSitioArqDocumento', ['id'=>$documento->id])}}"
+                                               class="btn btn-sm btn-outline-danger">
+                                                Confirmar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
                 <div class="d-flex justify-content-between align-items-center">
                     {{$count}} registro(s) encontrado(s)
                     <x-pagination :query="$query" :maxPage="$maxPage"

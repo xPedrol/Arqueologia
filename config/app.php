@@ -24,7 +24,7 @@ return [
     'relatosdocs_sheet'=> env('RELATOSDOCS_SHEET', '01'),
     'relatosdocs_book'=> env('RELATOSDOCS_BOOK', '02'),
     'bibliografiadocs_file'=> env('BIBLIOGRAFIADOCS_FILE', '03'),
-
+    'sitioarqueologicodocs_file'=> env('SITIOARQUEOLOGICODOCS_FILE', '04'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

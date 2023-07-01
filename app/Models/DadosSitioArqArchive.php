@@ -12,7 +12,9 @@ class DadosSitioArqArchive extends Model
     protected $fillable = [
         'id',
         'path',
-        'dadosSitioArqId'
+        'dadosSitioArqId',
+        'createdAt',
+        'updatedAt'
     ];
     protected $table = 'dadossitioarqueologicodocs';
     protected $keyType = 'string';

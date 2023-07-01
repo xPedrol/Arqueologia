@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Classes\DadosSitioArqFormated;
 use App\Helpers\PaginationHelper;
 use App\Jobs\SendEmailJob;
 use App\Models\Bibliografia;
 use App\Models\BibliografiaArchive;
 use App\Models\DadosSitioArq;
 use App\Models\DadosSitioArqArchive;
-use App\Models\DocumentArchive;
 use App\Models\RelatoArchive;
 use App\Models\RelatoQuadrilatero;
 use App\Models\SitioArq;
@@ -49,7 +47,7 @@ class Home extends Controller
         if (isset($query['sort'])) {
             $documentos = $documentos->orderBy($query['sort'], $query['order']);
         } else {
-            $documentos = $documentos->orderBy('author');
+            $documentos = $documentos->orderBy('description');
         }
         $count = $documentos->count();
         $maxPage = ceil($count / 15);
@@ -58,10 +56,32 @@ class Home extends Controller
         $query = $request->query();
         foreach ($documentos as $doc) {
             $files = DadosSitioArqArchive::where('dadosSitioArqId', '=', $doc->id)->get();
-            $doc->setFiles($files);
         }
-        return view('dadosSitioArq', ['sitioArq' => $sitioArq, 'documentos' => $documentos, 'query' => $query, 'maxPage' => $maxPage,
+        return view('dadosSitioArq', ['sitioArq' => $sitioArq, 'documentos' => $documentos, 'files' => $files, 'query' => $query, 'maxPage' => $maxPage,
             'count' => $count, 'search' => $search]);
+    }
+
+    public function deletarSitioArqDocumento(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $documento = DadosSitioArq::find($id);
+            $docs = DadosSitioArqArchive::where('dadosSitioArqId', $id)->get();
+            foreach ($docs as $doc) {
+                $path = Config::get('app.app_files_path') . $doc->path;
+                if (Storage::disk('externo')->exists($path)) {
+                    $archiveDeletedFormDisk = Storage::disk('externo')->delete($path);
+                    if (!$archiveDeletedFormDisk) {
+                        return redirect()->back()->with('error', 'Erro ao deletar arquivo ' . $path);
+                    }
+                }
+                $doc->delete();
+            }
+            $documento->delete();
+            return redirect()->back()->with('success', 'Documento deletado com sucesso');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
 
@@ -101,6 +121,145 @@ class Home extends Controller
                 return redirect()->route('sitiosArqueologicos')->with('success', 'Sítio Arqueológico inserido com sucesso');
             } else {
                 return back()->with('error', 'Erro ao inserir sítio arqueológico');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function inserirSitioArqDocumento(Request $request)
+    {
+        $sitioArqId = $request->query('sitioArqId');
+        if ($sitioArqId) {
+            $sitioArq = SitioArq::find($sitioArqId);
+            if (!$sitioArq) return back()->with('error', 'Sítio Arqueológico não encontrado');
+            return view('inserirSitioArqDocumento', ['sitioArq' => $sitioArq, 'documento' => null]);
+        } else {
+            $documentoId = $request->query('id');
+            $documento = DadosSitioArq::find($documentoId);
+            if (!$documento) return back()->with('error', 'Documento não encontrado');
+            $sitioArq = SitioArq::find($documento->sitioArqId);
+            $files = DadosSitioArqArchive::where('dadosSitioArqId', '=', $documento->id)->get();
+            return view('inserirSitioArqDocumento', ['sitioArq' => $sitioArq, 'documento' => $documento, 'files' => $files]);
+        }
+
+    }
+
+    public function deletarSitioArqDocumentoDoc(Request $request)
+    {
+        try {
+            $archive = DadosSitioArqArchive::where('id', $request->id)->first();
+            if (!$archive) {
+                return redirect()->back()->with('error', 'Arquivo não encontrado');
+            }
+            $documentoId = $archive->dadosSitioArqId;
+            $path = Config::get('app.app_files_path') . $archive->path;
+            //remove file form disk
+            if (Storage::disk('externo')->exists($path)) {
+                $archiveDeletedFormDisk = Storage::disk('externo')->delete($path);
+                if (!$archiveDeletedFormDisk) {
+                    return redirect()->back()->with('error', 'Erro ao deletar arquivo do dísco');
+                }
+            }
+            $deleted = DadosSitioArqArchive::where('id', $request->id)->delete();
+            //verify deleted
+            if ($deleted) {
+                return redirect()->route('inserirSitioArqDocumento', ['id' => $documentoId])->with('success', 'Arquivo deletado com sucesso');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->back()->with('error', 'Erro ao deletar arquivo');
+
+    }
+
+    public function viewSitioArqDoc(Request $request)
+    {
+        try {
+            $id = $request->route('id');
+            $documento = DadosSitioArqArchive::find($id);
+            $path = $documento->path;
+            $fullPath = Storage::disk('externo')->path(Config::get('app.app_files_path') . $path);
+            // Header content type
+            header('Content-type: application/pdf');
+
+            header('Content-Disposition: inline; filename="' . $fullPath . '"');
+
+            header('Content-Transfer-Encoding: binary');
+
+            header('Accept-Ranges: bytes');
+            ini_set('memory_limit', '-1');
+            // Read the file
+            @readfile($fullPath);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Arquivo não encontrado');
+        }
+    }
+
+    public function inserirSitioArqDocumentoPost(Request $request)
+    {
+        $request->validate([
+            'description' => 'required',
+        ]);
+        try {
+            $data = $request->all();
+            $sitioArq = SitioArq::find($data['sitioArqId']);
+            if (!$sitioArq) return back()->with('error', 'Sítio Arqueológico não encontrado');
+            if (!is_dir(Config::get('app.app_files_path'))) {
+                mkdir(Config::get('app.app_files_path'), 0777, true);
+            }
+            if (!isset($data['id'])) {
+                $res = DadosSitioArq::insert([
+                    'description' => $data['description'],
+                    'legend' => $data['legend'],
+                    'sitioArqId' => $sitioArq->id,
+                    'createdAt' => now(),
+                    'updatedAt' => now(),
+                ]);
+            } else {
+                //verify if changed
+                $documento = DadosSitioArq::where('id', $data['id'])->first();
+                if ($documento->description == $data['description'] && $documento->legend == $data['legend']) {
+                    $res = true;
+                } else {
+                    $res = DadosSitioArq::where('id', $data['id'])->update([
+                        'description' => $data['description'],
+                        'legend' => $data['legend'],
+                        'sitioArqId' => $sitioArq->id,
+                        'updatedAt' => now(),
+                    ]);
+                }
+            }
+            if ($res) {
+                if (isset($data['id'])) {
+                    $newId = $data['id'];
+                } else {
+                    $newId = DB::getPdo()->lastInsertId();
+                }
+                $fullDir = Config::get('app.app_files_path');
+                if ($request->hasFile('file')) {
+                    $files = $request->file('file');
+                    foreach ($files as $file) {
+                        $filename = "\\" . Config::get('app.sitioarqueologicodocs_file') . "." . $newId . "." . $file->getClientOriginalName();
+                        $file->storeAs($fullDir, $filename, 'externo');
+                        DadosSitioArqArchive::insert([
+                            'path' => $filename,
+                            'dadosSitioArqId' => $newId,
+                            'createdAt' => now(),
+                            'updatedAt' => now(),
+                        ]);
+                    }
+                }
+                if (isset($data['id'])) {
+                    return back()->with('success', 'Documento atualizado com sucesso');
+                }
+                return redirect()->route('dadosSitioArqueologico', ['id' => $sitioArq->id])->with('success', 'Documento inserido com sucesso');
+            } else {
+                if (isset($data['id'])) {
+                    return back()->with('error', 'Erro ao atualizar o documento');
+                }
+                return back()->with('error', 'Erro ao inserir o documento');
             }
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

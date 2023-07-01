@@ -35,18 +35,23 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
         Route::get('biblioteca-nacional/{id}', 'bibliotecaNacional')->name('bibliotecaNacional');
         Route::get('visulizar-relato-documento/{id}', 'viewRelatoDoc')->name('viewRelatoDoc');
         Route::get('visulizar-relato-bibliografia/{id}', 'viewRelatoBibliografiaDoc')->name('viewRelatoBibliografiaDoc');
+        Route::get('visulizar-sitio-arqueologico-documento/{id}', 'viewSitioArqDoc')->name('viewSitioArqDoc');
         Route::middleware(['checkRole:admin,intern'])->group(function () {
             Route::get('inserir-bibliografia', 'inserirBibliografia')->name('inserirBibliografia');
             Route::get('inserir-relato-quadrilatero', 'inserirRelatoQuadrilatero')->name('inserirRelatoQuadrilatero');
             Route::get('inserir-documento', 'inserirCidadeDocumento')->name('inserirCidadeDocumento');
+            Route::get('inserir-sitio-arqueologico-documento', 'inserirSitioArqDocumento')->name('inserirSitioArqDocumento');
 
             Route::post('inserir-bibliografia-post', 'inserirBibliografiaPost')->name('inserirBibliografiaPost');
             Route::post('inserir-relato-quadrilatero-post', 'inserirRelatoQuadrilateroPost')->name('inserirRelatoQuadrilateroPost');
             Route::post('inserir-documento-post', 'inserirCidadeDocumentoPost')->name('inserirCidadeDocumentoPost');
             Route::post('inserir-cidade-post', 'inserirCidadePost')->name('inserirCidadePost');
             Route::post('inserir-sitio-arqueologico-post', 'inserirSitioArqPost')->name('inserirSitioArqPost');
+            Route::post('inserir-sitio-arqueologico-documento-post', 'inserirSitioArqDocumentoPost')->name('inserirSitioArqDocumentoPost');
 
             Route::get('deletar-sitio-arqueologico/{id}', 'deletarSitioArq')->name('deletarSitioArq');
+            Route::get('deletar-sitio-arqueologico-documento/{id}', 'deletarSitioArqDocumento')->name('deletarSitioArqDocumento');
+            Route::get('deletar-arquivo-sitio-arqueologico-documento/{id}', 'deletarSitioArqDocumentoDoc')->name('deletarSitioArqDocumentoDoc');
             Route::get('deletar-cidade/{id}', 'deletarCidade')->name('deletarCidade');
             Route::get('deletar-documento/{id}', 'deletarCidadeDocumento')->name('deletarCidadeDocumento');
             Route::get('deletar-bibliografia/{id}', 'deletarBibliografia')->name('deletarBibliografia');

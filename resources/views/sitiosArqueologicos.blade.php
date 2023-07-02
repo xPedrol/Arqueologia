@@ -13,8 +13,8 @@
                     <small>Total: {{count($sitios)}}</small>
                 </div>
                 @if(!auth()->user()->isUser())
-                    <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal"
-                            data-bs-target="#inserirSitioArqModal">
+                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                            data-bs-target="#inserir-sitio-arq-modal-new">
                         Inserir Sítio Arqueológico
                     </button>
                 @endif
@@ -33,6 +33,7 @@
             <div class="row">
                 @foreach($sitios as $sitioArq)
                     <div class="col-12 col-md-6 col-xl-4">
+                        <x-update-sitio-arqueologico-modal :sitio="$sitioArq" :name="$sitioArq->id"/>
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title mb-0"> {{$sitioArq->name}}</h5>
@@ -46,6 +47,10 @@
                                         Visualizar
                                     </a>
                                     @if(!auth()->user()->isUser())
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                                data-bs-target="#inserir-sitio-arq-modal-{{$sitioArq->id}}">
+                                            Editar
+                                        </button>
                                         <a class="btn btn-sm btn-outline-danger" data-bs-toggle="collapse"
                                            href="#collapse-deletar-{{$sitioArq->id}}" role="button"
                                            aria-expanded="false"
@@ -73,58 +78,7 @@
         </div>
         @if(!auth()->user()->isUser())
             <!-- Modal -->
-            <form method="POST" action="{{route('inserirSitioArqPost')}}">
-                <div class="modal fade" id="inserirSitioArqModal" tabindex="-1"
-                     aria-labelledby="inserirSitioArqModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title usePoppins fs-5" id="inserirSitioArqModalLabel">Inserir Sítio
-                                    Arqueológico</h1>
-                                <button type="button" class="btn-close me-2" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                @csrf
-                                @method('POST')
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label class="">Nome</label>
-                                        <input name="name" id="name" type="text" autocomplete="name"
-                                               class="form-control @error('name') is-invalid @enderror"
-                                               placeholder="Digite o nome do sítio arqueológico"
-                                               aria-label="name"
-                                               aria-describedby="basic-addon1">
-                                        @error('name')
-                                        <div class="invalid-feedback">
-                                            Campo inválido
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="">Descrição</label>
-                                        <textarea name="legend" id="legend" rows="4"
-                                                  class="form-control @error('legend') is-invalid @enderror"
-                                                  placeholder="Digite uma descrição"
-                                                  aria-label="name"
-                                                  aria-describedby="basic-addon1"></textarea>
-                                        @error('name')
-                                        <div class="invalid-feedback">
-                                            Campo inválido
-                                        </div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <button type="submit" class="btn btn-primary">Salvar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <x-update-sitio-arqueologico-modal :sitio="null" name="new"/>
         @endif
     </x-slot>
 </x-layout>

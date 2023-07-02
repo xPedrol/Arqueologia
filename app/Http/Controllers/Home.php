@@ -54,6 +54,7 @@ class Home extends Controller
         PaginationHelper::instance()->handlePagination($request, $maxPage);
         $documentos = $documentos->paginate(15);
         $query = $request->query();
+        $files = null;
         foreach ($documentos as $doc) {
             $files = DadosSitioArqArchive::where('dadosSitioArqId', '=', $doc->id)->get();
         }
@@ -111,16 +112,24 @@ class Home extends Controller
                 'name' => 'required',
             ]);
             $data = $request->all();
-            $res = SitioArq::insert([
-                'name' => $data['name'],
-                'legend' => $data['legend'],
-                'createdAt' => now(),
-                'updatedAt' => now(),
-            ]);
+            if(!isset($data['id'])) {
+                $res = SitioArq::insert([
+                    'name' => $data['name'],
+                    'legend' => $data['legend'],
+                    'createdAt' => now(),
+                    'updatedAt' => now(),
+                ]);
+            }else{
+                $res = SitioArq::where('id','=',$data['id'])->update([
+                    'name' => $data['name'],
+                    'legend' => $data['legend'],
+                    'updatedAt' => now(),
+                ]);
+            }
             if ($res) {
-                return redirect()->route('sitiosArqueologicos')->with('success', 'Sítio Arqueológico inserido com sucesso');
+                return redirect()->route('sitiosArqueologicos')->with('success', 'Sítio Arqueológico inserido/atualizado com sucesso');
             } else {
-                return back()->with('error', 'Erro ao inserir sítio arqueológico');
+                return back()->with('error', 'Erro ao inserir/atualizar sítio arqueológico');
             }
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

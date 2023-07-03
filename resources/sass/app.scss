@@ -276,6 +276,14 @@ article {
     max-width: 220px;
 }
 
+.texto-sem-quebra {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Define o máximo de linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona reticências (...) se o texto for cortado */
+}
+
 .texto-com-quebra-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2; /* Define o máximo de linhas */

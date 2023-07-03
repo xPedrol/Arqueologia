@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class navbar extends Component
+class Navbar extends Component
 {
     public $navItems = [
         [
@@ -38,10 +38,11 @@ class navbar extends Component
         ],
         [
             'title' => 'Fontes',
+            'url' => 'fontes',
             'navItems' => [
                 [
                     'title' => 'Cidades',
-                    'url' => 'fontes'
+                    'url' => 'cidadesQuadrilatero'
                 ],
                 [
                     'title' => 'Relatos Viajantes',

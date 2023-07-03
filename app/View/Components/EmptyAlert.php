@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class emptyAlert extends Component
+class EmptyAlert extends Component
 {
 
     public $message;

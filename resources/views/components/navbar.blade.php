@@ -18,20 +18,42 @@
                             <a class="nav-link usePoppins" href="{{ route($item['url']) }}">{{ $item['title'] }}</a>
                         </li>
                     @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle usePoppins" href="#" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ $item['title'] }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                @foreach ($item['navItems'] as $subItem)
-                                    <li>
-                                        <a class="dropdown-item"
-                                           href="{{ route($subItem['url']) }}">{{ $subItem['title'] }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
+                        @if(isset($item['url']))
+                            <div class="btn-group">
+                                <a class="nav-link usePoppins" href="{{route($item['url'])}}">
+                                    {{ $item['title'] }}
+                                </a>
+                                <a class="nav-link dropdown-toggle dropdown-toggle-split usePoppins" role="button"
+                                   href="#"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    @foreach ($item['navItems'] as $subItem)
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route($subItem['url']) }}">{{ $subItem['title'] }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @else
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle usePoppins" href="#" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ $item['title'] }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach ($item['navItems'] as $subItem)
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route($subItem['url']) }}">{{ $subItem['title'] }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endif
                     @endif
                 @endforeach
             </ul>
@@ -45,7 +67,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item dropdown-item-overflow" data-bs-toggle="tooltip"
-                                       data-bs-title="Clique para atualizar suas informações" href="{{route('myAccount')}}">Logado
+                                       data-bs-title="Clique para atualizar suas informações"
+                                       href="{{route('myAccount')}}">Logado
                                         como {{auth()->user()->login}}</a></li>
                                 <li><a class="dropdown-item" href="{{route('logout')}}">Deslogar</a></li>
                             </ul>

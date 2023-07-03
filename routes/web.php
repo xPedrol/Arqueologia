@@ -23,11 +23,12 @@ Route::controller(\App\Http\Controllers\Home::class)->group(function () {
     Route::post('contato-post', 'contactUsPost')->name('contactUsPost');
     Route::get('sobre', 'about')->name('about');
     Route::middleware(['auth'])->group(function () {
+        Route::get('fontes', 'fontes')->name('fontes');
         Route::get('sitios-arqueologicos', 'sitiosArqueologicos')->name('sitiosArqueologicos');
         Route::get('sitio-arqueologico/{id}', 'dadosSitioArqueologico')->name('dadosSitioArqueologico');
         Route::get('bibliografias', 'bibliografias')->name('bibliografias');
         Route::get('bibliografia/{id}', 'detalhesBibliografia')->name('detalhesBibliografia');
-        Route::get('cidades-quadrilatero', 'cidadesQuadrilatero')->name('fontes');
+        Route::get('cidades-quadrilatero', 'cidadesQuadrilatero')->name('cidadesQuadrilatero');
         Route::get('relatos-quadrilatero', 'relatosQuadrilatero')->name('relatosQuadrilatero');
         Route::get('relatos-quadrilatero/{id}', 'detalhesRelatosQuadrilatero')->name('detalhesRelatosQuadrilatero');
         Route::get('historico-ibge/{id}', 'ibgeHistorico')->name('ibgeHistorico');

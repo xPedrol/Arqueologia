@@ -26,6 +26,51 @@ class Home extends Controller
         return view('home');
     }
 
+    public function fontes()
+    {
+        $items = [
+            [
+                'title' => 'Cidades do Quadrilátero Ferrífero',
+                'description' => 'Neste item você encontrará uma relação de nomes de municípios situados no Quadrilátero Ferrífero de
+                    Minas Gerais. Para cada um foram pesquisados: Histórico do IBGE e documentos existentes no Arquivo
+                    Público Mineiro, Biblioteca Nacional.',
+                'route' => 'cidadesQuadrilatero',
+                'total' => DB::table('cidades')->count()
+            ],
+            [
+                'title' => 'Relatos de Viajantes que percorreram o Quadrilátero Ferrífero',
+                'description' => 'Muitos viajantes estrangeiros estiveram em Minas Gerais ao longo do século XIX e produziram relatos variados. Você encontrará neste item fichamentos, dados bibliográficos e cópias em pdf dos livros.',
+                'route' => 'relatosQuadrilatero',
+                'total' => RelatoQuadrilatero::count()
+            ],
+            [
+                'title' => 'Bibliografia',
+                'description' => 'O material deste item é constituído por artigos, livros, dissertações, teses e outras publicações. É um extenso levantamento feito em vários site de revistas brasileiras.',
+                'route' => 'bibliografias',
+                'total' => Bibliografia::count()
+            ],
+            [
+                'title' => 'Sítios Arqueológicos',
+                'description' => '--',
+                'route' => 'sitiosArqueologicos',
+                'total' => SitioArq::count()
+            ],
+            [
+                'title' => 'Jornais',
+                'description' => 'Você encontrará neste item notícias publicadas em jornais do Brasil e do exterior sobre a mineração e a arqueologia brasileira, em especial do Quadrilátero Ferrífero.',
+                'route' => null,
+                'total' => 0
+            ],
+            [
+                'title' => 'Outros materiais',
+                'description' => 'Você poderá acessar vídeos e outros matérias relativos à mineração e à arqueologia da região do Quadrilátero Ferrífero.',
+                'route' => null,
+                'total' => 0
+            ],
+        ];
+        return view('fontes', ['items' => $items]);
+    }
+
     public function sitiosArqueologicos()
     {
         $sitios = SitioArq::orderBy('name')->get();
@@ -112,15 +157,15 @@ class Home extends Controller
                 'name' => 'required',
             ]);
             $data = $request->all();
-            if(!isset($data['id'])) {
+            if (!isset($data['id'])) {
                 $res = SitioArq::insert([
                     'name' => $data['name'],
                     'legend' => $data['legend'],
                     'createdAt' => now(),
                     'updatedAt' => now(),
                 ]);
-            }else{
-                $res = SitioArq::where('id','=',$data['id'])->update([
+            } else {
+                $res = SitioArq::where('id', '=', $data['id'])->update([
                     'name' => $data['name'],
                     'legend' => $data['legend'],
                     'updatedAt' => now(),
@@ -731,7 +776,7 @@ class Home extends Controller
                 'updatedAt' => now(),
             ]);
             if ($res) {
-                return redirect()->route('fontes')->with('success', 'Cidade inserida com sucesso');
+                return redirect()->route('cidadesQuadrilatero')->with('success', 'Cidade inserida com sucesso');
             } else {
                 return back()->with('error', 'Erro ao inserir a cidade');
             }

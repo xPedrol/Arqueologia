@@ -4,8 +4,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('fontes')}}">Cidades do Quadrilátero Ferrífero</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('fontes')}}">{{$cidadeAtual->name}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('cidadesQuadrilatero')}}">Cidades do Quadrilátero Ferrífero</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('cidadesQuadrilatero')}}">{{$cidadeAtual->name}}</a></li>
                     <li class="breadcrumb-item"><a href="{{route($previousRoute,['id'=>$cidadeAtual->id])}}">
                             @if($type=='archive')
                                 Arquivo Público

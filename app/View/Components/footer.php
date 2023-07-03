@@ -43,7 +43,7 @@ class footer extends Component
                 ],
                 [
                     'title' => 'Cidades do Quadrilátero',
-                    'url' => 'fontes',
+                    'url' => 'cidadesQuadrilatero',
                     'isInternal' => true
                 ],
                 [

@@ -49,10 +49,11 @@
             @if($count > 0)
                 <div class="row">
                     @foreach($documentos as $documento)
-                        <div class="col-12 col-md-6 col-xl-4">
+                        <div class="col-12 col-md-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-0"> {{$documento->description}}</h5>
+                                    <h6 class="card-title mb-0"> {{$documento->description}}</h6>
+                                    <hr/>
                                     <p class="card-text">{{$documento->legend??'Legenda: Não Informado'}}</p>
                                     <hr/>
                                     <div class="d-flex align-items-center gap-2">
@@ -99,7 +100,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     {{$count}} registro(s) encontrado(s)
                     <x-pagination :query="$query" :maxPage="$maxPage"
-                                  :route="'sitiosArqueologicos'"/>
+                                  :route="'dadosSitioArqueologico'" :params="['id'=>$sitioArq->id]"/>
                 </div>
             @else
                 <div class="text-center">

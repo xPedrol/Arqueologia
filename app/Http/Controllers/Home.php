@@ -51,7 +51,7 @@ class Home extends Controller
             ],
             [
                 'title' => 'Sítios Arqueológicos',
-                'description' => '--',
+                'description' => 'Contém diversos arquivos sobre sítios e estruturas arqueológicas localizadas no Quadrilátero Ferrífero de Minas Gerais.',
                 'route' => 'sitiosArqueologicos',
                 'total' => SitioArq::count()
             ],
@@ -660,7 +660,7 @@ class Home extends Controller
         if (isset($query['sort'])) {
             $users = User::orderBy($query['sort'], $query['order']);
         } else {
-            $users = User::orderBy('login');
+            $users = User::orderBy('lastAccess', 'desc');
         }
         $search = null;
         if (isset($query['search'])) {

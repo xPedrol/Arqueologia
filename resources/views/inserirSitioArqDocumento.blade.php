@@ -57,7 +57,7 @@
 
                     <div class="col-12 mb-3">
                         <label class="">Descrição</label>
-                        <textarea name="description" id="description" rows="3" autocomplete="description"
+                        <textarea name="description" id="description" rows="5" autocomplete="description"
                                   class="form-control @error('description') is-invalid @enderror"
                                   placeholder="Digite uma descrição"
                                   aria-label="description"
@@ -71,7 +71,7 @@
 
                     <div class="col-12 mb-3">
                         <label class="">Observações</label>
-                        <textarea name="legend" id="legend" rows="3" autocomplete="legend"
+                        <textarea name="legend" id="legend" rows="5" autocomplete="legend"
                                   class="form-control @error('legend') is-invalid @enderror"
                                   placeholder="Digite uma legenda"
                                   aria-label="legend"

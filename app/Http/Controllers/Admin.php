@@ -233,57 +233,6 @@ class Admin extends Controller
 
         return redirect()->back()->with('error', 'Erro ao deletar arquivo');
     }
-
-    public function users(Request $request)
-    {
-        $query = $request->query();
-        if (isset($query['sort'])) {
-            $users = User::orderBy($query['sort'], $query['order']);
-        } else {
-            $users = User::orderBy('Nome');
-        }
-        if (isset($query['search'])) {
-            $querySearch = $query['search'];
-            $users = $users->where((function ($query) use ($querySearch) {
-                $query->where('Nome', 'like', '%' . $querySearch . '%')->
-                orWhere('email', 'like', '%' . $querySearch . '%');
-            }));
-        }
-        $userCount = $users->count();
-        $maxPage = ceil($userCount / 15);
-        PaginationHelper::instance()->handlePagination($request, $maxPage);
-        $users = $users->paginate(15);
-        $query = $request->query();
-        $columns = [
-            [
-                'name' => 'Nome',
-                'key' => 'Nome'
-            ],
-            [
-                'name' => 'Status',
-                'key' => 'status'
-            ],
-            [
-                'name' => 'Email',
-                'key' => 'email'
-            ],
-            [
-                'name' => 'Dt. Cadastro',
-                'key' => 'dataRegistro'
-            ],
-            [
-                'name' => 'Último login',
-                'key' => 'ultimoLogin'
-            ],
-            [
-                'name' => '',
-                'key' => 'actions'
-            ]
-        ];
-        return view('admin.users', ['users' => $users, 'query' => $query, 'maxPage' => $maxPage, 'columns' => $columns,
-            'userCount' => $userCount, 'search' => $query['search'] ?? '']);
-    }
-
     public function toggleUserPermission(Request $request)
     {
         try {

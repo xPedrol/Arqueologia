@@ -5,7 +5,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('bibliografias')}}">Bibliografias</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{$bibliografia->theme}}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalhes Relato {{$bibliografia->id}}</li>
                 </ol>
             </nav>
             <h4 class="usePoppins m-0">Detalhes Relato</h4>
@@ -19,21 +19,30 @@
                     <input class="d-none" name="id" id="id" value="{{old('id',$bibliografia->id??null)}}">
                     <div class="col-12 mb-3">
                         <small class="text-muted">Tema</small>
-                        <p>{{old('theme',$bibliografia->theme??null)}}</p>
+                        <x-not-found-html :show="!!$bibliografia->theme">
+                            <x-slot name="content"><p>{{$bibliografia->theme}}</p></x-slot>
+                        </x-not-found-html>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <div class="form-floating mb-3">
                             <small class="text-muted">Tipo</small>
-                            <p>{{old('type',$bibliografia->getFormatedType()??null)}}</p>
+                            <x-not-found-html :show="!!$bibliografia->type">
+                                <x-slot name="content"><p>{{$bibliografia->getFormatedType()}}</p></x-slot>
+                            </x-not-found-html>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <small class="text-muted">Sumário</small>
-                        <p>{{old('legend',$bibliografia->summary??null)}}</p>
+                        <x-not-found-html :show="!!$bibliografia->summary">
+                            <x-slot name="content"><p>{{$bibliografia->summary}}</p></x-slot>
+                        </x-not-found-html>
+
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <small class="text-muted">Observações</small>
-                        <p>{{old('legend',$bibliografia->legend??null)}}</p>
+                        <x-not-found-html :show="!!$bibliografia->legend">
+                            <x-slot name="content"><p>{{$bibliografia->legend}}</p></x-slot>
+                        </x-not-found-html>
                     </div>
                 </div>
             </form>

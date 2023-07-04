@@ -11,7 +11,7 @@
                     @if(!isset($documento))
                         <li class="breadcrumb-item active" aria-current="page">Inserir Relato</li>
                     @else
-                        <li class="breadcrumb-item active" aria-current="page">{{$documento->description}}</li>
+                        <li class="breadcrumb-item active" aria-current="page">Editar documento {{$documento->id}}</li>
                     @endif
                 </ol>
             </nav>

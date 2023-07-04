@@ -87,7 +87,7 @@
 
                     <div class="col-12 col-lg-12 mb-3">
                         <label class="">Resumo</label>
-                        <textarea name="summary" id="summary" type="text" autocomplete="summary"
+                        <textarea name="summary" id="summary" type="text" autocomplete="summary" rows="5"
                                   class="form-control @error('summary') is-invalid @enderror"
                                   placeholder="Digite o sumário"
                                   aria-label="summary"
@@ -101,7 +101,7 @@
 
                     <div class="col-12 mb-3">
                         <label class="">Observações</label>
-                        <textarea name="legend" id="legend" rows="3" autocomplete="legend"
+                        <textarea name="legend" id="legend" autocomplete="legend" rows="5"
                                   class="form-control @error('legend') is-invalid @enderror"
                                   placeholder="Digite uma legenda"
                                   aria-label="legend"

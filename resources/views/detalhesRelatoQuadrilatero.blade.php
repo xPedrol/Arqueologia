@@ -6,7 +6,7 @@
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('relatosQuadrilatero')}}">Relatos de Viajantes que
                             percorreram o Quadrilátero Ferrífero</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{$relato->title}}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalhes Relato {{$relato->title}}</li>
                 </ol>
             </nav>
             <h4 class="usePoppins m-0">Detalhes Relato</h4>
@@ -20,21 +20,29 @@
                     <input class="d-none" name="id" id="id" value="{{old('id',$relato->id??null)}}">
                     <div class="col-12 col-lg-6 mb-3">
                         <small class="text-muted">Título</small>
-                        <p>{{old('title',$relato->title??null)}}</p>
+                        <x-not-found-html :show="!!$relato->title">
+                            <x-slot name="content"><p>{{$relato->title}}</p></x-slot>
+                        </x-not-found-html>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <small class="text-muted">Autor</small>
-                        <p>{{old('author',$relato->author??null)}}</p>
+                        <x-not-found-html :show="!!$relato->author">
+                            <x-slot name="content"><p>{{$relato->author}}</p></x-slot>
+                        </x-not-found-html>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <div class="form-floating mb-3">
                             <small class="text-muted">Referência Bibliográfica</small>
-                            <p>{{old('registration',$relato->registration??null)}}</p>
+                            <x-not-found-html :show="!!$relato->registration">
+                                <x-slot name="content"><p>{{$relato->registration}}</p></x-slot>
+                            </x-not-found-html>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 mb-3">
                         <small class="text-muted">Observações</small>
-                        <p>{{old('legend',$relato->legend??null)}}</p>
+                        <x-not-found-html :show="!!$relato->legend">
+                            <x-slot name="content"><p>{{$relato->legend}}</p></x-slot>
+                        </x-not-found-html>
                     </div>
                 </div>
             </form>

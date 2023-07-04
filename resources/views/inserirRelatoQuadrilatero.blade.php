@@ -9,7 +9,7 @@
                     @if(!isset($relato))
                         <li class="breadcrumb-item active" aria-current="page">Inserir Relato</li>
                     @else
-                        <li class="breadcrumb-item active" aria-current="page">{{$relato->title}}</li>
+                        <li class="breadcrumb-item active" aria-current="page">Detalhes Relato {{$relato->title}}</li>
                     @endif
                 </ol>
             </nav>

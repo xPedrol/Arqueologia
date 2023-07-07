@@ -382,7 +382,7 @@ class Home extends Controller
     public function ibgeHistorico(Request $request)
     {
         //get route name
-        $title = 'IBGE Histórico';
+        $title = 'Histórico IBGE';
         $id = $request->route('id');
         $cidade = DB::table('cidades')->where('id', $id)->first();
         $array = DB::table('historicoibge')->where('cityId', $id);

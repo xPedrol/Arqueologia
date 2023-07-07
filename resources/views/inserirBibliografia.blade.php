@@ -8,7 +8,7 @@
                     @if(!isset($bibliografia))
                         <li class="breadcrumb-item active" aria-current="page">Inserir bibliografia</li>
                     @else
-                        <li class="breadcrumb-item active" aria-current="page">{{$bibliografia->theme}}</li>
+                        <li class="breadcrumb-item active" aria-current="page">Editar Bibliografia {{$bibliografia->id}}</li>
                     @endif
                 </ol>
             </nav>

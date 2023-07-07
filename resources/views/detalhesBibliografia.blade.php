@@ -5,12 +5,12 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('bibliografias')}}">Bibliografias</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Detalhes Relato {{$bibliografia->id}}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Detalhes Bibliografia {{$bibliografia->id}}</li>
                 </ol>
             </nav>
-            <h4 class="usePoppins m-0">Detalhes Relato</h4>
+            <h4 class="usePoppins m-0">Detalhes Bibliografia</h4>
             <small class="usePoppins">
-                Detalhes da bibliografia {{$bibliografia->theme}}
+                Bibliografia do tipo "{{$bibliografia->getFormatedType()}}" e possui {{count($files)}} arquivo(s)
             </small>
             <br/>
             <hr/>

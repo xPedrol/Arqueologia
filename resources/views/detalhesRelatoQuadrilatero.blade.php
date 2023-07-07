@@ -11,7 +11,7 @@
             </nav>
             <h4 class="usePoppins m-0">Detalhes Relato</h4>
             <small class="usePoppins">
-                Detalhes do relato {{$relato->title}}
+                Detalhes do relato {{$relato->title}}. Possui {{count($files)}} arquivo(s)
             </small>
             <br/>
             <hr/>

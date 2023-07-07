@@ -39,7 +39,7 @@
                          :caption="'Lista de todos as bibliografias cadastrados. '.$count.' bibliografia(s) encontrado(s)'">
                     @foreach ($bibliografias as $bibliografia)
                         <tr>
-                            <td class="text-center">
+                            <td class="text-center col-w-max-xs">
                                 <span class="texto-com-quebra-2">{{ $bibliografia->theme }}</span>
                             </td>
                             <td class="text-center">{{ $bibliografia->getFormatedtype() }}</td>

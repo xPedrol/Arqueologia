@@ -1061,7 +1061,7 @@ class Home extends Controller
         $count = Bibliografia::count();
         $maxPage = ceil($count / 15);
         PaginationHelper::instance()->handlePagination($request, $maxPage);
-        $bibliografia = $bibliografia->paginate(100);
+        $bibliografia = $bibliografia->paginate(15);
         $query = $request->query();
         $columns = [
             [

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class SitioArq extends Model
 {
@@ -25,11 +27,13 @@ class SitioArq extends Model
 
     public function getFormatedCreatedAt()
     {
-        return \Carbon\Carbon::parse($this->createdAt)->format('d/m/Y H:i') . ' - ' . \Carbon\Carbon::parse($this->createdAt)->diffForHumans();
+        $data =  Carbon::parse($this->createdAt)->tz(Config::get('app.default_timezone'));
+        return $data->format('d/m/Y H:i') . ' - ' . $data->diffForHumans();
     }
 
     public function getFormatedUpdatedAt()
     {
-        return \Carbon\Carbon::parse($this->updatedAt)->format('d/m/Y H:i') . ' - ' . \Carbon\Carbon::parse($this->updatedAt)->diffForHumans();
+        $data =  Carbon::parse($this->updatedAt)->tz(Config::get('app.default_timezone'));
+        return $data->format('d/m/Y H:i') . ' - ' . $data->diffForHumans();
     }
 }

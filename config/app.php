@@ -25,6 +25,7 @@ return [
     'relatosdocs_book'=> env('RELATOSDOCS_BOOK', '02'),
     'bibliografiadocs_file'=> env('BIBLIOGRAFIADOCS_FILE', '03'),
     'sitioarqueologicodocs_file'=> env('SITIOARQUEOLOGICODOCS_FILE', '04'),
+    'default_timezone' => env('DEFAULT_TIMEZONE', 'America/Sao_Paulo'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -78,8 +78,8 @@
                 @guest
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a type="button" href="{{ route('login') }}"
-                           class="btn btn-outline-light btn-navbar-auth">Login</a>
-                        <a href="{{ route('register') }}" type="button" class="btn btn-outline-light btn-navbar-auth">Register</a>
+                           class="btn btn-outline-light btn-navbar-auth">Entrar</a>
+                        <a href="{{ route('register') }}" type="button" class="btn btn-outline-light btn-navbar-auth">Registrar</a>
                     </div>
                 @endguest
             </div>

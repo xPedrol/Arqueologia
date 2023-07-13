@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
     <title>
         @if($title == 'home')
-            Patrimônio Arqueológico - Universidade Federal de Viçosa (UFV)
+            Patrimônio Arqueológico
         @else
             {{ $title }} - Patrimônio Arqueológico
         @endif

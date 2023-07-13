@@ -6,28 +6,28 @@
                     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="/images/1.webp" class="d-block w-100" alt="...">
+                                <img src="/images/1.webp" class="d-block w-100" alt="Primeira imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/2.webp" class="d-block w-100" alt="...">
+                                <img src="/images/2.webp" class="d-block w-100" alt="Segunda imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/3.webp" class="d-block w-100" alt="...">
+                                <img src="/images/3.webp" class="d-block w-100" alt="Terceira imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/6.webp" class="d-block w-100" alt="...">
+                                <img src="/images/6.webp" class="d-block w-100" alt="Quarta imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/4.webp" class="d-block w-100" alt="...">
+                                <img src="/images/4.webp" class="d-block w-100" alt="Quinta imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/5.webp" class="d-block w-100" alt="...">
+                                <img src="/images/5.webp" class="d-block w-100" alt="Sexta imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/7.webp" class="d-block w-100" alt="...">
+                                <img src="/images/7.webp" class="d-block w-100" alt="Setima imagem viagem arqueologia">
                             </div>
                             <div class="carousel-item">
-                                <img src="/images/8.webp" class="d-block w-100" alt="...">
+                                <img src="/images/8.webp" class="d-block w-100" alt="Oitava imagem viagem arqueologia">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
